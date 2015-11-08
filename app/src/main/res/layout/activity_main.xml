@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="#ebf5f5"
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/tv_1"
+        android:id="@+id/tv_slide"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -16,5 +17,15 @@
         android:gravity="center"
         android:background="#fff"
         android:textSize="25sp"
-        android:text="Activity1"/>
-</RelativeLayout>
+        android:text="Slide_Activity"/>
+    <TextView
+        android:id="@+id/tv_browser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:gravity="center"
+        android:background="#fff"
+        android:textSize="25sp"
+        android:text="Browser_Activity"/>
+</LinearLayout>

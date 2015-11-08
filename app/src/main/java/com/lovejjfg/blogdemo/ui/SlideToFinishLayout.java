@@ -10,7 +10,7 @@ import android.widget.FrameLayout;
 import com.lovejjfg.blogdemo.base.BaseSlideFinishActivity;
 
 /**
- * Created by Administrator on 2015/11/8.
+ * Created by lovejjfg on 2015/11/8.
  */
 public class SlideToFinishLayout extends FrameLayout {
 

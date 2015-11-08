@@ -8,7 +8,7 @@ import com.lovejjfg.blogdemo.base.BaseSlideFinishActivity;
 import com.lovejjfg.blogdemo.R;
 
 /**
- * Created by Administrator on 2015/11/8.
+ * Created by lovejjfg on 2015/11/8.
  */
 public class SlidToFinishActivity extends BaseSlideFinishActivity {
 

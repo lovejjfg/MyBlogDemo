@@ -3,6 +3,7 @@ package com.lovejjfg.blogdemo.activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.lovejjfg.blogdemo.R;
@@ -14,14 +15,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        findViewById(R.id.tv_1).setOnClickListener(this);
+        findViewById(R.id.tv_slide).setOnClickListener(this);
+        findViewById(R.id.tv_browser).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tv_1:
+            case R.id.tv_slide:
                 BaseUtil.startActivityOnspecifiedAnimation(this, SlidToFinishActivity.class);
+                break;
+            case R.id.tv_browser:
+                BaseUtil.startActivityOnspecifiedAnimation(this, BrowserActivity.class);
                 break;
         }
     }

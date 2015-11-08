@@ -12,9 +12,12 @@ public abstract class BaseSlideFinishActivity extends AppCompatActivity implemen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       setContentView(initView(savedInstanceState));
+        setContentView(initView(savedInstanceState));
+        init();
     }
 
+    protected void init() {
+    }
 
     @Override
     public void onClick(View v) {
@@ -29,7 +32,8 @@ public abstract class BaseSlideFinishActivity extends AppCompatActivity implemen
         this.finish();
         this.overridePendingTransition(0, 0);//取消Activity的动画。
     }
-    public  void startActivityOnspecifiedAnimation(Activity context, Class<?> cls) {
+
+    public void startActivityOnspecifiedAnimation(Activity context, Class<?> cls) {
         BaseUtil.startActivityOnspecifiedAnimation(context, cls);
     }
 }
