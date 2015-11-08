@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.lovejjfg.blogdemo.ui.SlideToFinishLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#ebf5f5"
+        tools:context=".MainActivity">
+
+        <TextView
+            android:id="@+id/tv_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="70dp"
+            android:background="#fff"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="test1!!!"
+            android:textSize="25sp"/>
+        <TextView
+            android:id="@+id/tv_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="#fff"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="test2!!!"
+            android:textSize="25sp"/>
+    </LinearLayout>
+
+
+</com.lovejjfg.blogdemo.ui.SlideToFinishLayout>
+
