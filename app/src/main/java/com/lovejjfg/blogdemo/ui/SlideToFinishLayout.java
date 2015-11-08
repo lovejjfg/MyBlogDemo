@@ -1,6 +1,5 @@
 package com.lovejjfg.blogdemo.ui;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
@@ -8,7 +7,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.lovejjfg.blogdemo.BaseSlideFinishActivity;
+import com.lovejjfg.blogdemo.base.BaseSlideFinishActivity;
 
 /**
  * Created by Administrator on 2015/11/8.

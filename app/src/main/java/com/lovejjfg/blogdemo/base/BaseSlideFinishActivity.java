@@ -1,8 +1,11 @@
-package com.lovejjfg.blogdemo;
+package com.lovejjfg.blogdemo.base;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+
+import com.lovejjfg.blogdemo.utils.BaseUtil;
 
 public abstract class BaseSlideFinishActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -25,5 +28,8 @@ public abstract class BaseSlideFinishActivity extends AppCompatActivity implemen
     public void finishSelf() {
         this.finish();
         this.overridePendingTransition(0, 0);//取消Activity的动画。
+    }
+    public  void startActivityOnspecifiedAnimation(Activity context, Class<?> cls) {
+        BaseUtil.startActivityOnspecifiedAnimation(context, cls);
     }
 }
