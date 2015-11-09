@@ -10,6 +10,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.webkit.WebSettings;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.lovejjfg.blogdemo.R;
 
@@ -54,5 +55,9 @@ public class TopSlidWebViewLayout extends FrameLayout {
 
     public TopSlidWebView getTopSlidWebView() {
         return mWebViewLayout.getTopSlidWebView();
+    }
+
+    public void setTopMsg(CharSequence msg) {
+        ((TextView) topMsgView.findViewById(R.id.msg1)).setText(msg);
     }
 }

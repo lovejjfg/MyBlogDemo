@@ -4,6 +4,11 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.TextView;
 
 import com.lovejjfg.blogdemo.R;
@@ -18,12 +23,13 @@ public class BrowserActivity extends BaseSlideFinishActivity {
 
     private TextView mAppTitlle;
     private TopSlidWebView mTopSlidWebView;
+    private TopSlidWebViewLayout mSlidWebViewLayout;
 
     @Override
     public View initView(Bundle savedInstanceState) {
 
         View view = LayoutInflater.from(this).inflate(R.layout.activity_browser, null);
-        TopSlidWebViewLayout mSlidWebViewLayout = (TopSlidWebViewLayout) view.findViewById(R.id.web_view_layout);
+        mSlidWebViewLayout = (TopSlidWebViewLayout) view.findViewById(R.id.web_view_layout);
         mTopSlidWebView = mSlidWebViewLayout.getTopSlidWebView();
         Toolbar mToolBar = (Toolbar) view.findViewById(R.id.app_bar);
         setSupportActionBar(mToolBar);
@@ -40,6 +46,45 @@ public class BrowserActivity extends BaseSlideFinishActivity {
     protected void init() {
         super.init();
         if (null != mTopSlidWebView) {
+            WebChromeClient webChromeClient = new WebChromeClient() {
+
+                @Override
+                public void onProgressChanged(WebView view, int newProgress) {
+                    super.onProgressChanged(view, newProgress);
+                }
+
+                @Override
+                public void onReceivedTitle(WebView view, String title) {
+                    super.onReceivedTitle(view, title);
+                    mSlidWebViewLayout.setTopMsg(title);
+                }
+            };
+
+            WebViewClient webViewClient = new WebViewClient() {
+                @Override
+                public void onPageFinished(WebView view, String url) {
+                    super.onPageFinished(view, url);
+                    mSlidWebViewLayout.setTopMsg(view.getTitle());
+                }
+
+                @Override
+                public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                    super.onReceivedError(view, errorCode, description, failingUrl);
+                }
+
+                @Override
+                public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
+                    super.onReceivedHttpError(view, request, errorResponse);
+                }
+
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                    mTopSlidWebView.loadUrl(url);
+                    return true;
+                }
+            };
+            mTopSlidWebView.setWebChromeClient(webChromeClient);
+            mTopSlidWebView.setWebViewClient(webViewClient);
             mTopSlidWebView.loadUrl("http://dict.youdao.com/search?le=eng&q=slide&keyfrom=dict.top");
         }
     }

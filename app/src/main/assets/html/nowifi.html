@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no" />
+	<title>nowifi</title>
+</head>
+<style>
+	*{padding: 0;margin: 0;}
+	i{color: red;}
+	html{width: 100%;height: 100%;font-size: 18px;}
+	.warp{width: 100%;margin-bottom: 50px;text-align: center;margin-top: 55%;}
+	.warp img{height: auto;width: 30%;}
+	button{
+		width: 100px;
+		height: 50px;
+		margin: 0px auto;
+		-webkit-border-radius: 1.2em; 
+		-moz-border-radius: 1.2em;
+		border-radius: 1.2em;
+
+		/*
+		-webkit-box-shadow: 0 2px 2px rgba(0,0,0,1);
+		-moz-box-shadow: 0 2px 2px rgba(0,0,0,1);
+		box-shadow: 0 1px 2px rgba(0,0,0,.2);
+		*/
+		background: #ffffff;	
+    	background: rgba(0, 0, 0, 0.5) -moz-linear-gradient(center top , #fff, #ccc) repeat scroll 0 0;
+    	background: rgba(0, 0, 0, 0.5) -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ccc)) repeat scroll 0 0;
+	}
+	.button {		
+		display: block;		
+		padding: 0.2em 0.2em ;	
+		
+	}
+/*
+.button:active {
+	position: relative;
+	top: 1px;
+	
+
+}
+*/
+ .red {
+ 	background: rgba(255, 255, 255, 0);	 	
+ 	/*
+    background: rgba(0, 0, 0, 0) -moz-linear-gradient(center top , #fff, #ddd) repeat scroll 0 0;
+    background: rgba(0, 0, 0, 0) -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ddd)) repeat scroll 0 0;
+    */
+    text-align: center;
+	text-decoration: none;
+	/*
+	text-shadow: 0 1px 1px rgba(0,0,0,.3);
+	*/
+    border: 1px solid red;
+    color: red;
+    font: 20px/100% "黑体";
+	
+	-webkit-border-radius: .65em; 
+	-moz-border-radius: .65em;
+	border-radius:.65em;
+	padding: 0em 0em;
+}
+
+
+
+  
+</style>
+<body>
+	<div class="warp">
+		<img class="" src="images/nowifi.png" alt="">
+	    <button type="button" class="positive button red" onClick="window.nowifi.goBack()">
+		重试
+		</button>
+	</div>
+
+</body>
+</html>

@@ -1,11 +1,25 @@
 package com.lovejjfg.blogdemo.ui;
 
+import android.annotation.SuppressLint;
+import android.app.usage.NetworkStatsManager;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.webkit.JavascriptInterface;
+import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 /**
@@ -13,10 +27,26 @@ import android.widget.Toast;
  */
 public class TopSlidWebView extends WebView {
 
+    private static final int RELOAD = 0;
     private int startY;
-    private View topMsgView;
     private int dy;
     private WebViewLayout mWebViewLayout;
+    private ConnectivityManager mNetworkStatsManager;
+    private ConnectivityManager mConnectivityManager;
+    private NetworkInfo mNetworkInfo;
+    private ConnectivityManager connectionManager;
+    private String mUrl;
+    private Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == RELOAD) {
+                loadUrl(mUrl);
+
+                Log.e("tag", mUrl);
+            }
+            super.handleMessage(msg);
+        }
+    };
 
     public TopSlidWebView(Context context) {
         this(context, null);
@@ -31,6 +61,7 @@ public class TopSlidWebView extends WebView {
         init(context);
     }
 
+    @SuppressLint({"AddJavascriptInterface", "SetJavaScriptEnabled"})
     private void init(Context context) {
         post(new Runnable() {
             @Override
@@ -39,6 +70,26 @@ public class TopSlidWebView extends WebView {
 //                topMsgView = mWebViewLayout.getTopMsgView();
             }
         });
+        connectionManager = (ConnectivityManager)
+                context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+
+        WebSettings settings = getSettings();
+        settings.setJavaScriptEnabled(true);
+        addJavascriptInterface(new CallBack() {
+            @JavascriptInterface
+            public void goBack() {
+//                reload();
+                mHandler.sendEmptyMessage(RELOAD);
+//                Looper.loop();
+//                TopSlidWebView.this.loadUrl(mUrl);
+//                Looper.prepare();
+                Toast.makeText(getContext(), "call back", Toast.LENGTH_SHORT).show();
+            }
+        },"nowifi");
+//        setWebViewClient(webViewClient);
+//        setWebChromeClient(webChromeClient);
+
     }
 
     @Override
@@ -70,12 +121,12 @@ public class TopSlidWebView extends WebView {
                 startY = -1;
                 Log.e("松手了", "Y的位置" + ev.getRawY());
 //                setPadding(0, 0, 0, 0);
-               mWebViewLayout.smoothScrollTo(0, 300, 0, new WebViewLayout.OnSmoothScrollFinishedListener() {
-                   @Override
-                   public void onSmoothScrollFinished() {
-                       Toast.makeText(getContext(), "...", 0).show();
-                   }
-               });
+                mWebViewLayout.smoothScrollTo(0, 300, 0, new WebViewLayout.OnSmoothScrollFinishedListener() {
+                    @Override
+                    public void onSmoothScrollFinished() {
+                        Toast.makeText(getContext(), "...", 0).show();
+                    }
+                });
 //                mWebViewLayout.scrollTo(0, 0);
 
                 break;
@@ -93,4 +144,25 @@ public class TopSlidWebView extends WebView {
     }
     //TODO WebView的完善。。
 
+
+    @Override
+    public void loadUrl(String url) {
+        mNetworkInfo = connectionManager.getActiveNetworkInfo();
+        mUrl = url;
+        super.loadUrl(mNetworkInfo == null ? "file:///android_asset/html/nowifi.html" : url);
+    }
+
+    /**
+     * 设置是否支持js，默认开启的！！
+     *
+     * @param enable
+     */
+    public void setJsEnable(boolean enable) {
+        getSettings().setJavaScriptEnabled(enable);
+    }
+
+    public interface CallBack {
+        @JavascriptInterface
+        void goBack();
+    }
 }
