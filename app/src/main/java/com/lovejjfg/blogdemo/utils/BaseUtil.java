@@ -11,6 +11,6 @@ import com.lovejjfg.blogdemo.R;
 public class BaseUtil {
     public static void startActivityOnspecifiedAnimation(Activity context, Class<?> cls) {
         context.startActivity(new Intent(context, cls));
-        context.overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
+        context.overridePendingTransition(R.anim.start_activity_in, R.anim.start_activity_out);
     }
 }

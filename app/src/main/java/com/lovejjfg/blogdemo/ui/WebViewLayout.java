@@ -1,9 +1,9 @@
 package com.lovejjfg.blogdemo.ui;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
@@ -11,14 +11,11 @@ import android.view.animation.Interpolator;
 import android.webkit.WebSettings;
 import android.widget.FrameLayout;
 
-import com.lovejjfg.blogdemo.R;
-
 /**
  * Created by Administrator on 2015/11/8.
  */
 public class WebViewLayout extends FrameLayout {
 
-    private View topMsgView;
     private TopSlidWebView mWebView;
     private DecelerateInterpolator mScrollAnimationInterpolator;
     private SmoothScrollRunnable mCurrentSmoothScrollRunnable;
@@ -39,6 +36,7 @@ public class WebViewLayout extends FrameLayout {
     }
 
     private void init(Context context) {
+
         mWebView = new TopSlidWebView(context);
         WebSettings settings = mWebView.getSettings();
         settings.setJavaScriptEnabled(true);
@@ -76,6 +74,10 @@ public class WebViewLayout extends FrameLayout {
 
     public void setScrollTo(int dy) {
         this.scrollTo(0, dy);
+    }
+
+    public View getTopMsgView() {
+        return null;
     }
 
     final class SmoothScrollRunnable implements Runnable {

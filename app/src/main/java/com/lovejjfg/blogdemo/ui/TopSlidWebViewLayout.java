@@ -1,13 +1,10 @@
 package com.lovejjfg.blogdemo.ui;
 
 import android.content.Context;
-import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.DecelerateInterpolator;
-import android.view.animation.Interpolator;
 import android.webkit.WebSettings;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -52,6 +49,7 @@ public class TopSlidWebViewLayout extends FrameLayout {
     public View getTopMsgView() {
         return topMsgView;
     }
+
 
     public TopSlidWebView getTopSlidWebView() {
         return mWebViewLayout.getTopSlidWebView();
