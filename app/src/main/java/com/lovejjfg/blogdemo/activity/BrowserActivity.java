@@ -52,7 +52,7 @@ public class BrowserActivity extends BaseSlideFinishActivity {
         });
 
         mAppTitlle = (TextView) view.findViewById(R.id.app_tittle);
-        mAppTitlle.setText("ahaha");
+        mAppTitlle.setText(R.string.name);
         return view;//LayoutInflater.from(this).inflate(R.layout.activity_browser, null);
     }
 
