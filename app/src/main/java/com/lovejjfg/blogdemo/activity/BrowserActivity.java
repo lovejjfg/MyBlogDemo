@@ -70,6 +70,7 @@ public class BrowserActivity extends BaseSlideFinishActivity {
                 @Override
                 public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
                     super.onReceivedError(view, errorCode, description, failingUrl);
+//                    mTopSlidWebView.layout();
                 }
 
                 @Override
@@ -85,7 +86,7 @@ public class BrowserActivity extends BaseSlideFinishActivity {
             };
             mTopSlidWebView.setWebChromeClient(webChromeClient);
             mTopSlidWebView.setWebViewClient(webViewClient);
-            mTopSlidWebView.loadUrl("http://dict.youdao.com/search?le=eng&q=slide&keyfrom=dict.top");
+            mTopSlidWebView.loadUrl("https://www.baidu.com/");
         }
     }
 }
