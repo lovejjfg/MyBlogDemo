@@ -1,6 +1,7 @@
 package com.lovejjfg.blogdemo.ui;
 
 import android.content.Context;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -21,6 +22,7 @@ public class SlideToFinishLayout extends FrameLayout {
     private int mMoveLeft;
     private boolean isClose;
     private CallBack mCallBack;
+    private float MINVEL;
 
     public SlideToFinishLayout(Context context) {
         this(context, null);
@@ -36,6 +38,7 @@ public class SlideToFinishLayout extends FrameLayout {
     }
 
     private void init(Context context) {
+        MINVEL = getResources().getDisplayMetrics().density * 400;
         if (context instanceof BaseSlideFinishActivity) {
             activity = (BaseSlideFinishActivity) context;
         }
@@ -65,10 +68,16 @@ public class SlideToFinishLayout extends FrameLayout {
 
             @Override
             public void onViewReleased(View releasedChild, float xvel, float yvel) {
+                if (yvel > MINVEL) {
+                    isClose = true;
+//                    mViewDragHelper.settleCapturedViewAt(mContentWidth, releasedChild.getTop());
+                    mViewDragHelper.smoothSlideViewTo(releasedChild, mContentWidth, releasedChild.getTop());
+                }
                 if (mMoveLeft >= (mContentWidth / 2)) {
                     //滑动超过屏幕的一半，那么就可以判断为true了!
                     isClose = true;
-                    mViewDragHelper.settleCapturedViewAt(mContentWidth, releasedChild.getTop());
+//                    mViewDragHelper.settleCapturedViewAt(mContentWidth, releasedChild.getTop());
+                    mViewDragHelper.smoothSlideViewTo(releasedChild, mContentWidth, releasedChild.getTop());
                 } else {
                     mViewDragHelper.settleCapturedViewAt(0, releasedChild.getTop());
                 }
@@ -115,7 +124,8 @@ public class SlideToFinishLayout extends FrameLayout {
     public void computeScroll() {
         super.computeScroll();
         if (mViewDragHelper.continueSettling(true)) {
-            invalidate();
+            ViewCompat.postInvalidateOnAnimation(this);
+//            invalidate();
         }
     }
 
