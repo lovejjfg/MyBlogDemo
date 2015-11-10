@@ -1,6 +1,8 @@
 package com.lovejjfg.blogdemo.activity;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +11,7 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.lovejjfg.blogdemo.R;
@@ -24,15 +27,30 @@ public class BrowserActivity extends BaseSlideFinishActivity {
     private TextView mAppTitlle;
     private TopSlidWebView mTopSlidWebView;
     private TopSlidWebViewLayout mSlidWebViewLayout;
+    private ProgressBar mPb;
 
     @Override
     public View initView(Bundle savedInstanceState) {
 
         View view = LayoutInflater.from(this).inflate(R.layout.activity_browser, null);
         mSlidWebViewLayout = (TopSlidWebViewLayout) view.findViewById(R.id.web_view_layout);
+        mPb = (ProgressBar) view.findViewById(R.id.pb);
         mTopSlidWebView = mSlidWebViewLayout.getTopSlidWebView();
         Toolbar mToolBar = (Toolbar) view.findViewById(R.id.app_bar);
         setSupportActionBar(mToolBar);
+        ActionBar bar = getSupportActionBar();//.setDisplayHomeAsUpEnabled(true);
+        if (null != bar) {
+            bar.setDisplayHomeAsUpEnabled(true);
+            bar.setDisplayShowHomeEnabled(false);
+        }
+        mToolBar.setNavigationIcon(R.mipmap.ic_arrow_back);
+        mToolBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finishSelf();
+            }
+        });
+
         mAppTitlle = (TextView) view.findViewById(R.id.app_tittle);
         mAppTitlle.setText("ahaha");
         return view;//LayoutInflater.from(this).inflate(R.layout.activity_browser, null);
@@ -40,6 +58,11 @@ public class BrowserActivity extends BaseSlideFinishActivity {
 
     @Override
     protected void performViewClick(View v) {
+//        switch (v.getId()) {
+//            case R.id.app_bar:
+//
+//                break;
+//        }
     }
 
     @Override
@@ -51,6 +74,11 @@ public class BrowserActivity extends BaseSlideFinishActivity {
                 @Override
                 public void onProgressChanged(WebView view, int newProgress) {
                     super.onProgressChanged(view, newProgress);
+                    if (newProgress == 100) {
+                        mPb.setVisibility(View.GONE);
+                    } else {
+                        mPb.setProgress(newProgress);
+                    }
                 }
 
                 @Override
@@ -83,10 +111,24 @@ public class BrowserActivity extends BaseSlideFinishActivity {
                     mTopSlidWebView.loadUrl(url);
                     return true;
                 }
+
+                @Override
+                public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                    super.onPageStarted(view, url, favicon);
+                    mPb.setVisibility(View.VISIBLE);
+                }
             };
             mTopSlidWebView.setWebChromeClient(webChromeClient);
+
             mTopSlidWebView.setWebViewClient(webViewClient);
+
             mTopSlidWebView.loadUrl("https://www.baidu.com/");
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mTopSlidWebView.destroy();
     }
 }

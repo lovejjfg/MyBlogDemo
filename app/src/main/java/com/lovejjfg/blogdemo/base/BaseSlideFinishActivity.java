@@ -46,8 +46,7 @@ public abstract class BaseSlideFinishActivity extends AppCompatActivity implemen
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            this.finish();
-            this.overridePendingTransition(0, R.anim.finish_activity_out);
+           finishSelf();
             return true;
         }
         return super.onKeyDown(keyCode, event);
@@ -67,7 +66,7 @@ public abstract class BaseSlideFinishActivity extends AppCompatActivity implemen
 
     public void finishSelf() {
         this.finish();
-        this.overridePendingTransition(0, 0);//取消Activity的动画。
+        this.overridePendingTransition(0, R.anim.finish_activity_out);//取消Activity的动画。
     }
 
     public void startActivityOnspecifiedAnimation(Activity context, Class<?> cls) {
