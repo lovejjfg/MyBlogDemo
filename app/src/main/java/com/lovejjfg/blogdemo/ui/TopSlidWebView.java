@@ -147,9 +147,9 @@ public class TopSlidWebView extends WebView {
 
     @Override
     public void loadUrl(String url) {
-        mNetworkInfo = connectionManager.getActiveNetworkInfo();
-        mUrl = url;
-        super.loadUrl(mNetworkInfo == null ? "file:///android_asset/html/nowifi.html" : url);
+//        mNetworkInfo = connectionManager.getActiveNetworkInfo();
+//        mUrl = url;
+        super.loadUrl(url);//(mNetworkInfo == null ? "file:///android_asset/html/nowifi.html" : url);
     }
 
     /**

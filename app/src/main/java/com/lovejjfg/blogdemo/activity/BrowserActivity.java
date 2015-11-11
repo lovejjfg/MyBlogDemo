@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.WebChromeClient;
@@ -95,10 +96,19 @@ public class BrowserActivity extends BaseSlideFinishActivity {
                     mSlidWebViewLayout.setTopMsg(view.getTitle());
                 }
 
-                @Override
-                public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                    super.onReceivedError(view, errorCode, description, failingUrl);
-//                    mTopSlidWebView.layout();
+                public void onReceivedError(WebView view, int errorCode,
+                                            String description, String failingUrl) {
+                    Log.e("ProcessPayment", "onReceivedError = " + errorCode);
+
+                    //404 : error code for Page Not found
+                    if(errorCode==404){
+                        // show Alert here for Page Not found
+                        view.loadUrl("file:///android_asset/html/404.html");
+                    }
+                    else{
+                        view.loadUrl("file:///android_asset/html/nowifi.html");
+
+                    }
                 }
 
                 @Override
@@ -131,4 +141,6 @@ public class BrowserActivity extends BaseSlideFinishActivity {
         super.onDestroy();
         mTopSlidWebView.destroy();
     }
+
+
 }
