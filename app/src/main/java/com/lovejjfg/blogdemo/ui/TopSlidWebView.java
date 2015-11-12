@@ -36,7 +36,7 @@ public class TopSlidWebView extends WebView {
     private NetworkInfo mNetworkInfo;
     private ConnectivityManager connectionManager;
     private String mUrl;
-    private Handler mHandler = new Handler(){
+    private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == RELOAD) {
@@ -86,7 +86,7 @@ public class TopSlidWebView extends WebView {
 //                Looper.prepare();
                 Toast.makeText(getContext(), "call back", Toast.LENGTH_SHORT).show();
             }
-        },"nowifi");
+        }, "nowifi");
 //        setWebViewClient(webViewClient);
 //        setWebChromeClient(webChromeClient);
 
@@ -147,9 +147,11 @@ public class TopSlidWebView extends WebView {
 
     @Override
     public void loadUrl(String url) {
-//        mNetworkInfo = connectionManager.getActiveNetworkInfo();
-//        mUrl = url;
-        super.loadUrl(url);//(mNetworkInfo == null ? "file:///android_asset/html/nowifi.html" : url);
+        if (mUrl == null || !mUrl.equals(url)) {
+            mUrl = url;
+        }
+        mNetworkInfo = connectionManager.getActiveNetworkInfo();
+        super.loadUrl(mNetworkInfo == null ? "file:///android_asset/html/nowifi.html" : url);
     }
 
     /**

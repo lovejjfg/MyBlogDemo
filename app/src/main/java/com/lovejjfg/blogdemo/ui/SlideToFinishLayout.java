@@ -45,7 +45,7 @@ public class SlideToFinishLayout extends FrameLayout {
         mViewDragHelper = ViewDragHelper.create(this, 1.0f, new ViewDragHelper.Callback() {
             @Override
             public boolean tryCaptureView(View child, int pointerId) {
-                return child == mContentView;//只有mContentView可以移动
+                return false;//child == mContentView;//只有mContentView可以移动
             }
 
             @Override
@@ -63,13 +63,16 @@ public class SlideToFinishLayout extends FrameLayout {
                     Log.e("xvel.." + xvel, "TRUE:" + MINVEL);
                     isClose = true;
                     mViewDragHelper.smoothSlideViewTo(releasedChild, mContentWidth, releasedChild.getTop());
-                } else if (mMoveLeft >= (mContentWidth / 2)) {
-                    //滑动超过屏幕的一半，那么就可以判断为true了!
-                    isClose = true;
-                    mViewDragHelper.smoothSlideViewTo(releasedChild, mContentWidth, releasedChild.getTop());
                 } else {
-                    mViewDragHelper.settleCapturedViewAt(0, releasedChild.getTop());
                     Log.e("xvel：" + xvel, "FALSE:" + MINVEL);
+                    if (mMoveLeft >= (mContentWidth / 2)) {
+                        //滑动超过屏幕的一半，那么就可以判断为true了!
+                        isClose = true;
+                        mViewDragHelper.smoothSlideViewTo(releasedChild, mContentWidth, releasedChild.getTop());
+                    } else {
+                        mViewDragHelper.settleCapturedViewAt(0, releasedChild.getTop());
+
+                    }
                 }
                 invalidate();
             }
@@ -95,7 +98,7 @@ public class SlideToFinishLayout extends FrameLayout {
             }
         });
 
-//         mViewDragHelper.setEdgeTrackingEnabled(ViewDragHelper.EDGE_LEFT);
+         mViewDragHelper.setEdgeTrackingEnabled(ViewDragHelper.EDGE_LEFT);
     }
 
     private void finishActivity() {
