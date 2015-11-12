@@ -3,12 +3,12 @@ package com.lovejjfg.blogdemo.ui;
 import android.content.Context;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.ViewDragHelper;
+import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
-
-import com.lovejjfg.blogdemo.base.BaseSlideFinishActivity;
 
 /**
  * Created by lovejjfg on 2015/11/8.
@@ -18,7 +18,7 @@ public class SlideToFinishLayout extends FrameLayout {
     private ViewDragHelper mViewDragHelper;
     private View mContentView;
     private int mContentWidth;
-    private BaseSlideFinishActivity activity;
+    private AppCompatActivity activity;
     private int mMoveLeft;
     private boolean isClose;
     private CallBack mCallBack;
@@ -38,48 +38,38 @@ public class SlideToFinishLayout extends FrameLayout {
     }
 
     private void init(Context context) {
-        MINVEL = getResources().getDisplayMetrics().density * 400;
-        if (context instanceof BaseSlideFinishActivity) {
-            activity = (BaseSlideFinishActivity) context;
+        MINVEL = getResources().getDisplayMetrics().density * 1000;
+        if (context instanceof AppCompatActivity) {
+            activity = (AppCompatActivity) context;
         }
         mViewDragHelper = ViewDragHelper.create(this, 1.0f, new ViewDragHelper.Callback() {
             @Override
             public boolean tryCaptureView(View child, int pointerId) {
-                return false;//child == mContentView;//只有mContentView可以移动
+                return child == mContentView;//只有mContentView可以移动
             }
 
             @Override
             public void onViewPositionChanged(View changedView, int left, int top, int dx, int dy) {
                 mMoveLeft = left;
                 if (isClose && (left == mContentWidth)) {
-                    if (mCallBack != null) {
-                        mCallBack.onFinish();
-                    }
-                    if (null != activity) {
-                        activity.finishSelf();
-                    } else {
-//                        throw new RuntimeException("请使用BaseSlideFinishActivity!!");
-                        activity.finish();
-                        activity.overridePendingTransition(0, 0);
-                    }
-
+                    finishActivity();
                 }
             }
 
             @Override
             public void onViewReleased(View releasedChild, float xvel, float yvel) {
-                if (yvel > MINVEL) {
+
+                if (xvel > MINVEL) {
+                    Log.e("xvel.." + xvel, "TRUE:" + MINVEL);
                     isClose = true;
-//                    mViewDragHelper.settleCapturedViewAt(mContentWidth, releasedChild.getTop());
                     mViewDragHelper.smoothSlideViewTo(releasedChild, mContentWidth, releasedChild.getTop());
-                }
-                if (mMoveLeft >= (mContentWidth / 2)) {
+                } else if (mMoveLeft >= (mContentWidth / 2)) {
                     //滑动超过屏幕的一半，那么就可以判断为true了!
                     isClose = true;
-//                    mViewDragHelper.settleCapturedViewAt(mContentWidth, releasedChild.getTop());
                     mViewDragHelper.smoothSlideViewTo(releasedChild, mContentWidth, releasedChild.getTop());
                 } else {
                     mViewDragHelper.settleCapturedViewAt(0, releasedChild.getTop());
+                    Log.e("xvel：" + xvel, "FALSE:" + MINVEL);
                 }
                 invalidate();
             }
@@ -105,7 +95,17 @@ public class SlideToFinishLayout extends FrameLayout {
             }
         });
 
-        mViewDragHelper.setEdgeTrackingEnabled(ViewDragHelper.EDGE_LEFT);
+//         mViewDragHelper.setEdgeTrackingEnabled(ViewDragHelper.EDGE_LEFT);
+    }
+
+    private void finishActivity() {
+        if (mCallBack != null) {
+            mCallBack.onFinish();
+        }
+        if (null != activity) {
+            activity.finish();
+            activity.overridePendingTransition(0, 0);
+        }
     }
 
     @Override
