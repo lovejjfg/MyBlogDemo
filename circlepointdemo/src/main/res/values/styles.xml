@@ -1,0 +1,18 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+    <declare-styleable name="SlidingCircleLayout" >
+        <attr name="point_width" format="dimension" />
+        <attr name="point_height" format="dimension" />
+        <attr name="point_margin" format="dimension" />
+        <attr name="point_selected" format="color" />
+        <attr name="point_default" format="color" />
+    </declare-styleable>
+
+</resources>
