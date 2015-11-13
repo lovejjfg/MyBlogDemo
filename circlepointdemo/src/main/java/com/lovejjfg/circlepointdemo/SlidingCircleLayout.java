@@ -11,7 +11,8 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 /**
- * Created by ZHANGJUN166 on 2015-11-12.
+ * Created by lovejjfg@163.com on 2015-11-12.
+ *
  */
 public class SlidingCircleLayout extends FrameLayout {
     private LinearLayout mLinearLayout;
@@ -73,7 +74,7 @@ public class SlidingCircleLayout extends FrameLayout {
 
     private void setPointCount(int count) {
         if (count == 0) {
-            throw new RuntimeException("填充viewpager的数量应该大于0");
+            throw new IllegalStateException("填充viewpager的数量应该大于0");
         }
 
         for (int i = 0; i < count; i++) {
@@ -111,11 +112,11 @@ public class SlidingCircleLayout extends FrameLayout {
 
     /**
      * 请在ViewPager设置Adapter之后调用该方法。
-     * @param viewPager
+     * @param viewPager viewpager
      */
     public void addViewPager(ViewPager viewPager) {
-        if (viewPager == null) {
-            throw new RuntimeException("请添加viewpager");
+        if (viewPager.getAdapter() == null) {
+            throw new IllegalArgumentException("you should call ViewPager.setAdapter() first!!!");
         }
         //添加底部圆圈个数
         setPointCount(viewPager.getAdapter().getCount());
@@ -144,6 +145,20 @@ public class SlidingCircleLayout extends FrameLayout {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
        //TODO 解决用户不写wrap_content
+//        switch (MeasureSpec.getMode(widthMeasureSpec)) {
+//            case MeasureSpec.AT_MOST:
+//                Log.e("mode", "AT_MOST" + this.toString());
+//
+//                break;
+//            case MeasureSpec.UNSPECIFIED:
+//                Log.e("mode", "UNSPECIFIED"+getParent().toString());
+//                setMeasuredDimension(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+//                break;
+//            case MeasureSpec.EXACTLY:
+//                Log.e("mode", "UNSPECIFIED"+getParent().toString());
+//                break;
+//        }
+
     }
 
 
@@ -153,13 +168,5 @@ public class SlidingCircleLayout extends FrameLayout {
     public  int dip2px(Context context, float dpValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
-    }
-
-    /**
-     * 根据手机的分辨率从 px(像素) 的单位 转成为 dp
-     */
-    public  int px2dip(Context context, float pxValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (pxValue / scale + 0.5f);
     }
 }

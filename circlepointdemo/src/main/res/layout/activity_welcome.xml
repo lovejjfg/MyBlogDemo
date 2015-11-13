@@ -15,9 +15,12 @@
     </android.support.v4.view.ViewPager>
     <com.lovejjfg.circlepointdemo.SlidingCircleLayout
         android:id="@+id/scl"
+        app:point_margin="15dp"
+        app:point_default="@drawable/point"
+        app:point_selected="@drawable/point_red"
         android:layout_marginBottom="30dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
     </com.lovejjfg.circlepointdemo.SlidingCircleLayout>

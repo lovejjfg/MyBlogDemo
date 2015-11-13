@@ -11,8 +11,8 @@
         <attr name="point_width" format="dimension" />
         <attr name="point_height" format="dimension" />
         <attr name="point_margin" format="dimension" />
-        <attr name="point_selected" format="color" />
-        <attr name="point_default" format="color" />
+        <attr name="point_selected" format="color|reference" />
+        <attr name="point_default" format="color|reference" />
     </declare-styleable>
 
 </resources>

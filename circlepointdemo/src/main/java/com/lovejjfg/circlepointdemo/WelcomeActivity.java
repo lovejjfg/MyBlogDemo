@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -38,6 +39,7 @@ public class WelcomeActivity extends Activity implements View.OnClickListener {
         mCircleLayout = (SlidingCircleLayout) findViewById(R.id.scl);
 
 
+
     }
 
     public void initData() {
@@ -55,10 +57,27 @@ public class WelcomeActivity extends Activity implements View.OnClickListener {
         mCircleLayout.addViewPager(mVPager);
 
 
+
     }
 
     public void initListener() {
+        mVPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Log.e("onPageSelected", position + "");
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     public void processClick(View v) {
