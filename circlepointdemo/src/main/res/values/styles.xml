@@ -8,11 +8,12 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
     <declare-styleable name="SlidingCircleLayout" >
-        <attr name="point_width" format="dimension" />
-        <attr name="point_height" format="dimension" />
+        <attr name="point_default_diameter" format="dimension" />
+        <attr name="point_selected_diameter" format="dimension" />
         <attr name="point_margin" format="dimension" />
         <attr name="point_selected" format="color|reference" />
         <attr name="point_default" format="color|reference" />
+        <attr name="point_smooth_slide" format="boolean" />
     </declare-styleable>
 
 </resources>

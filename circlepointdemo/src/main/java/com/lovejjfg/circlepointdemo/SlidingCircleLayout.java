@@ -12,17 +12,20 @@ import android.widget.LinearLayout;
 
 /**
  * Created by lovejjfg@163.com on 2015-11-12.
- *
  */
 public class SlidingCircleLayout extends FrameLayout {
     private LinearLayout mLinearLayout;
     private View red_point;
     private int i;
-    private int mLayoutWidth;
-    private int mLayoutHeight;
+//    private int mLayoutWidth;
+//    private int mLayoutHeight;
     private int mleftMargin;
     private Drawable point_selected;
     private Drawable point_default;
+    private boolean mSmoothSlide;
+    private int mSelectedDiameter;
+    private int mDefaultDiameter;
+    private float mRadius;
 
     public SlidingCircleLayout(Context context) {
         this(context, null);
@@ -37,9 +40,12 @@ public class SlidingCircleLayout extends FrameLayout {
 
         final TypedArray a = context.obtainStyledAttributes(
                 attrs, R.styleable.SlidingCircleLayout);
-        mLayoutWidth = a.getDimensionPixelOffset(R.styleable.SlidingCircleLayout_point_width, dip2px(context, 10));
-        mLayoutHeight = a.getDimensionPixelOffset(R.styleable.SlidingCircleLayout_point_height, dip2px(context, 10));
+        mDefaultDiameter = a.getDimensionPixelOffset(R.styleable.SlidingCircleLayout_point_default_diameter, dip2px(context, 10));
+        mSelectedDiameter = a.getDimensionPixelOffset(R.styleable.SlidingCircleLayout_point_selected_diameter, dip2px(context, 10));
+
+        mRadius = Math.abs((float)(mDefaultDiameter - mSelectedDiameter))/2;
         mleftMargin = a.getDimensionPixelOffset(R.styleable.SlidingCircleLayout_point_margin, dip2px(context, 5));
+        mSmoothSlide = a.getBoolean(R.styleable.SlidingCircleLayout_point_smooth_slide, true);
         try {
             point_selected = a.getDrawable(R.styleable.SlidingCircleLayout_point_selected);
             point_default = a.getDrawable(R.styleable.SlidingCircleLayout_point_default);
@@ -57,13 +63,16 @@ public class SlidingCircleLayout extends FrameLayout {
 
         addView(mLinearLayout, 0, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT));
         red_point = new View(context);
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(mLayoutWidth, mLayoutHeight);
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(mSelectedDiameter, mSelectedDiameter);
+//        layoutParams.gravity = Gravity.CENTER_VERTICAL;
         if (point_selected != null) {
             red_point.setBackgroundDrawable(point_selected);
         } else {
             red_point.setBackgroundResource(R.drawable.point);
         }
-
+        if (mRadius > 0) {
+            layoutParams.setMargins((int)(mRadius), (int)(mRadius), 0, 0);
+        }
 //        red_point.setBackgroundResource(point_selected == null ? R.drawable.point_red:point_selected);
 
         addView(red_point, 1, layoutParams);
@@ -81,7 +90,7 @@ public class SlidingCircleLayout extends FrameLayout {
             /**
              * 设置圆点
              */
-            LinearLayout.LayoutParams pLayoutParams = new LinearLayout.LayoutParams(mLayoutWidth, mLayoutWidth);
+            LinearLayout.LayoutParams pLayoutParams = new LinearLayout.LayoutParams(mDefaultDiameter, mDefaultDiameter);
             View p = new View(getContext());
             p.setLayoutParams(pLayoutParams);
             if (point_default != null) {
@@ -112,6 +121,7 @@ public class SlidingCircleLayout extends FrameLayout {
 
     /**
      * 请在ViewPager设置Adapter之后调用该方法。
+     *
      * @param viewPager viewpager
      */
     public void addViewPager(ViewPager viewPager) {
@@ -125,14 +135,17 @@ public class SlidingCircleLayout extends FrameLayout {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 //百分比：positionOffset
-                float x = (i * positionOffset);
-                FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) red_point.getLayoutParams();
-                params.leftMargin = (int) (x + position * i);
-                red_point.setLayoutParams(params);
+                if (mSmoothSlide) {
+                    float x = (i * positionOffset);
+                    updatePoint(position, x);
+                }
             }
 
             @Override
             public void onPageSelected(int position) {
+                if (!mSmoothSlide) {
+                    updatePoint(position, 0);
+                }
             }
 
             @Override
@@ -141,10 +154,21 @@ public class SlidingCircleLayout extends FrameLayout {
         });
     }
 
+    private void updatePoint(int position, float x) {
+        LayoutParams params = (LayoutParams) red_point.getLayoutParams();
+        if (mRadius > 0) {
+            params.setMargins((int) (mRadius + x + position * i), (int) (mRadius), 0, 0);
+        } else {
+            params.leftMargin = (int) (mRadius + x + position * i);
+        }
+//
+        red_point.setLayoutParams(params);
+    }
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-       //TODO 解决用户不写wrap_content
+        //TODO 解决用户不写wrap_content
 //        switch (MeasureSpec.getMode(widthMeasureSpec)) {
 //            case MeasureSpec.AT_MOST:
 //                Log.e("mode", "AT_MOST" + this.toString());
@@ -165,7 +189,7 @@ public class SlidingCircleLayout extends FrameLayout {
     /**
      * 根据手机的分辨率从 dip 的单位 转成为 px(像素)
      */
-    public  int dip2px(Context context, float dpValue) {
+    public int dip2px(Context context, float dpValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
