@@ -16,11 +16,11 @@
     <com.lovejjfg.circlepointdemo.SlidingCircleLayout
         android:id="@+id/scl"
         app:point_margin="15dp"
-        app:point_default_diameter="11dp"
+        app:point_default_diameter="10dp"
         app:point_selected_diameter="10dp"
         app:point_default="@drawable/point"
         app:point_selected="@drawable/point_red"
-        app:point_smooth_slide="false"
+        app:point_smooth_slide="true"
         android:layout_marginBottom="30dp"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
