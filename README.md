@@ -15,9 +15,13 @@
 
 
 # SlidingCricleLayout:
-
 ViewPager中使用的圆圈的导航。
 支持：
 1.跟随手势移动或者直接跳
 2.背景图片的大小不一
+![](https://raw.githubusercontent.com/lovejjfg/MyBlogDemo/master/screenshot/circle.gif)
+![](https://raw.githubusercontent.com/lovejjfg/MyBlogDemo/master/screenshot/circle_2.gif)
+![](https://raw.githubusercontent.com/lovejjfg/MyBlogDemo/master/screenshot/circle_anim.gif)
+
+
 

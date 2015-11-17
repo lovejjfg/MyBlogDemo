@@ -1,25 +1,34 @@
 package com.lovejjfg.blogdemo.activity;
 
 import android.graphics.Bitmap;
+import android.net.http.SslError;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.PersistableBundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lovejjfg.blogdemo.R;
 import com.lovejjfg.blogdemo.base.BaseSlideFinishActivity;
 import com.lovejjfg.blogdemo.ui.TopSlidWebView;
 import com.lovejjfg.blogdemo.ui.TopSlidWebViewLayout;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by Administrator on 2015/11/8.
@@ -30,6 +39,14 @@ public class BrowserActivity extends BaseSlideFinishActivity {
     private TopSlidWebView mTopSlidWebView;
     private TopSlidWebViewLayout mSlidWebViewLayout;
     private ProgressBar mPb;
+//    private Timer timer;
+//    private TimerTask tt;
+    final Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+        }
+    };
 
     @Override
     public View initView(Bundle savedInstanceState) {
@@ -72,12 +89,22 @@ public class BrowserActivity extends BaseSlideFinishActivity {
     @Override
     protected void init() {
         super.init();
+
+
         if (null != mTopSlidWebView) {
+            final Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    mTopSlidWebView.stopLoading();
+                }
+            };
+
             WebChromeClient webChromeClient = new WebChromeClient() {
 
                 @Override
-                public void onProgressChanged(WebView view, int newProgress) {
+                public void onProgressChanged(WebView view, final int newProgress) {
                     super.onProgressChanged(view, newProgress);
+
                     if (newProgress == 100) {
                         mPb.setVisibility(View.GONE);
                     } else {
@@ -116,17 +143,26 @@ public class BrowserActivity extends BaseSlideFinishActivity {
                     mSlidWebViewLayout.setTopMsg(view.getTitle());
                 }
 
+                @Override
+                public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                    super.onReceivedError(view, request, error);
+                }
+
+                @Override
+                public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                    super.onReceivedSslError(view, handler, error);
+                }
+
                 public void onReceivedError(WebView view, int errorCode,
                                             String description, String failingUrl) {
                     Log.e("ProcessPayment", "onReceivedError = " + errorCode);
 
                     //404 : error code for Page Not found
-                    if(errorCode==404){
+                    if (errorCode == 404) {
                         // show Alert here for Page Not found
                         view.loadUrl("file:///android_asset/html/404.html");
                         Log.e("404", failingUrl);
-                    }
-                    else{
+                    } else {
                         view.loadUrl("file:///android_asset/html/nowifi.html");
                         Log.e("error", failingUrl);
 
@@ -145,7 +181,7 @@ public class BrowserActivity extends BaseSlideFinishActivity {
                 }
 
                 @Override
-                public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                public void onPageStarted(final WebView view, String url, Bitmap favicon) {
                     super.onPageStarted(view, url, favicon);
                     mPb.setVisibility(View.VISIBLE);
                 }
@@ -169,6 +205,7 @@ public class BrowserActivity extends BaseSlideFinishActivity {
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
     }
+
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
