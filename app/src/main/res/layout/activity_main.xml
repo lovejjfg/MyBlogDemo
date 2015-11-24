@@ -8,24 +8,30 @@
     android:background="#ebf5f5"
     tools:context=".MainActivity">
 
-    <TextView
+    <Button
         android:id="@+id/tv_slide"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_margin="10dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:padding="10dp"
         android:gravity="center"
-        android:background="#fff"
+        android:background="@drawable/selector_left_button_shape"
         android:textSize="25sp"
         android:text="Slide_Activity"/>
     <TextView
         android:id="@+id/tv_browser"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_margin="10dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:padding="10dp"
         android:gravity="center"
-        android:background="#fff"
         android:textSize="25sp"
+        android:background="@drawable/click_selector"
         android:text="Browser_Activity"/>
+    <Button
+        android:layout_margin="10dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:text="hahah"
+        />
 </LinearLayout>

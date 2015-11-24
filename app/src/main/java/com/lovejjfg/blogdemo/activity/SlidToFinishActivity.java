@@ -20,6 +20,5 @@ public class SlidToFinishActivity extends BaseSlideFinishActivity {
 
     @Override
     protected void performViewClick(View v) {
-
     }
 }
