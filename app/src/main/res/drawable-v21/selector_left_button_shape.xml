@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
-    android:color="@color/default_blue_color"
+    android:color="#ff0000"
     >
-    <item android:drawable="@drawable/clicked_shape" >
+    <item  >
         <selector>
             <item
-                android:drawable="@color/whitesmoke"
+                android:drawable="@drawable/clicked_shape"
                 android:state_pressed="true" >
-
+                <set>
+                    <objectAnimator android:propertyName="translationX"
+                        android:duration="1000"
+                        android:valueTo="300dp"
+                        android:valueType="floatType"/>
+                </set>
             </item>
 
             <item
                 android:drawable="@color/white"
-                android:state_pressed="false"
                 >
             </item>
         </selector>
