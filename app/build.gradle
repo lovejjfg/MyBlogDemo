@@ -1,21 +1,87 @@
 apply plugin: 'com.android.application'
+def PRODUCT_NAME = "blog"
+def outputDir = "../../MyBlogDemo/app/build/outputs/apk"
+
+def today() {
+    def date = new Date()
+    def formatDate = date.format("yyyyMMdd")
+    return formatDate
+}
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'blogkey'
+            keyPassword '886520'
+            storeFile file('../../MyBlogDemo/build/blog.jks')
+            storePassword '886520'
+        }
+    }
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
-
     defaultConfig {
         applicationId "com.lovejjfg.blogdemo"
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        versionCode 10
+        versionName "1.1.0"
+        signingConfig signingConfigs.config
     }
+    productFlavors.all { flavor ->
+        flavor.manifestPlaceholders = [GRADLE_CHANNEL_VALUE: name]
+    }
+// 指定apk名
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def outputFile = output.outputFile
+            def fileParent = new File(outputDir)
+            // 打包类型
+            def buildTypeName = variant.buildType.name
+            if (buildTypeName.equals("release") && outputFile != null && outputFile.name.endsWith('.apk')) {
+                // 打包渠道
+                def flavorName = variant.productFlavors[0].name
+                // 版本名称
+                def versionName = defaultConfig.versionName
+                // ananzu_release_baidu_ver1.0.0_build20150721.apk
+                def fileName = "${PRODUCT_NAME}_${buildTypeName}_${flavorName}_ver${versionName}_build${today()}.apk"
+
+                output.outputFile = new File(fileParent, fileName)
+            }
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            signingConfig signingConfigs.config
+            minifyEnabled false
+        }
+    }
+    productFlavors {
+        baidu {
+        }
+        wandoujia {
+        }
+        _360 {}
+        anzhi {}
+//        baidu {}
+//        qq {}
+//        gfan {}
+//        oppo {}
+//        lenovo {}
+//        wandoujia {}
+//        xiaomi {}
+//        yingyonghui{}
+//        youyi{}
+//        sougou{}
+//        nduo{}
+//        youmi{}
+//        juzi{}
+//        huawei{}
+
     }
 }
 
@@ -23,5 +89,4 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:23.1.0'
     compile 'com.android.support:design:23.1.0'
-
 }
