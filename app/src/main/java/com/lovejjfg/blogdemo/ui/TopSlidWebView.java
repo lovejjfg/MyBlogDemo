@@ -81,12 +81,9 @@ public class TopSlidWebView extends WebView {
             public void goBack() {
 //                reload();
                 mHandler.sendEmptyMessage(RELOAD);
-//                Looper.loop();
-//                TopSlidWebView.this.loadUrl(mUrl);
-//                Looper.prepare();
                 Toast.makeText(getContext(), "call back", Toast.LENGTH_SHORT).show();
             }
-        }, "nowifi");
+        }, "android");
 //        setWebViewClient(webViewClient);
 //        setWebChromeClient(webChromeClient);
 
@@ -150,6 +147,7 @@ public class TopSlidWebView extends WebView {
         if (mUrl == null || !mUrl.equals(url)) {
             mUrl = url;
         }
+
         mNetworkInfo = connectionManager.getActiveNetworkInfo();
         super.loadUrl(mNetworkInfo == null ? "file:///android_asset/html/nowifi.html" : url);
     }
