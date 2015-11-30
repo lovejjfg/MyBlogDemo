@@ -1,26 +1,27 @@
 package com.lovejjfg.blogdemo.ui;
 
 import android.annotation.SuppressLint;
-import android.app.usage.NetworkStatsManager;
+import android.app.Application;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.view.View;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.JavascriptInterface;
-import android.webkit.WebChromeClient;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Toast;
+
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Administrator on 2015/11/8.
@@ -147,6 +148,9 @@ public class TopSlidWebView extends WebView {
         if (mUrl == null || !mUrl.equals(url)) {
             mUrl = url;
         }
+        if (!TextUtils.isEmpty(url) && url.contains("ananzu")) {
+            setCookie(url);
+        }
 
         mNetworkInfo = connectionManager.getActiveNetworkInfo();
         super.loadUrl(mNetworkInfo == null ? "file:///android_asset/html/nowifi.html" : url);
@@ -159,6 +163,63 @@ public class TopSlidWebView extends WebView {
      */
     public void setJsEnable(boolean enable) {
         getSettings().setJavaScriptEnabled(enable);
+    }
+
+    @SuppressLint("NewApi")
+    private void setCookie(String url) {
+        URI uri = URI.create(url);
+
+        if (TextUtils.isEmpty(uri.getHost())) {
+            return;
+        }
+
+        if (Build.VERSION.SDK_INT < 21) {
+            CookieSyncManager.createInstance(getContext());
+        }
+
+        CookieManager cookieManager = CookieManager.getInstance();
+        cookieManager.setAcceptCookie(true);
+        cookieManager.removeSessionCookie();
+        // 注入cookies
+        List<String> cookies = getCookies();
+        for (String cookie : cookies) {
+            cookieManager.setCookie(uri.getHost(), cookie);
+        }
+
+        if (Build.VERSION.SDK_INT >= 21) {
+            cookieManager.flush();
+        } else {
+            CookieSyncManager.getInstance().sync();
+        }
+    }
+
+    /**
+     * 构建Webview公共Cookies
+     *
+     * @return
+     */
+    private List<String> getCookies() {
+        Application app = null;
+        List<String> cookies = new ArrayList<String>();
+//        if (getContext().getApplicationContext() instanceof Application) {
+//            app = (App) mContext.getApplicationContext();
+//            AnanzuUserInfo user = app.getmUserinfo();
+//            AnanzuCityInfo city = app.getmCityInfo();
+//            if (user.getiUserID() > 0 && !TextUtils.isEmpty(user.getsToken())) {
+//                cookies.add("ananzu_token=" + app.getmUserinfo().getsToken());
+//                cookies.add("ananzu_islogintoken=1");
+//                cookies.add("ananzu_currentmode=" + app.getCommInfo().getiCurrentStatus());
+//            } else {
+//                cookies.add("ananzu_islogintoken=0");
+//            }
+//
+//            if (city != null) {
+//                cookies.add("ananzu_cityid=" + city.getiCityId());
+//                cookies.add("ananzu_cityname=" + city.getsName());
+//            }
+//        }
+
+        return cookies;
     }
 
     public interface CallBack {
