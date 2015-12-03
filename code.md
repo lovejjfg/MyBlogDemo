@@ -152,7 +152,11 @@ But, if you want to optimize(优化) UiThread calls, you may want to change prop
 
 * 13.window全屏设置
 
+		//onCreate（）方法中，setContentView（）之前：
 		getWindow().setFlags(android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN, android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+		//配置文件中对应配置：
+		android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
 * 14.自定义shape:(API Guides>Resource Types>Drawable)
 
 
@@ -178,6 +182,87 @@ But, if you want to optimize(优化) UiThread calls, you may want to change prop
 
 
 * 17.APP升级的相关bug，升级后本地的`token`没有更新，然后就会使用老版本的**UserInfo**，而在新版本中会添加一些字段，老版本的没有那些字段，然后使用就会出现 null....
+
+* 18.安安租`Json`封装的相关优化：
+
+		  BaseEntity baseEntity = JsonUtil.parseObject(result, BaseEntity.class);
+
+		if (baseEntity.isOk()) {
+                    if (baseEntity.getData().isEmpty()) {
+                        if (errorHandler != null) {
+                            errorHandler.onCodeError(baseEntity.getCode(), baseEntity.getMsg());
+                        }
+                    } else {
+                        bean = JsonUtil.parseObject(baseEntity.getData().toJSONString(), entityClass);
+                    }
+                    bean = JsonUtil.parseObject(baseEntity.getData().toJSONString(), entityClass);
+                }
+
+
+
+
+		if (url.equals("test")) {
+                result=  FileUtil.getFromAssets(mContext, "test");
+				DevUtil.v("will", "result===== " + result);
+            } else {
+				result = requestBase(method, hostUrl, url, params, handle,
+						isHttpsRequest);
+			}
+			entity = JsonUtil.parseObject(result, entityClass);
+
+然后对应的`bean`对象的不同：
+
+* 好房：
+
+		//bean对象必须继承BaseEntity,然后里面定义一个data对象；
+		public class LouPanListEntity extends BaseEntity {
+	
+	    private LouPanListDataEntity data;
+	
+	    public LouPanListEntity() {
+	    }
+	
+	    public LouPanListEntity(String errorMessage) {
+	        super(errorMessage);
+	    }
+	
+	    public LouPanListDataEntity getData() {
+	        return data;
+	    }
+	
+	    public void setData(LouPanListDataEntity data) {
+	        this.data = data;
+	    }
+	
+	    /**
+	     * 楼盘列表数据数据实体
+	     * 
+	     * @author zhangjiao
+	     * 
+	     */
+	    public static class LouPanListDataEntity {}
+* 安安租：
+
+		//直接封装那个对应的data对象
+		public class OrderInfoBean implements Parcelable {
+	
+		    private String sTradeNo;
+		
+		    private int iTotalAmount;
+		
+		    private String sSubject;
+		
+		    private int iCredit;
+		
+		    private int iCanUseCredit;
+		
+		    private ArrayList<RedbagBean> aCoupon;
+		
+		    private ArrayList<PayInfo> aPayInfo;
+			
+		.....}
+	
+
 
 
 
