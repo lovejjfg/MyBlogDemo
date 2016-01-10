@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
@@ -17,7 +18,7 @@ public class SlidingCircleLayout extends FrameLayout {
     private LinearLayout mLinearLayout;
     private View red_point;
     private int i;
-//    private int mLayoutWidth;
+    //    private int mLayoutWidth;
 //    private int mLayoutHeight;
     private int mleftMargin;
     private Drawable point_selected;
@@ -43,7 +44,7 @@ public class SlidingCircleLayout extends FrameLayout {
         mDefaultDiameter = a.getDimensionPixelOffset(R.styleable.SlidingCircleLayout_point_default_diameter, dip2px(context, 10));
         mSelectedDiameter = a.getDimensionPixelOffset(R.styleable.SlidingCircleLayout_point_selected_diameter, dip2px(context, 10));
 
-        mRadius = Math.abs((float)(mDefaultDiameter - mSelectedDiameter))/2;
+        mRadius = Math.abs((float) (mDefaultDiameter - mSelectedDiameter)) / 2;
         mleftMargin = a.getDimensionPixelOffset(R.styleable.SlidingCircleLayout_point_margin, dip2px(context, 5));
         mSmoothSlide = a.getBoolean(R.styleable.SlidingCircleLayout_point_smooth_slide, true);
         try {
@@ -71,7 +72,7 @@ public class SlidingCircleLayout extends FrameLayout {
             red_point.setBackgroundResource(R.drawable.point);
         }
         if (mRadius > 0) {
-            layoutParams.setMargins((int)(mRadius), (int)(mRadius), 0, 0);
+            layoutParams.setMargins((int) (mRadius), (int) (mRadius), 0, 0);
         }
 //        red_point.setBackgroundResource(point_selected == null ? R.drawable.point_red:point_selected);
 
@@ -167,21 +168,16 @@ public class SlidingCircleLayout extends FrameLayout {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         //TODO 解决用户不写wrap_content
-//        switch (MeasureSpec.getMode(widthMeasureSpec)) {
-//            case MeasureSpec.AT_MOST:
-//                Log.e("mode", "AT_MOST" + this.toString());
+        int sizeWidth = MeasureSpec.getSize(widthMeasureSpec) - getPaddingRight() - getPaddingLeft();
+        int sizeHeight = MeasureSpec.getSize(heightMeasureSpec) - getPaddingTop() - getPaddingBottom();
 //
-//                break;
-//            case MeasureSpec.UNSPECIFIED:
-//                Log.e("mode", "UNSPECIFIED"+getParent().toString());
-//                setMeasuredDimension(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-//                break;
-//            case MeasureSpec.EXACTLY:
-//                Log.e("mode", "UNSPECIFIED"+getParent().toString());
-//                break;
-//        }
+        int modeWidth = MeasureSpec.getMode(widthMeasureSpec);
+
+        int modeHeight = MeasureSpec.getMode(heightMeasureSpec);
+        int childWidthMeasureSpec = MeasureSpec.makeMeasureSpec(sizeWidth, modeWidth == MeasureSpec.EXACTLY ? MeasureSpec.AT_MOST : modeWidth);
+        int childHeightMeasureSpec = MeasureSpec.makeMeasureSpec(sizeHeight, modeHeight == MeasureSpec.EXACTLY ? MeasureSpec.AT_MOST : modeHeight);
+        super.onMeasure(childWidthMeasureSpec, childHeightMeasureSpec);
 
     }
 

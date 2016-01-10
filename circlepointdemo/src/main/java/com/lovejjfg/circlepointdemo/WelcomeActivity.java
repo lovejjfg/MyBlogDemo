@@ -65,7 +65,6 @@ public class WelcomeActivity extends Activity implements View.OnClickListener {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-
             }
 
             @Override

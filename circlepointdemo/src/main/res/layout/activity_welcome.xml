@@ -24,8 +24,8 @@
         android:layout_marginBottom="30dp"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="20dp"
+        android:layout_height="20dp">
     </com.lovejjfg.circlepointdemo.SlidingCircleLayout>
 
 </RelativeLayout>
