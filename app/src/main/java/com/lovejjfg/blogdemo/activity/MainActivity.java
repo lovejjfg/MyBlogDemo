@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         findViewById(R.id.tv_slide).setOnClickListener(this);
         findViewById(R.id.tv_browser).setOnClickListener(this);
+        findViewById(R.id.tv_browser2).setOnClickListener(this);
     }
 
     @Override
@@ -27,6 +28,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.tv_browser:
                 BaseUtil.startActivityOnspecifiedAnimation(this, BrowserActivity.class);
+                break;
+            case R.id.tv_browser2:
+                BaseUtil.startActivityOnspecifiedAnimation(this, BrowserActivity2.class);
                 break;
         }
     }

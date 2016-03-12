@@ -28,6 +28,16 @@
         android:textSize="25sp"
         android:background="@drawable/click_selector"
         android:text="Browser_Activity"/>
+    <TextView
+        android:id="@+id/tv_browser2"
+        android:layout_margin="10dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:padding="10dp"
+        android:gravity="center"
+        android:textSize="25sp"
+        android:background="@drawable/click_selector"
+        android:text="Browser2"/>
     <Button
         android:layout_margin="10dp"
         android:layout_width="100dp"

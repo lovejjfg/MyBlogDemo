@@ -8,14 +8,17 @@ import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.FrameLayout;
 
+import java.text.BreakIterator;
+
 /**
- * Project: gradle
- * Created by LiaoKai(soarcn) on 2014/11/25.
+ * ClosableSlidingLayout
+ * Created by joe based on LiaoKai(soarcn)
  */
 class ClosableSlidingLayout extends FrameLayout {
 
@@ -32,6 +35,7 @@ class ClosableSlidingLayout extends FrameLayout {
     private float mInitialMotionY;
     private boolean collapsible = false;
     private float yDiff;
+    private int left;
 
     public ClosableSlidingLayout(Context context) {
         this(context, null);
@@ -69,8 +73,12 @@ class ClosableSlidingLayout extends FrameLayout {
 
         switch (action) {
             case MotionEvent.ACTION_DOWN:
-                height = getChildAt(0).getHeight();
-                top = getChildAt(0).getTop();
+                if (mDragHelper.continueSettling(true)) {
+                    Log.e("continueSettling---->", mDragHelper.continueSettling(true) + "");
+                    return false;
+                }
+//                height = getChildAt(0).getHeight();
+//                top = getChildAt(0).getTop();
                 mActivePointerId = MotionEventCompat.getPointerId(event, 0);
                 mIsBeingDragged = false;
                 final float initialMotionY = getMotionEventY(event, mActivePointerId);
@@ -91,12 +99,12 @@ class ClosableSlidingLayout extends FrameLayout {
                 yDiff = y - mInitialMotionY;
                 if (swipeable && yDiff > mDragHelper.getTouchSlop() && !mIsBeingDragged) {
                     mIsBeingDragged = true;
-                    mDragHelper.captureChildView(getChildAt(0), 0);
+                    mDragHelper.captureChildView(mTarget, 0);
                 }
                 break;
         }
-        mDragHelper.shouldInterceptTouchEvent(event);
-        return mIsBeingDragged;
+
+        return mDragHelper.shouldInterceptTouchEvent(event);
     }
 
     @Override
@@ -194,16 +202,16 @@ class ClosableSlidingLayout extends FrameLayout {
 
         @Override
         public void onViewReleased(View releasedChild, float xvel, float yvel) {
-            if (yvel > MINVEL) {
-                dismiss(releasedChild, yvel);
-            } else {
-                if (releasedChild.getTop() >= top + height / 2) {
-                    dismiss(releasedChild, yvel);
-                } else {
-                    mDragHelper.smoothSlideViewTo(releasedChild, 0, top);
-                    ViewCompat.postInvalidateOnAnimation(ClosableSlidingLayout.this);
-                }
-            }
+//            if (yvel > MINVEL) {
+//                dismiss(releasedChild, yvel);
+//            } else {
+//                if (releasedChild.getTop() >= top + height / 2) {
+//                    dismiss(releasedChild, yvel);
+//                } else {
+            mDragHelper.smoothSlideViewTo(releasedChild, left, top);
+            ViewCompat.postInvalidateOnAnimation(ClosableSlidingLayout.this);
+//                }
+//            }
         }
 
         @Override
@@ -224,4 +232,18 @@ class ClosableSlidingLayout extends FrameLayout {
         }
     }
 
+    @Override
+    protected void onFinishInflate() {
+        super.onFinishInflate();
+        mTarget = getChildAt(0);
+        left = mTarget.getLeft();
+        top = mTarget.getTop();
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+        this.left = mTarget.getLeft();
+        this.top = mTarget.getTop();
+    }
 }

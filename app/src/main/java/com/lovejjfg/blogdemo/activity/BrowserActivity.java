@@ -39,9 +39,9 @@ public class BrowserActivity extends BaseSlideFinishActivity {
     private TopSlidWebView mTopSlidWebView;
     private TopSlidWebViewLayout mSlidWebViewLayout;
     private ProgressBar mPb;
-//    private Timer timer;
+    //    private Timer timer;
 //    private TimerTask tt;
-    final Handler handler = new Handler(){
+    final Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
