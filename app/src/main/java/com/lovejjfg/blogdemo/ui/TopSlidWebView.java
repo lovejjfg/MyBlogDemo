@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.webkit.CookieManager;
@@ -76,7 +77,12 @@ public class TopSlidWebView extends WebView {
 
 
         WebSettings settings = getSettings();
+        settings.setUseWideViewPort(true);
+        settings.setLoadWithOverviewMode(true);
+        settings.setDisplayZoomControls(true);
         settings.setJavaScriptEnabled(true);
+        settings.setTextZoom(200);
+//        initSize(settings);
         addJavascriptInterface(new CallBack() {
             @JavascriptInterface
             public void goBack() {
@@ -88,6 +94,23 @@ public class TopSlidWebView extends WebView {
 //        setWebViewClient(webViewClient);
 //        setWebChromeClient(webChromeClient);
 
+    }
+
+    private void initSize(WebSettings settings) {
+        int   screenDensity   = getResources().getDisplayMetrics(). densityDpi ;
+        WebSettings.ZoomDensity   zoomDensity   = WebSettings.ZoomDensity. MEDIUM ;
+        switch (screenDensity){
+            case   DisplayMetrics.DENSITY_LOW :
+                zoomDensity = WebSettings.ZoomDensity.CLOSE;
+                break ;
+            case   DisplayMetrics.DENSITY_MEDIUM :
+                zoomDensity = WebSettings.ZoomDensity.MEDIUM;
+                break ;
+            case   DisplayMetrics.DENSITY_HIGH :
+                zoomDensity = WebSettings.ZoomDensity.FAR;
+                break ;
+        }
+        settings.setDefaultZoom(zoomDensity) ;
     }
 
     @Override
@@ -122,7 +145,6 @@ public class TopSlidWebView extends WebView {
                 mWebViewLayout.smoothScrollTo(0, 300, 0, new WebViewLayout.OnSmoothScrollFinishedListener() {
                     @Override
                     public void onSmoothScrollFinished() {
-                        Toast.makeText(getContext(), "...", 0).show();
                     }
                 });
 //                mWebViewLayout.scrollTo(0, 0);

@@ -20,20 +20,16 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.lovejjfg.blogdemo.R;
 import com.lovejjfg.blogdemo.base.BaseSlideFinishActivity;
 import com.lovejjfg.blogdemo.ui.TopSlidWebView;
 import com.lovejjfg.blogdemo.ui.TopSlidWebViewLayout;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 /**
  * Created by Administrator on 2015/11/8.
  */
-public class BrowserActivity extends BaseSlideFinishActivity {
+public class BrowserActivity extends BaseSlideFinishActivity  {
 
     private TextView mAppTitlle;
     private TopSlidWebView mTopSlidWebView;
@@ -191,7 +187,10 @@ public class BrowserActivity extends BaseSlideFinishActivity {
 
 
             mTopSlidWebView.setWebViewClient(webViewClient);
-            mTopSlidWebView.loadUrl("http://mp.weixin.qq.com/s?__biz=MjM5NzYwNjk2Mg==&mid=212746706&idx=1&sn=1c7b5845862f653fa7291e754a5aef38&scene=18&uin=MzM1Mjg0ODc1&key=d4b25ade3662d64316d879377379cf9ddd6559da8758e2cc3a25041237ab0e7674606944bef4eaa590acdb7de3fac909&devicetype=Windows+7&version=61050016&lang=zh_CN&pass_ticket=BjyLRwSXhd5O7%2BQU8o%2F9ssXTTgnRn1VeQfeFYJKkbytPacN%2FPrQlipQ9Zo3S%2BgtX");
+//            mTopSlidWebView.loadUrl("http://v.baidu.com/i");
+//            mTopSlidWebView.loadData(getString(R.string.html_body),
+//                    "text/html", "UTF-8");
+            mTopSlidWebView.loadDataWithBaseURL(null, getString(R.string.html_body), "text/html", "UTF-8", null);
         }
     }
 

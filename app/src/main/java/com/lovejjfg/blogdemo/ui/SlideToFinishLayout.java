@@ -113,6 +113,7 @@ public class SlideToFinishLayout extends FrameLayout {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
+
         return mViewDragHelper.shouldInterceptTouchEvent(ev);
     }
 
