@@ -212,7 +212,7 @@ But, if you want to optimize(优化) UiThread calls, you may want to change prop
 
 然后对应的`bean`对象的不同：
 
-* 好房：
+
 
 		//bean对象必须继承BaseEntity,然后里面定义一个data对象；
 		public class LouPanListEntity extends BaseEntity {
@@ -241,7 +241,7 @@ But, if you want to optimize(优化) UiThread calls, you may want to change prop
 	     * 
 	     */
 	    public static class LouPanListDataEntity {}
-* 安安租：
+
 
 		//直接封装那个对应的data对象
 		public class OrderInfoBean implements Parcelable {
