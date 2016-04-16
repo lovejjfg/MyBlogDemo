@@ -1,0 +1,101 @@
+### RecycleView
+RecycleView其实就是对ListView的升级和强化之后的相关替换品！
+相比ListView主要以下不同：
+
+####  RecycleView更加强化面向holder编程
+RecycleView也是使用Adapter来管理相关View和Model的，相关的Adapter需要extend `RecyclerView.Adapter<RecyclerView.ViewHolder>`在RecycleView里面，最小的模块就是holder了，(相关的Holder需要extend `RecyclerView.ViewHolder`)所以它的相关方法对比ListView会有所变化。
+	
+	  @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
+      
+        
+    }
+	@Override
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+       
+    }
+
+这两个方法就是在RecycleView中创建相关Holder的。
+`onCreateViewHolder` 该方法是某一种Type的Holder首次创建的时候调用的。**这里要多说一嘴了，RecycleView更加强调它是一个容器，它可以回收复用不局限于一种类型（Type）的Holder（布局）**所以在一个RecycleView里面完全可以定义很多种不同的类型的布局也就是这里的Holder！
+
+`onBindViewHolder()`这个方法就是每次加载相关holder更新里面的内容使用的！
+
+####  封装了相关的convertView的复用逻辑
+
+在RecycleView里面已经没有给我们convertView这个复用布局了，所以我们只需要指定相关Holder的创建和bind数据就好了！！
+
+####  引入了LayoutManager管理相关的Item的布局
+
+先回忆回忆ListView，它不能直接支持水平方向滑动吧？它有一个GridView来支持多列的布局。但是也是很局限的！比如说我有这种需求：我需要展示两种类型的图片，一种类型是一行一列，一种是一行两列。是不是就会日了狗 了！！（**这个后面会讲**）另外更别说瀑布流了！！！
+
+在RecycleView中，内部引入了`LayoutManager`来管理相关Item的布局。
+![LayoutManager](http://img.blog.csdn.net/20160327102226631)
+
+而且相关使用其实也很简单的哈！
+
+	 manager = new GridLayoutManager(this, 1);//初始化一个manager
+        manager.setOrientation(LinearLayoutManager.VERTICAL);//设置方向，默认就是竖直的
+        mRecyclerView.setLayoutManager(manager);//给Recycle添加manager
+
+是先设置adapter还是manager其实都可以的哈，反正你要设置。
+
+####  对Item支持相关动画
+
+因为是后面出的嘛，所以对动画什么的支持当然就更加完善了！RecycleView默认设置了一个默认的动画效果，如果不能满足你的使用你可以自定义或者看看相关的开源的东西！（[你懂的！！](https://github.com/wasabeef/recyclerview-animators)）
+
+### 相关问题
+
+####  对Header 和 Footer相关方法的取消
+
+是的，你没有听错，RecycleView里面没有相关的Footer或者Header的说法，所以你需要定义这种Type,面向Holder编程吧！
+
+
+####  需要自定义相关Item点击事件 
+
+总有很多人会疑惑为什么要取消onItemClick()的回调，我觉得吧，你弄一个item出来，那Iteml里面相关的点击事件最小单位就是这个Item?或者是里面的某一个button或者有不同的事件，比如说点击按钮我是到xx页面，点击图片是查看大图！那这些情况一个Item的点击回调是不是就真的没有什么卵用了！要有什么样的点击回调，肯定是实际情况最清楚了！
+这个也不难，只需要在bindViewHolder的相关方法中，设置一下点击事件就好了。
+
+	    @Override
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+           case Type.TYPE_STORY:
+                assert item != null;
+                ((StoryViewHolder) holder).bindStoryView(item.getStory());
+                final Item finalItem = item;
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (null != listener) {
+
+                            listener.onItemClick(holder.itemView, ((StoryViewHolder) holder).getImage(), Integer.valueOf(finalItem.getStory().getId()));
+                        }
+                    }
+                });
+                break;
+	}
+
+	    @Nullable
+    private OnItemClickListener listener;
+   
+
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
+    
+	public interface OnItemClickListener {
+    void onItemClick(View itemView, ImageView image, int id);
+	}
+欧克，向上面这样，一个简单的点击回调就搞定了！！
+
+#### scrollBar不显示？！
+
+	android:scrollbars="vertical" 
+
+#### 滑动到制定position的位置
+	
+这个权限已经交给manager了！！
+	
+
+#### 下拉刷新
+
+#### 加载更多
