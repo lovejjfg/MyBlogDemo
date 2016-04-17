@@ -2,4 +2,95 @@
     <string name="app_name">BlogDemo</string>
     <string name="name">lovejjfg</string>
     <string name="html_body"><![CDATA[<div class=\"main-wrap content-wrap\"> <div class=\"headline\"> <div class=\"img-place-holder\"></div> </div> <div class=\"content-inner\"> <div class=\"question\"> <h2 class=\"question-title\">为什么中国机场多条跑道常是平行的，而美国常有正交或斜交的跑道？</h2> <div class=\"answer\"> <div class=\"meta\"> <img class=\"avatar\" src=\"http://pic3.zhimg.com/e8905983db4dca19aa8010d5ba668656_is.jpg\"> <span class=\"author\">失落的哲人，</span><span class=\"bio\">一个热爱文史的准工程师</span> </div> <div class=\"content\"> <p>机场工程是个复杂多的工程，专业门类复杂多有补档之处请大家海涵。欢迎大家关注&nbsp;<a href=\"http://zhuanlan.zhihu.com/airportacademy\">机场学院</a>，各位看官如果认为数据老旧可以看&nbsp;<a href=\"http://zhuanlan.zhihu.com/airportacademy/20470389\">机场近况</a>&nbsp;这篇文章，如果大家对通用机场感兴趣可以看&nbsp;<a href=\"http://zhuanlan.zhihu.com/airportacademy/20473610\">通用机场</a>&nbsp;这篇文章。本人专业是场道工程这样的硬学科对运行指挥机场建设不是特别了解，献丑了，欢迎各位专业人员批评指正。</p> <p>--</p> <p>一般来说，一个机场拥有两条以上跑道可称之为多跑道机场。目前，跑道数量最多的机场有七条跑道，如芝加哥奥黑尔机场、达拉斯机场等。全球范围内，多跑道机场很多，按照跑道构形大致可分为四类，即：平行跑道、交叉跑道、V 型跑道和混合构形跑道。</p> <p><img class=\"content-image\" src=\"http://pic1.zhimg.com/70/a9d259d7572c3ad7e431c7a025a2c46c_b.jpg\" alt=\"\" /></p> <p>平行跑道</p> <p><img class=\"content-image\" src=\"http://pic3.zhimg.com/70/f17f1f70e0b9ea9bd121cd53fb3e4dc6_b.jpg\" alt=\"\" /></p> <p>平行跑道具有容量大、效率高、风险低、易于管理等优点，是目前新建或改扩建机场最为常用的一种构形。目前，平行跑道数量最多是美国亚特兰大机场，共有五条平行跑道，迪拜世界中心机场总体规划是六条完全平行的跑道，目前已建成一条投入使用。从跑道数量和构形来看，2 条至 5 条平行跑道有多种构形。</p> <p>两条平行跑道有宽距（两条跑道中心线距离超过 760 米）和窄距（两条跑道中心线距离小于 760 米）两种构形，如上海虹桥机场两条跑道中心线距离 365 米，属于窄距平行跑道；伦敦希斯罗机场两条跑道中心线距离 1415 米，属于宽距平行跑道。</p> <p><img class=\"content-image\" src=\"http://pic1.zhimg.com/70/ebed6200e69f0b659f5fe6ef0e9fc804_b.jpg\" alt=\"\" /></p> <p>三条平行跑道有：三条窄距、两窄一宽以及三条宽距三种构形，其构形方式如下：</p> <p><img class=\"content-image\" src=\"http://pic2.zhimg.com/70/0775d2dcc021857de130ca82044b9369_b.jpg\" alt=\"\" /></p> <p>代表机场如广州白云机场和北京首都机场：</p> <p><img class=\"content-image\" src=\"http://pic4.zhimg.com/70/a7abfe6c4a2fbbeda7291143656f6e63_b.jpg\" alt=\"\" /></p> <p>四条平行跑道构形方式最常见的是两组窄距的构形方式，如洛杉矶机场（LAX）和巴黎戴高乐机场（CDG）。</p> <p><img class=\"content-image\" src=\"http://pic3.zhimg.com/70/72811ff621d1ab848d72f23ca7176f42_b.jpg\" alt=\"\" /></p> <p>五条平行跑道最常见的是两组窄距加一条宽距构形方式，如亚特兰大机场（ATL）、上海浦东机场（远期）和广州白云机场（远期）。</p> <p><img class=\"content-image\" src=\"http://pic2.zhimg.com/70/f55de46b6fe894784a4099d3529cd819_b.jpg\" alt=\"\" /></p> <p>交叉跑道</p> <p>由于以前的运输飞机重量轻，起飞和着陆期间对于侧风要求较高，为提高机场运行保障能力，机场一般都会根据风向统计数据建设交叉跑道，但随着民用客机机型和重量的不断加大以及科技的不断进步，民用客机对于侧风要求逐步降低，因此，目前较少机场采用交叉跑道构形，除非是场地或者其他因素限制。</p> <p><img class=\"content-image\" src=\"http://pic2.zhimg.com/70/791b864fc6af9b5f38db7e79e92c5b2d_b.jpg\" alt=\"\" /></p> <p>V 型跑道</p> <p><img class=\"content-image\" src=\"http://pic3.zhimg.com/70/e0c12d08d597c111e12aef4fbda0056e_b.jpg\" alt=\"\" /></p> <p>代表机场法兰克福机场（FRA）、马德里机场（MAD）、孟菲斯机场（MEM）和苏黎世机场（ZRH）等。</p> <p>混合跑道构形</p> <p><img class=\"content-image\" src=\"http://pic4.zhimg.com/70/58b8f36ebea8894481049d60bf8e305f_b.jpg\" alt=\"\" /></p> <p>一般，跑道数量较多的机场多采用混合构形方式，跑道分为几组，组内平行、组与组之间相互交叉或者呈相应角度，如芝加哥奥黑尔（ORD）、丹佛（DEN）、达拉斯（DAL）等机场。</p> <p><img class=\"content-image\" src=\"http://pic4.zhimg.com/70/612aae0fe0e86e7355161ae7c9eb39db_b.jpg\" alt=\"\" /></p> </div> </div> <div class=\"view-more\"><a href=\"http://www.zhihu.com/question/20270515\">查看知乎讨论<span class=\"js-question-holder\"></span></a></div> </div> </div> </div>]]></string>
+    <string name="title_activity_scrolling">ScrollingActivity</string>
+    <string name="large_text">
+        "Material is the metaphor.\n\n"
+
+        "A material metaphor is the unifying theory of a rationalized space and a system of motion."
+        "The material is grounded in tactile reality, inspired by the study of paper and ink, yet "
+        "technologically advanced and open to imagination and magic.\n"
+        "Surfaces and edges of the material provide visual cues that are grounded in reality. The "
+        "use of familiar tactile attributes helps users quickly understand affordances. Yet the "
+        "flexibility of the material creates new affordances that supercede those in the physical "
+        "world, without breaking the rules of physics.\n"
+        "The fundamentals of light, surface, and movement are key to conveying how objects move, "
+        "interact, and exist in space and in relation to each other. Realistic lighting shows "
+        "seams, divides space, and indicates moving parts.\n\n"
+
+        "Bold, graphic, intentional.\n\n"
+
+        "The foundational elements of print based design typography, grids, space, scale, color, "
+        "and use of imagery guide visual treatments. These elements do far more than please the "
+        "eye. They create hierarchy, meaning, and focus. Deliberate color choices, edge to edge "
+        "imagery, large scale typography, and intentional white space create a bold and graphic "
+        "interface that immerse the user in the experience.\n"
+        "An emphasis on user actions makes core functionality immediately apparent and provides "
+        "waypoints for the user.\n\n"
+
+        "Motion provides meaning.\n\n"
+
+        "Motion respects and reinforces the user as the prime mover. Primary user actions are "
+        "inflection points that initiate motion, transforming the whole design.\n"
+        "All action takes place in a single environment. Objects are presented to the user without "
+        "breaking the continuity of experience even as they transform and reorganize.\n"
+        "Motion is meaningful and appropriate, serving to focus attention and maintain continuity. "
+        "Feedback is subtle yet clear. Transitions are efﬁcient yet coherent.\n\n"
+
+        "3D world.\n\n"
+
+        "The material environment is a 3D space, which means all objects have x, y, and z "
+        "dimensions. The z-axis is perpendicularly aligned to the plane of the display, with the "
+        "positive z-axis extending towards the viewer. Every sheet of material occupies a single "
+        "position along the z-axis and has a standard 1dp thickness.\n"
+        "On the web, the z-axis is used for layering and not for perspective. The 3D world is "
+        "emulated by manipulating the y-axis.\n\n"
+
+        "Light and shadow.\n\n"
+
+        "Within the material environment, virtual lights illuminate the scene. Key lights create "
+        "directional shadows, while ambient light creates soft shadows from all angles.\n"
+        "Shadows in the material environment are cast by these two light sources. In Android "
+        "development, shadows occur when light sources are blocked by sheets of material at "
+        "various positions along the z-axis. On the web, shadows are depicted by manipulating the "
+        "y-axis only. The following example shows the card with a height of 6dp.\n\n"
+
+        "Resting elevation.\n\n"
+
+        "All material objects, regardless of size, have a resting elevation, or default elevation "
+        "that does not change. If an object changes elevation, it should return to its resting "
+        "elevation as soon as possible.\n\n"
+
+        "Component elevations.\n\n"
+
+        "The resting elevation for a component type is consistent across apps (e.g., FAB elevation "
+        "does not vary from 6dp in one app to 16dp in another app).\n"
+        "Components may have different resting elevations across platforms, depending on the depth "
+        "of the environment (e.g., TV has a greater depth than mobile or desktop).\n\n"
+
+        "Responsive elevation and dynamic elevation offsets.\n\n"
+
+        "Some component types have responsive elevation, meaning they change elevation in response "
+        "to user input (e.g., normal, focused, and pressed) or system events. These elevation "
+        "changes are consistently implemented using dynamic elevation offsets.\n"
+        "Dynamic elevation offsets are the goal elevation that a component moves towards, relative "
+        "to the component’s resting state. They ensure that elevation changes are consistent "
+        "across actions and component types. For example, all components that lift on press have "
+        "the same elevation change relative to their resting elevation.\n"
+        "Once the input event is completed or cancelled, the component will return to its resting "
+        "elevation.\n\n"
+
+        "Avoiding elevation interference.\n\n"
+
+        "Components with responsive elevations may encounter other components as they move between "
+        "their resting elevations and dynamic elevation offsets. Because material cannot pass "
+        "through other material, components avoid interfering with one another any number of ways, "
+        "whether on a per component basis or using the entire app layout.\n"
+        "On a component level, components can move or be removed before they cause interference. "
+        "For example, a floating action button (FAB) can disappear or move off screen before a "
+        "user picks up a card, or it can move if a snackbar appears.\n"
+        "On the layout level, design your app layout to minimize opportunities for interference. "
+        "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
+        "when a user tries to pick up one of cards.\n\n"
+    </string>
+    <string name="action_settings">Settings</string>
 </resources>

@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.tv_slide).setOnClickListener(this);
         findViewById(R.id.tv_browser).setOnClickListener(this);
         findViewById(R.id.tv_browser2).setOnClickListener(this);
+        findViewById(R.id.scrollView).setOnClickListener(this);
     }
 
     @Override
@@ -31,6 +32,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.tv_browser2:
                 BaseUtil.startActivityOnspecifiedAnimation(this, BrowserActivity2.class);
+                break;
+            case R.id.scrollView:
+                BaseUtil.startActivityOnspecifiedAnimation(this, ScrollingActivity.class);
                 break;
         }
     }

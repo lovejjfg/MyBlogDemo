@@ -39,6 +39,7 @@
         android:background="@drawable/click_selector"
         android:text="Browser2"/>
     <Button
+        android:id="@+id/scrollView"
         android:layout_margin="10dp"
         android:layout_width="100dp"
         android:layout_height="100dp"
