@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:drawable="@drawable/clicked_shape"
+        android:state_pressed="true">
+        <set>
+            <objectAnimator android:duration="1000"
+                            android:propertyName="translationX"
+                            android:valueTo="300dp"
+                            android:valueType="floatType"/>
+        </set>
+    </item>
+
+    <item
+        android:drawable="@color/white"
+        >
+    </item>
+</selector>

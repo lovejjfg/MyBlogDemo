@@ -16,8 +16,8 @@
         android:padding="10dp"
         android:gravity="center"
         android:textSize="25sp"
+        android:background="@drawable/selector_left_button_shape"
         android:text="Slide_Activity"/>
-        <!--android:background="@drawable/selector_left_button_shape"-->
     <TextView
         android:id="@+id/tv_browser"
         android:layout_margin="10dp"
@@ -26,8 +26,8 @@
         android:padding="10dp"
         android:gravity="center"
         android:textSize="25sp"
+        android:background="@drawable/click_selector"
         android:text="Browser_Activity"/>
-        <!--android:background="@drawable/click_selector"-->
     <TextView
         android:id="@+id/tv_browser2"
         android:layout_margin="10dp"
@@ -36,8 +36,8 @@
         android:padding="10dp"
         android:gravity="center"
         android:textSize="25sp"
+        android:background="@drawable/click_selector"
         android:text="Browser2"/>
-        <!--android:background="@drawable/click_selector"-->
     <Button
         android:id="@+id/scrollView"
         android:layout_margin="10dp"
