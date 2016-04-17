@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#ebf5f5"
-    tools:context=".MainActivity">
+   >
 
     <Button
         android:id="@+id/tv_slide"
@@ -15,9 +15,9 @@
         android:layout_height="100dp"
         android:padding="10dp"
         android:gravity="center"
-        android:background="@drawable/selector_left_button_shape"
         android:textSize="25sp"
         android:text="Slide_Activity"/>
+        <!--android:background="@drawable/selector_left_button_shape"-->
     <TextView
         android:id="@+id/tv_browser"
         android:layout_margin="10dp"
@@ -26,8 +26,8 @@
         android:padding="10dp"
         android:gravity="center"
         android:textSize="25sp"
-        android:background="@drawable/click_selector"
         android:text="Browser_Activity"/>
+        <!--android:background="@drawable/click_selector"-->
     <TextView
         android:id="@+id/tv_browser2"
         android:layout_margin="10dp"
@@ -36,8 +36,8 @@
         android:padding="10dp"
         android:gravity="center"
         android:textSize="25sp"
-        android:background="@drawable/click_selector"
         android:text="Browser2"/>
+        <!--android:background="@drawable/click_selector"-->
     <Button
         android:id="@+id/scrollView"
         android:layout_margin="10dp"

@@ -259,6 +259,7 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
 
     @Override
     public void onStopNestedScroll(View target) {
+        mParentHelper.onStopNestedScroll(target);
         stopNestedScroll();
     }
 
@@ -274,7 +275,7 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
 
     @Override
     public void onNestedPreScroll(View target, int dx, int dy, int[] consumed) {
-        // Do nothing
+        dispatchNestedPreScroll(dx, dy, consumed, null);
     }
 
     @Override
@@ -288,8 +289,7 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
 
     @Override
     public boolean onNestedPreFling(View target, float velocityX, float velocityY) {
-        // Do nothing
-        return false;
+        return dispatchNestedPreFling(velocityX, velocityY);
     }
 
     @Override
@@ -671,12 +671,13 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
                 initOrResetVelocityTracker();
                 mVelocityTracker.addMovement(ev);
                 /*
-                * If being flinged and user touches the screen, initiate drag;
-                * otherwise don't.  mScroller.isFinished should be false when
-                * being flinged.
+                 * If being flinged and user touches the screen, initiate drag;
+                 * otherwise don't. mScroller.isFinished should be false when
+                 * being flinged. We need to call computeScrollOffset() first so that
+                 * isFinished() is correct.
                 */
-//                mIsBeingDragged = !mScroller.isFinished();
-                mIsBeingDragged = false;
+                mScroller.computeScrollOffset();
+                mIsBeingDragged = !mScroller.isFinished();
                 startNestedScroll(ViewCompat.SCROLL_AXIS_VERTICAL);
                 break;
             }
@@ -1636,7 +1637,6 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
 
     @Override
     public void onAttachedToWindow() {
-        super.onAttachedToWindow();
         mIsLaidOut = false;
     }
 
@@ -1810,6 +1810,11 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
 
     @Override
     protected void onRestoreInstanceState(Parcelable state) {
+        if (!(state instanceof SavedState)) {
+            super.onRestoreInstanceState(state);
+            return;
+        }
+
         SavedState ss = (SavedState) state;
         super.onRestoreInstanceState(ss.getSuperState());
         mSavedState = ss;
