@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         findViewById(R.id.tv_slide).setOnClickListener(this);
         findViewById(R.id.tv_browser).setOnClickListener(this);
         findViewById(R.id.tv_browser2).setOnClickListener(this);
