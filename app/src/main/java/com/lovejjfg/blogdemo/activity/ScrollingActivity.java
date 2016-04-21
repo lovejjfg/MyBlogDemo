@@ -1,10 +1,13 @@
 package com.lovejjfg.blogdemo.activity;
 
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,14 +16,31 @@ import android.widget.Toast;
 
 import com.lovejjfg.blogdemo.R;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.internal.ButterKnifeProcessor;
+
 public class ScrollingActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Toast toast;
-
+    @Bind(R.id.scrollView)
+    NestedScrollView scrollView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scrolling);
+        ButterKnife.bind(this);
+        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
+        if (appBarLayout != null) {
+            appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+                @Override
+                public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                    Log.e("onOffsetChanged:", verticalOffset + "");
+                }
+            });
+        }
+
+      
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         findViewById(R.id.tv1).setOnClickListener(this);
