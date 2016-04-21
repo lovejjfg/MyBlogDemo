@@ -40,7 +40,12 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
             });
         }
 
-      
+        scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                Log.e("scrollY:", scrollY + "");
+            }
+        });
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         findViewById(R.id.tv1).setOnClickListener(this);
