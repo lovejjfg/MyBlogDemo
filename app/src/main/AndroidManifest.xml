@@ -34,6 +34,7 @@
             android:label="@string/title_activity_scrolling"
             android:theme="@style/NormalTheme"></activity>
         <activity android:name=".activity.FlowActivity"></activity>
+        <activity android:name=".activity.FangshiActivity" />
     </application>
 
 </manifest>

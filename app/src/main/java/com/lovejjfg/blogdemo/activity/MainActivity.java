@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.scrollView:
 
-                BaseUtil.startActivityOnspecifiedAnimation(this, FlowActivity.class);
+                BaseUtil.startActivityOnspecifiedAnimation(this, FangshiActivity.class);
                 break;
         }
     }
