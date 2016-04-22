@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.lovejjfg.blogdemo"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.lovejjfg.blogdemo">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
 
     <meta-data
         android:name="UMENG_CHANNEL"
-        android:value="${GRADLE_CHANNEL_VALUE}"/>
+        android:value="${GRADLE_CHANNEL_VALUE}" />
 
     <application
         android:allowBackup="true"
@@ -21,19 +21,19 @@
             android:name=".activity.MainActivity"
             android:theme="@style/BaseAppTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.SlidToFinishActivity"/>
-        <activity android:name=".activity.BrowserActivity"/>
-        <activity android:name=".activity.BrowserActivity2"/>
+        <activity android:name=".activity.SlidToFinishActivity" />
+        <activity android:name=".activity.BrowserActivity" />
+        <activity android:name=".activity.BrowserActivity2" />
         <activity
             android:name=".activity.ScrollingActivity"
             android:label="@string/title_activity_scrolling"
-            android:theme="@style/NormalTheme">
-        </activity>
+            android:theme="@style/NormalTheme"></activity>
+        <activity android:name=".activity.FlowActivity"></activity>
     </application>
 
 </manifest>

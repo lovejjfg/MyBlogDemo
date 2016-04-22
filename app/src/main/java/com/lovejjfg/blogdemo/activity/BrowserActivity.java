@@ -13,9 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
-import android.webkit.WebResourceError;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
@@ -139,10 +136,10 @@ public class BrowserActivity extends BaseSlideFinishActivity  {
                     mSlidWebViewLayout.setTopMsg(view.getTitle());
                 }
 
-                @Override
-                public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
-                    super.onReceivedError(view, request, error);
-                }
+//                @Override
+//                public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+//                    super.onReceivedError(view, request, error);
+//                }
 
                 @Override
                 public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
@@ -165,10 +162,10 @@ public class BrowserActivity extends BaseSlideFinishActivity  {
                     }
                 }
 
-                @Override
-                public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
-                    super.onReceivedHttpError(view, request, errorResponse);
-                }
+//                @Override
+//                public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
+//                    super.onReceivedHttpError(view, request, errorResponse);
+//                }
 
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {

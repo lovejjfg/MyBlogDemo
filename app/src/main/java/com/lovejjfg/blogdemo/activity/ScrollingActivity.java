@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -52,6 +51,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         findViewById(R.id.tv2).setOnClickListener(this);
         findViewById(R.id.tv3).setOnClickListener(this);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);

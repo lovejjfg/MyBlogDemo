@@ -1,9 +1,7 @@
 package com.lovejjfg.blogdemo.activity;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.lovejjfg.blogdemo.R;
@@ -35,7 +33,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 BaseUtil.startActivityOnspecifiedAnimation(this, BrowserActivity2.class);
                 break;
             case R.id.scrollView:
-                BaseUtil.startActivityOnspecifiedAnimation(this, ScrollingActivity.class);
+
+                BaseUtil.startActivityOnspecifiedAnimation(this, FlowActivity.class);
                 break;
         }
     }

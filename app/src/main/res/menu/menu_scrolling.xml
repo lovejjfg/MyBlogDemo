@@ -5,6 +5,7 @@
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
+        android:icon="@mipmap/ic_arrow"
         android:title="@string/action_settings"
-        app:showAsAction="never"/>
+        app:showAsAction="ifRoom"/>
 </menu>
