@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:background="#cfc"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:text="gravity"
+            android:textSize="25sp"
+            />
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#c2f"
+            android:gravity="left"
+            android:text="left"
+            android:textSize="20sp"
+            />
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#ccf"
+            android:gravity="right"
+            android:text="right"
+            android:textSize="20sp"
+            />
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#c22"
+            android:gravity="center_horizontal"
+            android:text="center_horizontal"
+            android:textSize="20sp"
+            />
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#ccf"
+            android:gravity="bottom|right"
+            android:text="gravity"
+            android:textSize="20sp"
+            />
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#ddd"
+            android:gravity="center"
+            android:text="center"
+            android:textSize="20sp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#fcf"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:text="layout_gravity"
+            android:textSize="25sp"
+            />
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#c2f"
+            android:layout_gravity="left"
+            android:text="left"
+            android:textSize="20sp"
+            />
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#ccf"
+            android:layout_gravity="right"
+            android:text="right"
+            android:textSize="20sp"
+            />
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#c22"
+            android:layout_gravity="center_horizontal"
+            android:text="center_horizontal"
+            android:textSize="18sp"
+            />
+
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#ddd"
+            android:layout_gravity="center"
+            android:text="gravity"
+            android:textSize="18sp"
+            />
+
+    </LinearLayout>
+
+
+</LinearLayout>
+
+
+
