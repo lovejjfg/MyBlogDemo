@@ -43,6 +43,13 @@ public class BrowserActivity extends BaseSlideFinishActivity  {
 
     @Override
     public View initView(Bundle savedInstanceState) {
+//        Blurry.with(this)
+//                .radius(25)
+//                .sampling(1)
+//                .color(Color.argb(66, 255, 255, 0))
+//                .async()
+//                .capture(getWindow().getDecorView())
+//                .into(getWindow().getDecorView());
 
         View view = LayoutInflater.from(this).inflate(R.layout.activity_browser, null);
         mSlidWebViewLayout = (TopSlidWebViewLayout) view.findViewById(R.id.web_view_layout);

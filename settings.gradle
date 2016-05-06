@@ -1,1 +1,1 @@
-include ':app', ':circlepointdemo'
+include ':app', ':circlepointdemo','blurry'

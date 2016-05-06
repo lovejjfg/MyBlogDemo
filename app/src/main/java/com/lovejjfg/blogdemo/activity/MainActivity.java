@@ -1,11 +1,15 @@
 package com.lovejjfg.blogdemo.activity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.lovejjfg.blogdemo.R;
 import com.lovejjfg.blogdemo.utils.BaseUtil;
+
+import jp.wasabeef.blurry.Blurry;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -24,10 +28,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_slide:
-                BaseUtil.startActivityOnspecifiedAnimation(this, SlidToFinishActivity.class);
+                Blurry.with(this)
+                        .color(Color.argb(66, 255, 255, 0))
+                        .radius(25)
+                        .sampling(2)
+                        .async()
+                        .onto((ViewGroup) getWindow().getDecorView());
+//                BaseUtil.startActivityOnspecifiedAnimation(this, SlidToFinishActivity.class);
+
                 break;
             case R.id.tv_browser:
-                BaseUtil.startActivityOnspecifiedAnimation(this, BrowserActivity.class);
+                Blurry.delete((ViewGroup) getWindow().getDecorView());
+//                BaseUtil.startActivityOnspecifiedAnimation(this, BrowserActivity.class);
                 break;
             case R.id.tv_browser2:
                 BaseUtil.startActivityOnspecifiedAnimation(this, BrowserActivity2.class);
