@@ -45,4 +45,11 @@
         android:layout_height="100dp"
         android:text="hahah"
         />
+    <Button
+        android:id="@+id/bottom_sheet"
+        android:layout_margin="10dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:text="BottomSheet"
+        />
 </LinearLayout>

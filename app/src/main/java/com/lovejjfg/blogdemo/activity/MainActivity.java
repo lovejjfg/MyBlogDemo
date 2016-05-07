@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.tv_browser).setOnClickListener(this);
         findViewById(R.id.tv_browser2).setOnClickListener(this);
         findViewById(R.id.scrollView).setOnClickListener(this);
+        findViewById(R.id.bottom_sheet).setOnClickListener(this);
     }
 
     @Override
@@ -47,6 +48,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.scrollView:
 
                 BaseUtil.startActivityOnspecifiedAnimation(this, FangshiActivity.class);
+                break;
+            case R.id.bottom_sheet:
+
+                BaseUtil.startActivityOnspecifiedAnimation(this, BottomSheetActivity.class);
                 break;
         }
     }

@@ -32,9 +32,12 @@
         <activity
             android:name=".activity.ScrollingActivity"
             android:label="@string/title_activity_scrolling"
-            android:theme="@style/NormalTheme"></activity>
-        <activity android:name=".activity.FlowActivity"></activity>
+            android:theme="@style/NormalTheme" />
+        <activity android:name=".activity.FlowActivity" />
         <activity android:name=".activity.FangshiActivity" />
+        <activity android:name=".activity.BottomSheetActivity"
+            android:theme="@style/NormalTheme"
+            />
     </application>
 
 </manifest>

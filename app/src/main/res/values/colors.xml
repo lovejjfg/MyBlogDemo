@@ -6,4 +6,5 @@
     <color name="default_blue_color">#0000ff</color>
     <color name="whitesmoke">#ffffff</color>
     <color name="white">#cfcfcf</color>
+    <color name="black">#cf000000</color>
 </resources>
