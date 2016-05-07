@@ -50,6 +50,7 @@ import java.util.List;
  * as both a nested scrolling parent and child on both new and old versions of Android.
  * Nested scrolling is enabled by default.
  */
+@Deprecated
 public class NestedScrollView extends FrameLayout implements NestedScrollingParent,
         NestedScrollingChild, ScrollingView {
     static final int ANIMATED_SCROLL_GAP = 250;

@@ -1,55 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#ebf5f5"
-   >
+    android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/tv_slide"
-        android:layout_margin="10dp"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:padding="10dp"
-        android:gravity="center"
-        android:textSize="25sp"
-        android:background="@drawable/selector_left_button_shape"
-        android:text="Slide_Activity"/>
-    <TextView
-        android:id="@+id/tv_browser"
-        android:layout_margin="10dp"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:padding="10dp"
-        android:gravity="center"
-        android:textSize="25sp"
-        android:background="@drawable/click_selector"
-        android:text="Browser_Activity"/>
-    <TextView
-        android:id="@+id/tv_browser2"
-        android:layout_margin="10dp"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:padding="10dp"
-        android:gravity="center"
-        android:textSize="25sp"
-        android:background="@drawable/click_selector"
-        android:text="Browser2"/>
-    <Button
-        android:id="@+id/scrollView"
-        android:layout_margin="10dp"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:text="hahah"
-        />
-    <Button
-        android:id="@+id/bottom_sheet"
-        android:layout_margin="10dp"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:text="BottomSheet"
-        />
-</LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ebf5f5"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/tv_slide"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/selector_left_button_shape"
+            android:gravity="center"
+            android:padding="10dp"
+            android:stateListAnimator="@animator/raise"
+            android:text="Slide_Activity"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/tv_browser"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/click_selector"
+            android:gravity="center"
+            android:padding="10dp"
+            android:stateListAnimator="@animator/raise"
+            android:text="Browser_Activity"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/tv_browser2"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/click_selector"
+            android:gravity="center"
+            android:padding="10dp"
+            android:stateListAnimator="@animator/raise"
+            android:text="Browser2"
+            android:textSize="25sp" />
+
+        <Button
+            android:id="@+id/scrollView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="10dp"
+            android:stateListAnimator="@animator/raise"
+            android:text="hahah" />
+
+        <Button
+            android:id="@+id/bottom_sheet"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="10dp"
+            android:stateListAnimator="@animator/raise"
+            android:text="BottomSheet" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/girl2"
+            android:stateListAnimator="@animator/raise"
+            />
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>
