@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         mTv1.setOnClickListener(this);
+        mTv2.setOnClickListener(this);
         mTvSlide.setOnClickListener(this);
         mTvScroll.setOnClickListener(this);
         mBtSheet.setOnClickListener(this);
@@ -119,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                BaseUtil.startActivityOnspecifiedAnimation(this, BrowserActivity.class);
                 break;
             case R.id.tv_browser2:
-                BaseUtil.startActivityOnspecifiedAnimation(this, BrowserActivity2.class);
+                BaseUtil.startActivityOnspecifiedAnimation(this, ScrollingActivity.class);
                 break;
             case R.id.scrollView:
 
