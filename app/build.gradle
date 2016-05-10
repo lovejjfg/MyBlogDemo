@@ -80,4 +80,5 @@ dependencies {
     compile 'com.android.support:design:23.2.1'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile project(':blurry')
+    compile project(path: ':blurry')
 }
