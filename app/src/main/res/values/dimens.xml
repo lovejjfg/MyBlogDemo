@@ -7,4 +7,6 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="touch_raise">6dp</dimen>
+    <dimen name="touched_app_bar">8dp</dimen>
+    <dimen name="z_app_bar">6dp</dimen>
 </resources>

@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/clicked_shape" android:state_checked="true" android:state_focused="true" android:state_pressed="true" android:state_selected="true" />
+    <item android:drawable="@drawable/clicked_shape" android:state_pressed="true" >
+        <objectAnimator
+            android:duration="150"
+            android:propertyName="translationZ"
+            android:valueTo="8dp"
+            android:valueType="floatType" />
+    </item>
+
+    <item android:drawable="@drawable/clicked_shape" android:state_activated="true" />
 
     <item android:drawable="@drawable/normal_click_shape" />
 </selector>

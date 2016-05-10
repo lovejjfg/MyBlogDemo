@@ -7,15 +7,24 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     >
-
-    <ImageView
+    <Button
+        android:id="@+id/iv"
         android:layout_width="match_parent"
         android:layout_height="220dp"
-        android:fitsSystemWindows="true"
-        android:scaleType="fitXY"
-        android:src="@mipmap/girl2"
-        android:background="@drawable/click_selector"
+        android:background="@mipmap/girl2"
         />
+
+    <!--<ImageView-->
+        <!--android:id="@+id/iv"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="220dp"-->
+        <!--android:fitsSystemWindows="true"-->
+        <!--android:scaleType="fitXY"-->
+        <!--android:src="@mipmap/girl2"-->
+        <!--android:focusable="true"-->
+        <!--android:clickable="true"-->
+        <!--android:stateListAnimator="@animator/app_bar_pin"-->
+        <!--/>-->
 
 
     <android.support.v4.widget.NestedScrollView
@@ -24,6 +33,8 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/scrollView"
+
         android:fitsSystemWindows="true"
         tools:context="com.lovejjfg.blogdemo.activity.ScrollingActivity">
 
@@ -34,6 +45,8 @@
             android:orientation="vertical">
 
             <View
+                android:id="@+id/view"
+                android:background="@android:color/transparent"
                 android:layout_width="match_parent"
                 android:layout_height="220dp"/>
 

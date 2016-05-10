@@ -84,6 +84,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void setOffset(View view, int offset) {
 
         offset = Math.max(minOffset, offset);
+        if (offset > 105) {
+            view.refreshDrawableState();
+        }
         if (view.getTranslationY() != offset) {
             view.setTranslationY(offset);
             ViewCompat.postInvalidateOnAnimation(view);
@@ -117,6 +120,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.tv_browser:
                 Blurry.delete((ViewGroup) getWindow().getDecorView());
+                BaseUtil.startActivityOnspecifiedAnimation(this, ScrollingActivity.class);
 //                BaseUtil.startActivityOnspecifiedAnimation(this, BrowserActivity.class);
                 break;
             case R.id.tv_browser2:
