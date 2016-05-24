@@ -50,27 +50,6 @@ android {
     }
     productFlavors {
         dev {}
-//        baidu {
-//        }
-//        wandoujia {
-//        }
-//        _360 {}
-//        anzhi {}
-//        baidu {}
-//        qq {}
-//        gfan {}
-//        oppo {}
-//        lenovo {}
-//        wandoujia {}
-//        xiaomi {}
-//        yingyonghui{}
-//        youyi{}
-//        sougou{}
-//        nduo{}
-//        youmi{}
-//        juzi{}
-//        huawei{}
-
     }
 }
 
@@ -78,6 +57,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:23.2.1'
     compile 'com.android.support:design:23.2.1'
+    compile 'com.android.support:cardview-v7:23.2.1'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile project(':blurry')
     compile project(path: ':blurry')

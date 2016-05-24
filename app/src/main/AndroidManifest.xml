@@ -20,11 +20,6 @@
         <activity
             android:name=".activity.MainActivity"
             android:theme="@style/BaseAppTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".activity.SlidToFinishActivity" />
         <activity android:name=".activity.BrowserActivity" />
@@ -35,9 +30,18 @@
             android:theme="@style/NormalTheme" />
         <activity android:name=".activity.FlowActivity" />
         <activity android:name=".activity.FangshiActivity" />
-        <activity android:name=".activity.BottomSheetActivity"
+        <activity
+            android:name=".activity.BottomSheetActivity"
+            android:theme="@style/NormalTheme" />
+        <activity android:name=".activity.Main2Activity"
             android:theme="@style/NormalTheme"
-            />
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

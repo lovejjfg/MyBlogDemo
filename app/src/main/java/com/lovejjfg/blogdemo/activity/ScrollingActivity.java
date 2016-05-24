@@ -10,7 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +25,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
     @Bind(R.id.scrollView)
     NestedScrollView scrollView;
     @Bind(R.id.iv)
-    Button mIv;
+    ImageView mIv;
     @Bind(R.id.tv1)
     TextView mTv1;
 
@@ -34,7 +34,6 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scrolling1);
         ButterKnife.bind(this);
-        mIv.requestFocus();
         mIv.setOnClickListener(this);
 //        mView.setOnClickListener(this);
         AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
@@ -62,10 +61,13 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
                 mIv.setTranslationY((float) (-scrool*0.8));
                 if (scrool == dy) {
                     mIv.setPressed(true);
-                    mIv.refreshDrawableState();
+                    mIv.bringToFront();
+                    mIv.requestLayout();
+                    mIv.getParent().requestLayout();
+//                    mIv.refreshDrawableState();
                 } else {
                     mIv.setPressed(false);
-                    mIv.refreshDrawableState();
+//                    mIv.refreshDrawableState();
                 }
             }
         });

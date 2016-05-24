@@ -1,5 +1,6 @@
 package com.lovejjfg.blogdemo.activity;
 
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,8 +12,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.lovejjfg.blogdemo.R;
+import com.lovejjfg.blogdemo.ui.BottomSheet;
 
 import java.text.MessageFormat;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -20,19 +24,29 @@ import butterknife.ButterKnife;
 public class BottomSheetActivity extends AppCompatActivity {
     @Bind(R.id.bottom_sheet)
     RecyclerView mSheet;
+    @Bind(R.id.container)
+    BottomSheet mContainer;
 
     static final int TEXT = 0;
     static final int LOADING = 1;
     static boolean init = false;
+    private int statusBarHeight;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_sheet);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        );
+        Rect frame = new Rect();
+        getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
+        statusBarHeight = frame.top;
         ButterKnife.bind(this);
         init = false;
         initSheet();
+
 
     }
 
@@ -41,6 +55,27 @@ public class BottomSheetActivity extends AppCompatActivity {
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         mSheet.setLayoutManager(manager);
+
+        mContainer.registerCallback(new BottomSheet.Callbacks() {
+            @Override
+            public void onSheetDismissed() {
+                super.onSheetDismissed();
+                BottomSheetActivity.this.finishAfterTransition();
+            }
+
+            @Override
+            public void onSheetPositionChanged(int sheetTop, boolean userInteracted) {
+                super.onSheetPositionChanged(sheetTop, userInteracted);
+            }
+
+            @Override
+            public void onSheetPositionScrolled(float percent) {
+                super.onSheetPositionScrolled(percent);
+//                mSheet.set
+                ExecutorService fixedThreadPool = Executors.newFixedThreadPool(5);
+
+            }
+        });
 
     }
 
