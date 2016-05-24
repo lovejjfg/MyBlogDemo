@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false">
+
+
+    <View
+        android:id="@+id/status"
+        android:layout_width="match_parent"
+        android:layout_height="0dp" />
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/whitesmoke"
+        android:clipToPadding="false"
+        android:fitsSystemWindows="true">
+
+
+    </android.support.v7.widget.RecyclerView>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@null"
+        android:outlineProvider="none"
+        android:elevation="1dp"
+        android:theme="@android:style/ThemeOverlay.Material.Dark" />
+
+
+</FrameLayout>
