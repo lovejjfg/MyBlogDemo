@@ -74,7 +74,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@mipmap/girl2"
+                android:background="@mipmap/welcome3"
                 android:stateListAnimator="@animator/raise" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
