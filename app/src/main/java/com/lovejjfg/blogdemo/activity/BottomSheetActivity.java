@@ -50,6 +50,7 @@ public class BottomSheetActivity extends AppCompatActivity {
     private MyAdapter<BlogBean> adapter;
     private static final String HOST = "http://blog.csdn.net/lovejjfg/article/details/";
     private int statusHeight;
+    private int currentPadding;
 
 
     @Override
@@ -124,8 +125,13 @@ public class BottomSheetActivity extends AppCompatActivity {
             public void onSheetPositionScrolled(float percent) {
                 super.onSheetPositionScrolled(percent);
                 int padding = (int) (statusBarHeight * percent);
+                if (currentPadding == 0) {
+                    currentPadding = padding;
+                }
+                int dy =  padding - currentPadding;
                 Log.i("TAG", "onSheetPositionScrolled: " + padding);
-                tittle.setPadding(0, padding, 0, 0);
+                tittle.setPadding(tittle.getPaddingLeft(), dy +tittle.getPaddingTop() , tittle.getPaddingRight(), tittle.getPaddingBottom());
+                currentPadding = padding;
             }
         });
 
