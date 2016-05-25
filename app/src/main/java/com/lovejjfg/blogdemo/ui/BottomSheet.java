@@ -40,7 +40,7 @@ import java.util.List;
  * A {@link FrameLayout} whose content can be dragged downward to be dismissed (either directly or
  * via a nested scrolling child). It must contain a single child view and exposes {@link Callbacks}
  * to respond to it's movement & dismissal.
- *
+ * <p/>
  * Only implements the modal bottom sheet behavior from the material spec, not the persistent
  * behavior (yet).
  */
@@ -91,9 +91,14 @@ public class BottomSheet extends FrameLayout {
      * Callbacks for responding to interactions with the bottom sheet.
      */
     public static abstract class Callbacks {
-        public void onSheetDismissed() { }
-        public void onSheetPositionChanged(int sheetTop, boolean userInteracted) { }
-        public void onSheetPositionScrolled(float percent) { }
+        public void onSheetDismissed() {
+        }
+
+        public void onSheetPositionChanged(int sheetTop, boolean userInteracted) {
+        }
+
+        public void onSheetPositionScrolled(float percent) {
+        }
     }
 
     public void registerCallback(Callbacks callback) {
@@ -360,7 +365,7 @@ public class BottomSheet extends FrameLayout {
     };
 
     private void applySheetInitialHeightOffset(boolean animateChange, int previousOffset) {
-        minimumGap = (int) (getMeasuredHeight()*0.5);
+        minimumGap = (int) (getMeasuredHeight() * 0.5);
         if (sheet.getTop() < minimumGap) {//没有到达最低的要求
             final int offset = minimumGap - sheet.getTop();
             if (animateChange) {
@@ -381,14 +386,18 @@ public class BottomSheet extends FrameLayout {
 
     private void dispatchPositionChangedCallback() {
         int defaultTop = sizeHeight - minimumGap;
-        float v =( sheet.getTop()-defaultTop) * 1.0f / (sizeHeight - minimumGap);
-        dispatchPositionScroolCallback(v);
+        float v = (sheet.getTop() - defaultTop) * 1.0f / (minimumGap - sizeHeight);
+        if (v >= 0) {
+            dispatchPositionScroolCallback(v);
+        }
+
         if (callbacks != null && !callbacks.isEmpty()) {
             for (Callbacks callback : callbacks) {
                 callback.onSheetPositionChanged(sheet.getTop(), hasInteractedWithSheet);
             }
         }
     }
+
     private void dispatchPositionScroolCallback(float dy) {
 
         if (callbacks != null && !callbacks.isEmpty()) {
