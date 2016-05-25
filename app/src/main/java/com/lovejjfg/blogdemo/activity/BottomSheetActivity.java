@@ -16,6 +16,8 @@ import android.widget.TextView;
 import com.lovejjfg.blogdemo.R;
 import com.lovejjfg.blogdemo.model.bean.BlogBean;
 import com.lovejjfg.blogdemo.ui.BottomSheet;
+import com.lovejjfg.blogdemo.ui.MathUtils;
+import com.lovejjfg.blogdemo.utils.BaseUtil;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -37,6 +39,8 @@ public class BottomSheetActivity extends AppCompatActivity {
     RecyclerView mSheet;
     @Bind(R.id.container)
     BottomSheet mContainer;
+    @Bind(R.id.tv_tittle)
+    TextView tittle;
 
     static final int TEXT = 0;
     static final int LOADING = 1;
@@ -45,6 +49,7 @@ public class BottomSheetActivity extends AppCompatActivity {
     private ExecutorService service;
     private MyAdapter<BlogBean> adapter;
     private static final String HOST = "http://blog.csdn.net/lovejjfg/article/details/";
+    private int statusHeight;
 
 
     @Override
@@ -85,9 +90,9 @@ public class BottomSheetActivity extends AppCompatActivity {
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
         );
-        Rect frame = new Rect();
-        getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
-        statusBarHeight = frame.top;
+        statusBarHeight = BaseUtil.getStatusHeight(this);
+        Log.i("TAG", "onCreate: " + statusBarHeight);
+
         ButterKnife.bind(this);
         init = false;
         initSheet();
@@ -118,7 +123,9 @@ public class BottomSheetActivity extends AppCompatActivity {
             @Override
             public void onSheetPositionScrolled(float percent) {
                 super.onSheetPositionScrolled(percent);
-
+                int padding = (int) (statusBarHeight * percent);
+                Log.i("TAG", "onSheetPositionScrolled: " + padding);
+                tittle.setPadding(0, padding, 0, 0);
             }
         });
 

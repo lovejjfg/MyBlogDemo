@@ -1,5 +1,6 @@
 package com.lovejjfg.blogdemo.activity;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Rect;
@@ -22,6 +23,9 @@ import android.widget.FrameLayout;
 import com.lovejjfg.blogdemo.R;
 import com.lovejjfg.blogdemo.recyclerview.adapter.MyAdapter;
 
+import butterknife.BindInt;
+import butterknife.ButterKnife;
+
 public class Main2Activity extends AppCompatActivity {
 
     private static int actionBarSize = -1;
@@ -31,11 +35,17 @@ public class Main2Activity extends AppCompatActivity {
     private double gridScrollY;
     private boolean flag;
 
-    @TargetApi(Build.VERSION_CODES.KITKAT_WATCH)
+    @BindInt(R.integer.num_columns)
+    int columns;
+
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
+        ButterKnife.bind(this);
         FrameLayout parent = (FrameLayout) findViewById(R.id.parent);
         parent.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -79,6 +89,7 @@ public class Main2Activity extends AppCompatActivity {
 //        });
 
         parent.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
+            @SuppressLint("NewApi")
             @Override
             public WindowInsets onApplyWindowInsets(View v, WindowInsets insets) {
                 if (!flag) {
@@ -119,11 +130,10 @@ public class Main2Activity extends AppCompatActivity {
 //                initHeight();
 //            }
 //        });
-        GridLayoutManager manager = new GridLayoutManager(this, 3);
+        GridLayoutManager manager = new GridLayoutManager(this, columns);
         mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setAdapter(new MyAdapter());
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -134,7 +144,7 @@ public class Main2Activity extends AppCompatActivity {
                     Log.i("TranslationZ", -1 + "啦");
                 } else if (gridScrollY <= 0 && toolbar.getTranslationZ() != 0) {
                     toolbar.setTranslationZ(0f);
-                    Log.i("TranslationZ",  "重置零啦");
+                    Log.i("TranslationZ", "重置零啦");
                 }
             }
         });
