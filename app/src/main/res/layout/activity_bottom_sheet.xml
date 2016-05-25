@@ -13,9 +13,14 @@
         android:layout_height="wrap_content">
 
         <TextView
+
+            android:background="@color/black"
+            android:padding="10dp"
             android:id="@+id/tv_tittle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/whitesmoke"
+            android:textSize="17sp"
             android:text="博客列表"
             />
         <android.support.v7.widget.RecyclerView
