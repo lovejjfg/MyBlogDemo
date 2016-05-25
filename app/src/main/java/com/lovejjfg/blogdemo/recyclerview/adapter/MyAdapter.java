@@ -35,7 +35,6 @@ public class MyAdapter extends RecyclerView.Adapter {
             @Override
             public void onClick(View v) {
                 JumpUtil.jumpToMain(holder.itemView.getContext());
-
             }
         });
 
@@ -48,6 +47,7 @@ public class MyAdapter extends RecyclerView.Adapter {
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView name;
+
         public MyViewHolder(View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.tv_name);
