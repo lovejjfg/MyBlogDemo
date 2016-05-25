@@ -6,6 +6,7 @@ import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Interpolator;
@@ -34,8 +35,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView mTvScroll;
     @Bind(R.id.bottom_sheet)
     Button mBtSheet;
+    @Bind(R.id.button)
+    Button mBt;
     int minOffset = 0;
     private int offset;
+    private Interpolator interpolator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +47,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        mTv2.bringToFront();
+//        mTv2.bringToFront();
+        mBt.setOnClickListener(this);
+
         scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            // TODO: 2016/5/25 滑动相关的逻辑
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                 Log.e(TAG, "onScrollChange: " + scrollY);
@@ -60,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void run() {
-                Interpolator interpolator = AnimUtils.getLinearOutSlowInInterpolator(MainActivity.this);
+                interpolator = AnimUtils.getLinearOutSlowInInterpolator(MainActivity.this);
                 offset = mTvSlide.getTop();
                 minOffset = offset;
                 Log.i("offset：", minOffset + "");
@@ -68,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
                 viewEnterAnimation(mTvSlide, offset, interpolator);
+                buttonEnterAnimation(interpolator);
                 offset *= 2;
                 viewEnterAnimation(mTv1, offset, interpolator);
 
@@ -91,6 +99,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             view.setTranslationY(offset);
             ViewCompat.postInvalidateOnAnimation(view);
         }
+    }
+    private void buttonEnterAnimation(Interpolator interp) {
+        int startY = mBt.getMeasuredHeight();
+        Log.i(TAG, "buttonEnterAnimation: Bottom:" + mBt.getBottom() + "::height:" + mBt.getMeasuredHeight());
+        mBt.setTranslationY(startY);
+        mBt.setAlpha(0.5f);
+        mBt.animate()
+                .translationY(0)
+                .alpha(1f)
+                .setDuration(200)
+                .setInterpolator(interp)
+                .setListener(null)
+                .start();
+    }
+    private void buttonOutAnimation(Interpolator interp) {
+        int startY = mBt.getMeasuredHeight();
+        Log.i(TAG, "buttonEnterAnimation: Bottom:" + mBt.getBottom() + "::height:" + mBt.getMeasuredHeight());
+        mBt.setTranslationY(0);
+        mBt.setAlpha(0.5f);
+        mBt.animate()
+                .translationY(startY)
+                .alpha(1f)
+                .setDuration(200)
+                .setInterpolator(interp)
+                .setListener(null)
+                .start();
     }
 
     private void viewEnterAnimation(View view, float offset, Interpolator interp) {
@@ -133,6 +167,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.bottom_sheet:
 
                 BaseUtil.startActivityOnspecifiedAnimation(this, BottomSheetActivity.class);
+                break;
+            case R.id.button:
+                buttonOutAnimation(interpolator);
                 break;
         }
     }
