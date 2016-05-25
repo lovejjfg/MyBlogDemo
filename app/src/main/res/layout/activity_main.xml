@@ -78,4 +78,12 @@
                 android:stateListAnimator="@animator/raise" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="text"
+        android:layout_gravity="bottom"
+        />
 </FrameLayout>
