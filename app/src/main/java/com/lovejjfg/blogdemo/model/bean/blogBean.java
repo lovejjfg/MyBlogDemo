@@ -2,7 +2,7 @@ package com.lovejjfg.blogdemo.model.bean;
 
 /**
  * Created by Joe on 2016-05-25
- * Email: zhangjun166@pingan.com.cn
+ * Email: lovejjfg@gmail.com
  */
 public class BlogBean {
     String tittle;

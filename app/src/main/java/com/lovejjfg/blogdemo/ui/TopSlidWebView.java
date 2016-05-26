@@ -223,23 +223,6 @@ public class TopSlidWebView extends WebView {
     private List<String> getCookies() {
         Application app = null;
         List<String> cookies = new ArrayList<String>();
-//        if (getContext().getApplicationContext() instanceof Application) {
-//            app = (App) mContext.getApplicationContext();
-//            AnanzuUserInfo user = app.getmUserinfo();
-//            AnanzuCityInfo city = app.getmCityInfo();
-//            if (user.getiUserID() > 0 && !TextUtils.isEmpty(user.getsToken())) {
-//                cookies.add("ananzu_token=" + app.getmUserinfo().getsToken());
-//                cookies.add("ananzu_islogintoken=1");
-//                cookies.add("ananzu_currentmode=" + app.getCommInfo().getiCurrentStatus());
-//            } else {
-//                cookies.add("ananzu_islogintoken=0");
-//            }
-//
-//            if (city != null) {
-//                cookies.add("ananzu_cityid=" + city.getiCityId());
-//                cookies.add("ananzu_cityname=" + city.getsName());
-//            }
-//        }
 
         return cookies;
     }
