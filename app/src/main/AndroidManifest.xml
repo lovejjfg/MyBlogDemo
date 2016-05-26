@@ -32,7 +32,7 @@
         <activity android:name=".activity.FangshiActivity" />
         <activity
             android:name=".activity.BottomSheetActivity"
-            android:theme="@style/NormalTheme" />
+            android:theme="@style/AppTheme.BottomSheet" />
         <activity android:name=".activity.Main2Activity"
             android:theme="@style/NormalTheme"
             >
