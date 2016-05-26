@@ -170,7 +170,7 @@ public class TopSlidWebView extends WebView {
         if (mUrl == null || !mUrl.equals(url)) {
             mUrl = url;
         }
-        if (!TextUtils.isEmpty(url) && url.contains("ananzu")) {
+        if (!TextUtils.isEmpty(url) && url.contains("xxx")) {
             setCookie(url);
         }
 

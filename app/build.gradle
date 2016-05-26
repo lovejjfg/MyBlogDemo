@@ -41,7 +41,6 @@ android {
                 def flavorName = variant.productFlavors[0].name
                 // 版本名称
                 def versionName = defaultConfig.versionName
-                // ananzu_release_baidu_ver1.0.0_build20150721.apk
                 def fileName = "${PRODUCT_NAME}_${buildTypeName}_${flavorName}_ver${versionName}_build${today()}.apk"
 
                 output.outputFile = new File(fileParent, fileName)

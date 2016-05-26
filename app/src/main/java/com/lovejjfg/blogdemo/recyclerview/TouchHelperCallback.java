@@ -8,7 +8,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 
 /**
  * Created by Joe on 2016-03-28
- * Email: zhangjun166@pingan.com.cn
+ * Email: lovejjfg@163.com
  */
 public class TouchHelperCallback extends ItemTouchHelper.Callback {
 //        int swipeFlags =  ItemTouchHelper.UP | ItemTouchHelper.DOWN;

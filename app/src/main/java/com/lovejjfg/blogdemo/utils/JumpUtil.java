@@ -10,7 +10,7 @@ import com.lovejjfg.blogdemo.activity.MainActivity;
 
 /**
  * Created by Joe on 2016-05-24
- * Email: zhangjun166@pingan.com.cn
+ * Email: lovejjfg@163.com
  */
 public class JumpUtil {
 

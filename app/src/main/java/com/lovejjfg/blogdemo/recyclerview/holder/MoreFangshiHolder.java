@@ -10,7 +10,7 @@ import com.lovejjfg.blogdemo.R;
 
 /**
  * Created by Joe on 2016-03-24
- * Email: zhangjun166@pingan.com.cn
+ * Email: lovejjfg@163.com
  */
 public class MoreFangshiHolder extends RecyclerView.ViewHolder {
     private TextView tvName;
