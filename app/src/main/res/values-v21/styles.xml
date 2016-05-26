@@ -1,2 +1,10 @@
 <resources>
+
+    <style name="AppTheme.BottomSheet">
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowAllowEnterTransitionOverlap">true</item>
+        <item name="android:windowAllowReturnTransitionOverlap">true</item>
+        <item name="android:windowTransitionBackgroundFadeDuration">200</item>
+    </style>
 </resources>
