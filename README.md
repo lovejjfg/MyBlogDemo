@@ -11,6 +11,9 @@
 # WebView实现仿微信的顶部可以下拉，显示内容。
 ![WebView](https://raw.githubusercontent.com/lovejjfg/MyBlogDemo/master/screenshot/test3.gif)
 
+# `BottomSheet`实现，CSDN博客客户端。
+![WebView](https://raw.githubusercontent.com/lovejjfg/screenshort/master/Blog2.gif)
+
 
 
 
