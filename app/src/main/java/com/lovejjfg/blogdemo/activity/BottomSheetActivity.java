@@ -2,6 +2,7 @@ package com.lovejjfg.blogdemo.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,18 +18,28 @@ import com.lovejjfg.blogdemo.R;
 import com.lovejjfg.blogdemo.model.bean.BlogBean;
 import com.lovejjfg.blogdemo.ui.BottomSheet;
 import com.lovejjfg.blogdemo.utils.BaseUtil;
+import com.lovejjfg.blogdemo.utils.WebUtils;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import rx.Observable;
+import rx.Scheduler;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 public class BottomSheetActivity extends AppCompatActivity {
     @Bind(R.id.bottom_sheet)
@@ -37,12 +48,13 @@ public class BottomSheetActivity extends AppCompatActivity {
     BottomSheet mContainer;
     @Bind(R.id.tv_tittle)
     TextView tittle;
+    private static final String TAG = "RXJAVA";
 
     static final int TEXT = 0;
     static final int LOADING = 1;
     static boolean init = false;
     private int statusBarHeight;
-    private ExecutorService service;
+//    private static ExecutorService service;
     private MyAdapter<BlogBean> adapter;
     private static final String HOST = "http://blog.csdn.net/lovejjfg/article/details/";
     private int statusHeight;
@@ -53,37 +65,103 @@ public class BottomSheetActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_sheet);
-        service = Executors.newCachedThreadPool();
-        service.execute(new Runnable() {
+//        service = Executors.newCachedThreadPool();
+        final ArrayList<BlogBean> beans = new ArrayList<>();
+        Observable<Elements> observable = Observable.create(new rx.Observable.OnSubscribe<Elements>() {
             @Override
-            public void run() {
+            public void call(Subscriber<? super Elements> subscriber) {
                 try {
-                    final ArrayList<BlogBean> beans = new ArrayList<>();
                     Document document = Jsoup.connect("http://blog.csdn.net/lovejjfg").get();
                     Elements select = document.select("dl[class^=blog_list]");
-                    for (Element element : select) {
-                        String tittle = element.select("a[href]").first().text();
-                        String url = element.select("a").first().attr("href");
-                        String id = url.substring(url.lastIndexOf("=") + 1);
-                        url = HOST + id;
-                        String time = element.select("em").first().text();
-                        String times = element.select("a[href]").last().text();
-                        BlogBean blogBean = new BlogBean(tittle, url, time, times);
-                        beans.add(blogBean);
-                        Log.i("Elements", "run: " + url);
-                    }
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            adapter.setDatas(beans);
-                        }
-                    });
-
-                } catch (Exception e) {
+                    SystemClock.sleep(1000);
+                    subscriber.onNext(select);
+                    subscriber.onCompleted();
+                } catch (IOException e) {
                     e.printStackTrace();
+                    subscriber.onError(e);
                 }
+
             }
         });
+        observable.subscribeOn(Schedulers.io())
+                .flatMap(new Func1<Elements, Observable<Element>>() {
+                    @Override
+                    public Observable<Element> call(Elements elements) {
+                        return Observable.from(elements);
+                    }
+                })
+                .flatMap(new Func1<Element, Observable<BlogBean>>() {
+                    @Override
+                    public Observable<BlogBean> call(final Element element) {
+                        return Observable.create(new Observable.OnSubscribe<BlogBean>() {
+                            @Override
+                            public void call(Subscriber<? super BlogBean> subscriber) {
+                                String tittle = element.select("a[href]").first().text();
+                                String url = element.select("a").first().attr("href");
+                                String id = url.substring(url.lastIndexOf("=") + 1);
+                                url = HOST + id;
+                                String time = element.select("em").first().text();
+                                String times = element.select("a[href]").last().text();
+                                BlogBean blogBean = new BlogBean(tittle, url, time, times);
+                                subscriber.onNext(blogBean);
+                                subscriber.onCompleted();
+                            }
+                        });
+
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BlogBean>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.e(TAG, "onSubscribeCompleted");
+                        adapter.setDatas(beans);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "onSubscribeError:",e);
+                    }
+
+                    @Override
+                    public void onNext(BlogBean blogBean) {
+                        Log.i(TAG, "onSubscribeNext:"+blogBean);
+                        beans.add(blogBean);
+
+                    }
+                });
+
+
+//        service.execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    final ArrayList<BlogBean> beans = new ArrayList<>();
+//                    Document document = Jsoup.connect("http://blog.csdn.net/lovejjfg").get();
+//                    Elements select = document.select("dl[class^=blog_list]");
+//                    for (Element element : select) {
+//                        String tittle = element.select("a[href]").first().text();
+//                        String url = element.select("a").first().attr("href");
+//                        String id = url.substring(url.lastIndexOf("=") + 1);
+//                        url = HOST + id;
+//                        String time = element.select("em").first().text();
+//                        String times = element.select("a[href]").last().text();
+//                        BlogBean blogBean = new BlogBean(tittle, url, time, times);
+//                        beans.add(blogBean);
+////                        Log.i("Elements", "run: " + url);
+//                    }
+//                    runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            adapter.setDatas(beans);
+//                        }
+//                    });
+//
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
 
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -125,9 +203,9 @@ public class BottomSheetActivity extends AppCompatActivity {
                 if (currentPadding == 0) {
                     currentPadding = padding;
                 }
-                int dy =  padding - currentPadding;
+                int dy = padding - currentPadding;
                 Log.i("TAG", "onSheetPositionScrolled: " + padding);
-                tittle.setPadding(tittle.getPaddingLeft(), dy +tittle.getPaddingTop() , tittle.getPaddingRight(), tittle.getPaddingBottom());
+                tittle.setPadding(tittle.getPaddingLeft(), dy + tittle.getPaddingTop(), tittle.getPaddingRight(), tittle.getPaddingBottom());
                 currentPadding = padding;
             }
         });
@@ -168,9 +246,40 @@ public class BottomSheetActivity extends AppCompatActivity {
                         ((MyHolder) holder).mCardView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent i = new Intent(holder.itemView.getContext(), BrowserActivity2.class);
-                                i.putExtra("HOST", ((BlogBean) t).getUrl());
-                                holder.itemView.getContext().startActivity(i);
+                                rx.Observable<String> observable = rx.Observable.create(new rx.Observable.OnSubscribe<String>() {
+                                    @Override
+                                    public void call(Subscriber<? super String> subscriber) {
+                                        try {
+                                            Document document = Jsoup.connect(((BlogBean) t).getUrl()).get();
+                                            Element body = document.select("div[class^=blog_article_c]").first();
+//                                            Element body = document.body();
+                                            String data = WebUtils.BuildHtmlWithCss(body.toString(), null, false);
+//                                            Element body = document.head();
+                                            subscriber.onNext(data);
+                                            subscriber.onCompleted();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                            subscriber.onError(e);
+                                        }
+                                    }
+                                });
+                                observable.subscribeOn(Schedulers.io())
+                                        .observeOn(AndroidSchedulers.mainThread())
+                                        .subscribe(new Action1<String>() {
+                                            @Override
+                                            public void call(String s) {
+                                                Intent i = new Intent(holder.itemView.getContext(), BrowserActivity2.class);
+                                                i.putExtra("HOST", s);
+                                                Log.i("TAG", "run: " + s);
+                                                holder.itemView.getContext().startActivity(i);
+                                            }
+                                        }, new Action1<Throwable>() {
+                                            @Override
+                                            public void call(Throwable throwable) {
+                                                Log.e("TAG", "call: ", throwable);
+                                            }
+                                        });
+
 
                             }
                         });

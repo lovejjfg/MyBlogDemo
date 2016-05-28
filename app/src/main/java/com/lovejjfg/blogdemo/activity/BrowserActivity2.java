@@ -8,6 +8,7 @@ import android.webkit.WebViewClient;
 
 import com.lovejjfg.blogdemo.R;
 import com.lovejjfg.blogdemo.base.BaseSlideFinishActivity;
+import com.lovejjfg.blogdemo.base.Constants;
 
 /**
  * Created by 张俊 on 2016/1/17.
@@ -29,7 +30,7 @@ public class BrowserActivity2 extends BaseSlideFinishActivity {
         mWeb.post(new Runnable() {
             @Override
             public void run() {
-                mWeb.loadUrl(host);
+                mWeb.loadDataWithBaseURL(Constants.BASE_URL, host, Constants.MIME_TYPE, Constants.ENCODING, Constants.FAIL_URL);
             }
         });
 

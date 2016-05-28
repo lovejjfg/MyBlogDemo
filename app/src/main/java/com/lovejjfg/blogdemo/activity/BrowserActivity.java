@@ -223,4 +223,5 @@ public class BrowserActivity extends BaseSlideFinishActivity  {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
     }
+
 }
