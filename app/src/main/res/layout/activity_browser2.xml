@@ -18,7 +18,6 @@
                 android:layout_height="match_parent">
                 <WebView
                     android:id="@+id/web"
-                    android:layout_marginTop="20dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
 
