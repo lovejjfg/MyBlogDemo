@@ -1,6 +1,8 @@
 package com.lovejjfg.blogdemo.activity;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
@@ -28,17 +30,15 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import rx.Observable;
-import rx.Scheduler;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
+import rx.functions.Func2;
 import rx.schedulers.Schedulers;
 
 public class BottomSheetActivity extends AppCompatActivity {
@@ -67,7 +67,47 @@ public class BottomSheetActivity extends AppCompatActivity {
         setContentView(R.layout.activity_bottom_sheet);
 //        service = Executors.newCachedThreadPool();
         final ArrayList<BlogBean> beans = new ArrayList<>();
-        Observable<Elements> observable = Observable.create(new rx.Observable.OnSubscribe<Elements>() {
+//        Observable.concat()
+        /**
+         *
+         * */
+        Observable.just("1", "2", "2","s", "3", "4")
+                .map(new Func1<String, Integer>() {
+                    @Override
+                    public Integer call(String s) {
+                        return Integer.parseInt(s);
+                    }
+                })
+                .distinct()
+                .take(3)
+                .reduce(new Func2<Integer, Integer, Integer>() {
+                    @Override
+                    public Integer call(Integer integer, Integer integer2) {
+                        Log.i(TAG, "call: integer1:" + integer + "integer2:" + integer2);
+                        int i = integer + integer2;
+                        Log.i(TAG, "call: "+i);
+                        return i;
+                    }
+
+                })
+                .subscribe(new Subscriber<Integer>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.i(TAG, "onCompleted: " );
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "onError: ", e);
+
+                    }
+
+                    @Override
+                    public void onNext(Integer integer) {
+                        Log.i(TAG, "onNext: " + integer);
+                    }
+                });
+        Observable<Elements> observable = Observable.create(new Observable.OnSubscribe<Elements>() {
             @Override
             public void call(Subscriber<? super Elements> subscriber) {
                 try {
@@ -83,6 +123,7 @@ public class BottomSheetActivity extends AppCompatActivity {
 
             }
         });
+//        AndroidObservable
         observable.subscribeOn(Schedulers.io())
                 .flatMap(new Func1<Elements, Observable<Element>>() {
                     @Override
@@ -90,43 +131,49 @@ public class BottomSheetActivity extends AppCompatActivity {
                         return Observable.from(elements);
                     }
                 })
-                .flatMap(new Func1<Element, Observable<BlogBean>>() {
+                .map(new Func1<Element, BlogBean>() {
+
                     @Override
-                    public Observable<BlogBean> call(final Element element) {
-                        return Observable.create(new Observable.OnSubscribe<BlogBean>() {
-                            @Override
-                            public void call(Subscriber<? super BlogBean> subscriber) {
-                                String tittle = element.select("a[href]").first().text();
-                                String url = element.select("a").first().attr("href");
-                                String id = url.substring(url.lastIndexOf("=") + 1);
-                                url = HOST + id;
-                                String time = element.select("em").first().text();
-                                String times = element.select("a[href]").last().text();
-                                BlogBean blogBean = new BlogBean(tittle, url, time, times);
-                                subscriber.onNext(blogBean);
-                                subscriber.onCompleted();
-                            }
-                        });
+                    public BlogBean call(Element element) {
+                        String tittle = element.select("a[href]").first().text();
+                        String url = element.select("a").first().attr("href");
+                        String id = url.substring(url.lastIndexOf("=") + 1);
+                        url = HOST + id;
+                        String time = element.select("em").first().text();
+                        String times = element.select("a[href]").last().text();
+//                        Log.i(TAG, "call: " + url);
+                        return new BlogBean(tittle, url, time, times);
 
                     }
                 })
+//                .distinct()//可以来保证唯一性
+//                .take(3)
+//                .reduce(new Func2<BlogBean, BlogBean, BlogBean>() {
+//                    @Override
+//                    public BlogBean call(BlogBean blogBean, BlogBean blogBean2) {
+//
+//                        return null;
+//                    }
+//                })
+                .toList()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<BlogBean>() {
+                .subscribe(new Subscriber<List<BlogBean>>() {
                     @Override
                     public void onCompleted() {
-                        Log.e(TAG, "onSubscribeCompleted");
-                        adapter.setDatas(beans);
+//                        Log.i(TAG, "call: " + "onCompelete");
+                        this.unsubscribe();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e(TAG, "onSubscribeError:",e);
+                        adapter.setDatas(null);
+//                        Log.e(TAG, "call: ", e);
+                        this.unsubscribe();
                     }
 
                     @Override
-                    public void onNext(BlogBean blogBean) {
-                        Log.i(TAG, "onSubscribeNext:"+blogBean);
-                        beans.add(blogBean);
+                    public void onNext(List<BlogBean> blogBeen) {
+                        adapter.setDatas(blogBeen);
 
                     }
                 });
@@ -185,6 +232,7 @@ public class BottomSheetActivity extends AppCompatActivity {
         mSheet.setLayoutManager(manager);
 
         mContainer.registerCallback(new BottomSheet.Callbacks() {
+            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onSheetDismissed() {
                 super.onSheetDismissed();
@@ -213,10 +261,10 @@ public class BottomSheetActivity extends AppCompatActivity {
     }
 
     static class MyAdapter<T> extends RecyclerView.Adapter {
-        ArrayList<T> datas;
+        List<T> datas;
 
-        public void setDatas(ArrayList<T> datas) {
-            this.datas = datas;
+        public void setDatas(List<T> datas) {
+            this.datas =  datas;
             init = true;
             notifyDataSetChanged();
         }
@@ -299,6 +347,9 @@ public class BottomSheetActivity extends AppCompatActivity {
 
         @Override
         public int getItemCount() {
+            if (datas == null) {
+                return 1;
+            }
             return init ? datas.size() : 1;
         }
 
