@@ -72,9 +72,11 @@
                 android:text="BottomSheet" />
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@mipmap/welcome3"
+                android:id="@+id/iv"
+                android:layout_gravity="center"
+                android:layout_marginBottom="100dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:stateListAnimator="@animator/raise" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
@@ -82,7 +84,7 @@
     <Button
         android:id="@+id/button"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:text="text"
         android:layout_gravity="bottom"
         />

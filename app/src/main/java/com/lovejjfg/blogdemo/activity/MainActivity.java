@@ -12,12 +12,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Interpolator;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.lovejjfg.blogdemo.R;
 import com.lovejjfg.blogdemo.ui.AnimUtils;
 import com.lovejjfg.blogdemo.utils.BaseUtil;
 import com.lovejjfg.blogdemo.utils.JumpUtil;
+import com.lovejjfg.blogdemo.utils.glide.RoundTransform;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -39,6 +42,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button mBtSheet;
     @Bind(R.id.button)
     Button mBt;
+    @Bind(R.id.iv)
+    ImageView mIv;
     int minOffset = 0;
     private int offset;
     private Interpolator interpolator;
@@ -54,6 +59,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ButterKnife.bind(this);
 //        mTv2.bringToFront();
         mBt.setOnClickListener(this);
+        Glide.with(this)
+                .load(R.mipmap.girl2)
+                .transform(new RoundTransform(getApplicationContext(), 100))
+                .into(mIv);
 
         scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             // TODO: 2016/5/25 滑动相关的逻辑
@@ -62,9 +71,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                 int dy = scrollY - oldScrollY;
                 Log.e(TAG, "onScrollChange: " + scrollY);
-                if (dy > 50) {
+                if (dy > 5) {
                     buttonOutAnimation(interpolator);
-                } else if (dy < -50) {
+                } else if (dy < -5) {
                     buttonEnterAnimation(interpolator);
                 } else {
                     setBtOffset(mBt, dy, btHeight);
