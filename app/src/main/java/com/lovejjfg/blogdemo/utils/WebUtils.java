@@ -16,17 +16,23 @@ public class WebUtils {
 
     public static String BuildHtmlWithCss(String html, List<String> cssUrls, boolean isNightMode) {
         StringBuilder result = new StringBuilder();
-//        for (String cssUrl : cssUrls) {
-        result.append(String.format(CSS_LINK_PATTERN, "http://news-at.zhihu.com/css/news_qa.auto.css?v=4b3e3"));
+        result.append("<style type=\"text/css\">\n" +
+                "img {\n" +
+                "    max-width: 80%;\n" +
+                "\tborder: 0;\n" +
+                "\tvertical-align: middle;\n" +
+                "\tcolor: transparent;\n" +
+                "\tfont-size: 0\n" +
+                "}\n" +
+                "</style>");
+//
+//        if (isNightMode) {
+//            result.append(NIGHT_DIV_TAG_START);
 //        }
-
-        if (isNightMode) {
-            result.append(NIGHT_DIV_TAG_START);
-        }
-        result.append(html.replace(DIV_IMAGE_PLACE_HOLDER, DIV_IMAGE_PLACE_HOLDER_IGNORED));
-        if (isNightMode) {
-            result.append(NIGHT_DIV_TAG_END);
-        }
+        result.append(html);
+//        if (isNightMode) {
+//            result.append(NIGHT_DIV_TAG_END);
+//        }
 
         return result.toString();
     }

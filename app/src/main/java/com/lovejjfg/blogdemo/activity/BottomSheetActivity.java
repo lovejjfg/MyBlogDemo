@@ -38,7 +38,6 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
-import rx.functions.Func2;
 import rx.schedulers.Schedulers;
 
 public class BottomSheetActivity extends AppCompatActivity {
@@ -71,25 +70,32 @@ public class BottomSheetActivity extends AppCompatActivity {
         /**
          *
          * */
-        Observable.just("1", "2", "2","s", "3", "4")
-                .map(new Func1<String, Integer>() {
+        Observable.just("1", "2", "2", "3", "4")
+                .distinct(new Func1<String, Integer>() {
                     @Override
                     public Integer call(String s) {
+                        Log.i(TAG, "callDistinct: "+s);
                         return Integer.parseInt(s);
                     }
                 })
-                .distinct()
-                .take(3)
-                .reduce(new Func2<Integer, Integer, Integer>() {
+                .map(new Func1<String, Integer>() {
                     @Override
-                    public Integer call(Integer integer, Integer integer2) {
-                        Log.i(TAG, "call: integer1:" + integer + "integer2:" + integer2);
-                        int i = integer + integer2;
-                        Log.i(TAG, "call: "+i);
-                        return i;
+                    public Integer call(String s) {
+                        Log.i(TAG, "callMap: "+s);
+                        return Integer.parseInt(s);
                     }
-
                 })
+//                .take(3)
+//                .reduce(new Func2<Integer, Integer, Integer>() {
+//                    @Override
+//                    public Integer call(Integer integer, Integer integer2) {
+//                        Log.i(TAG, "call: integer1:" + integer + "integer2:" + integer2);
+//                        int i = integer + integer2;
+//                        Log.i(TAG, "call: "+i);
+//                        return i;
+//                    }
+//
+//                })
                 .subscribe(new Subscriber<Integer>() {
                     @Override
                     public void onCompleted() {
@@ -155,6 +161,7 @@ public class BottomSheetActivity extends AppCompatActivity {
 //                        return null;
 //                    }
 //                })
+                .distinct()
                 .toList()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<BlogBean>>() {
@@ -302,6 +309,7 @@ public class BottomSheetActivity extends AppCompatActivity {
                                             Element body = document.select("div[class^=blog_article_c]").first();
 //                                            Element body = document.body();
                                             String data = WebUtils.BuildHtmlWithCss(body.toString(), null, false);
+                                            Log.i(TAG, "call: " + data);
 //                                            Element body = document.head();
                                             subscriber.onNext(data);
                                             subscriber.onCompleted();
