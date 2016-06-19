@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+
+    <!--<ImageView-->
+        <!--android:id="@+id/iv"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:alpha="0.5"-->
+        <!--android:background="@mipmap/girl2"-->
+        <!--android:rotation="360"-->
+        <!--android:scaleX="0.5"-->
+        <!--android:scaleY="0.5"-->
+        <!--android:translationY="200dp"-->
+        <!--/>-->
+
+
+    <com.lovejjfg.blogdemo.activity.StickyNestedScrollView
+        android:id="@+id/nest_scroll"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.lovejjfg.blogdemo.activity.HeaderActivity">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:alpha="0.5"
+                android:background="@mipmap/girl2"
+                android:rotation="360"
+                android:scaleX="0.5"
+                android:scaleY="0.5"
+                android:translationY="200dp"
+                />
+
+            <Button
+                android:id="@+id/bt"
+                android:scaleX="0.5"
+                android:alpha="0.3"
+                android:tag="stick"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="测试！"
+                />
+            <Button
+                android:id="@+id/bt2"
+                android:scaleX="0.5"
+                android:alpha="0.3"
+                android:tag="stick"
+                android:layout_marginTop="50dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="测试2！"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/large_text"
+                />
+
+        </LinearLayout>
+
+
+    </com.lovejjfg.blogdemo.activity.StickyNestedScrollView>
+</FrameLayout>
