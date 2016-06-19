@@ -56,6 +56,8 @@ public class CircleTransform extends BitmapTransformation {
                 .TileMode.CLAMP));
         float r = size / 2f;
         canvas.drawCircle(r, r, r, paint);
+
+
         return result;
     }
 

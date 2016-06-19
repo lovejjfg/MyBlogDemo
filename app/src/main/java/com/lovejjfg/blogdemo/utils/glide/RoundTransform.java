@@ -27,28 +27,25 @@ import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 
 /**
- * Created by http://stackoverflow.com/a/25806229/409481
+ * Created by Joe on 2016-05-24
+ * Email: lovejjfg@163.com
+ * http://stackoverflow.com/a/25806229/409481
  */
 public class RoundTransform extends BitmapTransformation {
     private int cornerRadius;
     private RectF rectF = new RectF();
 
-    public RoundTransform(Context context,int round) {
+    public RoundTransform(Context context, int round) {
         super(context);
         this.cornerRadius = round;
     }
 
-    private  Bitmap circleCrop(BitmapPool pool, Bitmap source) {
+    private Bitmap roundCrop(BitmapPool pool, Bitmap source) {
         if (source == null) return null;
         int width = source.getWidth();
         int height = source.getHeight();
         rectF.set(0, 0, width, height);
 
-//        int size = Math.min(source.getWidth(), source.getHeight());
-//        int x = (source.getWidth() - size) / 2;
-//        int y = (source.getHeight() - size) / 2;
-
-        // TODO this could be acquired from the pool too
         Bitmap squared = Bitmap.createBitmap(source, 0, 0, width, height);
 
         Bitmap result = pool.get(width, height, Bitmap.Config.ARGB_8888);
@@ -61,15 +58,15 @@ public class RoundTransform extends BitmapTransformation {
                 .ANTI_ALIAS_FLAG);
         paint.setShader(new BitmapShader(squared, BitmapShader.TileMode.CLAMP, BitmapShader
                 .TileMode.CLAMP));
-//        float r = size / 2f;
         canvas.drawRoundRect(rectF, cornerRadius, cornerRadius, paint);
-//        canvas.drawCircle(r, r, r, paint);
+
+
         return result;
     }
 
     @Override
     protected Bitmap transform(BitmapPool pool, Bitmap toTransform, int outWidth, int outHeight) {
-        return circleCrop(pool, toTransform);
+        return roundCrop(pool, toTransform);
     }
 
     @Override
