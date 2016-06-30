@@ -4,7 +4,9 @@
     android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clipToPadding="false">
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:padding="16dp">
 
 
     <View
@@ -12,26 +14,32 @@
         android:layout_width="match_parent"
         android:layout_height="0dp" />
 
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler"
+    <com.lovejjfg.blogdemo.ui.HeadViewFrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/whitesmoke"
-        android:clipToPadding="false"
-        android:fitsSystemWindows="true">
+        android:layout_height="match_parent">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/whitesmoke"
+                android:clipToPadding="false"
+                android:fitsSystemWindows="true">
 
-
-    </android.support.v7.widget.RecyclerView>
+            </android.support.v7.widget.RecyclerView>
+        <com.lovejjfg.blogdemo.ui.PathTextView
+            android:translationY="-150dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="150dp" />
+    </com.lovejjfg.blogdemo.ui.HeadViewFrameLayout>
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@null"
-        android:outlineProvider="none"
-        android:elevation="1dp"
-        android:theme="@android:style/ThemeOverlay.Material.Dark" />
+
+        />
 
 
 </FrameLayout>
