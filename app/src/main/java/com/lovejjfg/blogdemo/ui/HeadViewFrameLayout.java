@@ -17,6 +17,12 @@
 package com.lovejjfg.blogdemo.ui;
 
 import android.content.Context;
+import android.support.v4.view.NestedScrollingChild;
+import android.support.v4.view.NestedScrollingChildHelper;
+import android.support.v4.view.NestedScrollingParent;
+import android.support.v4.view.NestedScrollingParentHelper;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -25,7 +31,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 
 
-public class HeadViewFrameLayout extends FrameLayout {
+public class HeadViewFrameLayout extends FrameLayout implements NestedScrollingParent,NestedScrollingChild {
     private String TAG = HeadViewFrameLayout.class.getSimpleName();
     // configurable attribs
 
@@ -34,6 +40,9 @@ public class HeadViewFrameLayout extends FrameLayout {
     private PathTextView header;
     private float defaulTranslationY;
     private boolean isStart;
+    FastOutLinearInInterpolator fastOutLinearInInterpolator = new FastOutLinearInInterpolator();
+    private final NestedScrollingParentHelper mNestedScrollingParentHelper;
+    private final NestedScrollingChildHelper mNestedScrollingChildHelper;
 
 
     public HeadViewFrameLayout(Context context) {
@@ -47,6 +56,80 @@ public class HeadViewFrameLayout extends FrameLayout {
     public HeadViewFrameLayout(Context context, AttributeSet attrs,
                                int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        mNestedScrollingParentHelper = new NestedScrollingParentHelper(this);
+        mNestedScrollingChildHelper = new NestedScrollingChildHelper(this);
+        setNestedScrollingEnabled(true);
+    }
+
+    @Override
+    public void onNestedScrollAccepted(View child, View target, int axes) {
+        // Reset the counter of how much leftover scroll needs to be consumed.
+        mNestedScrollingParentHelper.onNestedScrollAccepted(child, target, axes);
+        // Dispatch up to the nested parent
+        startNestedScroll(axes & ViewCompat.SCROLL_AXIS_VERTICAL);
+    }
+
+
+    // NestedScrollingChild
+
+    @Override
+    public void setNestedScrollingEnabled(boolean enabled) {
+        mNestedScrollingChildHelper.setNestedScrollingEnabled(enabled);
+    }
+
+    @Override
+    public boolean isNestedScrollingEnabled() {
+        return mNestedScrollingChildHelper.isNestedScrollingEnabled();
+    }
+
+    @Override
+    public boolean startNestedScroll(int axes) {
+        return mNestedScrollingChildHelper.startNestedScroll(axes);
+    }
+
+    @Override
+    public void stopNestedScroll() {
+        mNestedScrollingChildHelper.stopNestedScroll();
+    }
+
+    @Override
+    public boolean hasNestedScrollingParent() {
+        return mNestedScrollingChildHelper.hasNestedScrollingParent();
+    }
+
+    @Override
+    public boolean dispatchNestedScroll(int dxConsumed, int dyConsumed, int dxUnconsumed,
+                                        int dyUnconsumed, int[] offsetInWindow) {
+        return mNestedScrollingChildHelper.dispatchNestedScroll(dxConsumed, dyConsumed,
+                dxUnconsumed, dyUnconsumed, offsetInWindow);
+    }
+
+    @Override
+    public boolean dispatchNestedPreScroll(int dx, int dy, int[] consumed, int[] offsetInWindow) {
+        return mNestedScrollingChildHelper.dispatchNestedPreScroll(dx, dy, consumed, offsetInWindow);
+    }
+
+    @Override
+    public boolean onNestedPreFling(View target, float velocityX,
+                                    float velocityY) {
+        return dispatchNestedPreFling(velocityX, velocityY);
+    }
+
+
+    @Override
+    public boolean dispatchNestedFling(float velocityX, float velocityY, boolean consumed) {
+        return mNestedScrollingChildHelper.dispatchNestedFling(velocityX, velocityY, consumed);
+    }
+
+    @Override
+    public boolean dispatchNestedPreFling(float velocityX, float velocityY) {
+        return mNestedScrollingChildHelper.dispatchNestedPreFling(velocityX, velocityY);
+    }
+
+
+    @Override
+    public int getNestedScrollAxes() {
+        return mNestedScrollingParentHelper.getNestedScrollAxes();
     }
 
     @Override
@@ -64,10 +147,6 @@ public class HeadViewFrameLayout extends FrameLayout {
         }
     }
 
-    @Override
-    public boolean onNestedPreFling(View target, float velocityX, float velocityY) {
-        return super.onNestedPreFling(target, velocityX, velocityY);
-    }
 
 
     @Override
@@ -99,6 +178,7 @@ public class HeadViewFrameLayout extends FrameLayout {
 
     @Override
     public void onStopNestedScroll(View child) {
+        mNestedScrollingParentHelper.onStopNestedScroll(child);
         Log.i(TAG, "onStopNestedScroll: ");
         resetDrag();
     }
@@ -106,8 +186,7 @@ public class HeadViewFrameLayout extends FrameLayout {
     private void resetDrag() {
         header.animate().translationY(defaulTranslationY)
                 .setDuration(500)
-                .setInterpolator(AnimationUtils.loadInterpolator(getContext(), android.R
-                        .interpolator.fast_out_slow_in))
+                .setInterpolator(fastOutLinearInInterpolator)
                 .start();
         totalDrag = defaulTranslationY;
         isStart = false;

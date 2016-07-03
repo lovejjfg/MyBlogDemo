@@ -88,41 +88,41 @@ public class Main2Activity extends AppCompatActivity {
 //            }
 //        });
 
-        parent.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
-            @SuppressLint("NewApi")
-            @Override
-            public WindowInsets onApplyWindowInsets(View v, WindowInsets insets) {
-                if (!flag) {
-
-                    flag = true;
-
-                /*init toolbar*/
-                    ViewGroup.MarginLayoutParams lpToolbar = (ViewGroup.MarginLayoutParams) toolbar
-                            .getLayoutParams();
-
-                    lpToolbar.topMargin = insets.getSystemWindowInsetTop();
-                    Log.e("top1:", lpToolbar.topMargin + "");
-                    lpToolbar.rightMargin += insets.getSystemWindowInsetRight();
-                    toolbar.setLayoutParams(lpToolbar);
-                /*init statusBar*/
-                    View statusBarBackground = findViewById(R.id.status);
-                    FrameLayout.LayoutParams lpStatus = (FrameLayout.LayoutParams)
-                            statusBarBackground.getLayoutParams();
-                    lpStatus.height = insets.getSystemWindowInsetTop();
-//                    statusBarBackground.setLayoutParams(lpStatus);
-                    Log.e("status:", lpStatus.height + "");
-
-                /*init RecycleView*/
-                    mRecyclerView.setPadding(mRecyclerView.getPaddingLeft(),
-                            insets.getSystemWindowInsetTop() + getActionBarSize
-                                    (Main2Activity.this),
-                            mRecyclerView.getPaddingRight() + insets.getSystemWindowInsetRight(), // landscape
-                            mRecyclerView.getPaddingBottom() + insets.getSystemWindowInsetBottom());
-                    Log.e("recycleView-->Top", mRecyclerView.getPaddingTop() + "");
-                }
-                return insets.consumeSystemWindowInsets();
-            }
-        });
+//        parent.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
+//            @SuppressLint("NewApi")
+//            @Override
+//            public WindowInsets onApplyWindowInsets(View v, WindowInsets insets) {
+//                if (!flag) {
+//
+//                    flag = true;
+//
+//                /*init toolbar*/
+//                    ViewGroup.MarginLayoutParams lpToolbar = (ViewGroup.MarginLayoutParams) toolbar
+//                            .getLayoutParams();
+//
+//                    lpToolbar.topMargin = insets.getSystemWindowInsetTop();
+//                    Log.e("top1:", lpToolbar.topMargin + "");
+//                    lpToolbar.rightMargin += insets.getSystemWindowInsetRight();
+//                    toolbar.setLayoutParams(lpToolbar);
+//                /*init statusBar*/
+//                    View statusBarBackground = findViewById(R.id.status);
+//                    FrameLayout.LayoutParams lpStatus = (FrameLayout.LayoutParams)
+//                            statusBarBackground.getLayoutParams();
+//                    lpStatus.height = insets.getSystemWindowInsetTop();
+////                    statusBarBackground.setLayoutParams(lpStatus);
+//                    Log.e("status:", lpStatus.height + "");
+//
+//                /*init RecycleView*/
+//                    mRecyclerView.setPadding(mRecyclerView.getPaddingLeft(),
+//                            insets.getSystemWindowInsetTop() + getActionBarSize
+//                                    (Main2Activity.this),
+//                            mRecyclerView.getPaddingRight() + insets.getSystemWindowInsetRight(), // landscape
+//                            mRecyclerView.getPaddingBottom() + insets.getSystemWindowInsetBottom());
+//                    Log.e("recycleView-->Top", mRecyclerView.getPaddingTop() + "");
+//                }
+//                return insets.consumeSystemWindowInsets();
+//            }
+//        });
 
 //        toolbar.post(new Runnable() {
 //            @Override
@@ -137,15 +137,15 @@ public class Main2Activity extends AppCompatActivity {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                gridScrollY += dy;
-                Log.e("gridScrollY:", gridScrollY + "");
-                if (gridScrollY > 0 && toolbar.getTranslationZ() != -1f) {
-                    toolbar.setTranslationZ(-1f);
-                    Log.i("TranslationZ", -1 + "啦");
-                } else if (gridScrollY <= 0 && toolbar.getTranslationZ() != 0) {
-                    toolbar.setTranslationZ(0f);
-                    Log.i("TranslationZ", "重置零啦");
-                }
+//                gridScrollY += dy;
+//                Log.e("gridScrollY:", gridScrollY + "");
+//                if (gridScrollY > 0 && toolbar.getTranslationZ() != -1f) {
+//                    toolbar.setTranslationZ(-1f);
+//                    Log.i("TranslationZ", -1 + "啦");
+//                } else if (gridScrollY <= 0 && toolbar.getTranslationZ() != 0) {
+//                    toolbar.setTranslationZ(0f);
+//                    Log.i("TranslationZ", "重置零啦");
+//                }
             }
         });
 
