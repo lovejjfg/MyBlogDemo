@@ -29,9 +29,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 
-public class HeadViewFrameLayout extends FrameLayout implements NestedScrollingParent,NestedScrollingChild {
+public class HeadViewFrameLayout extends FrameLayout implements NestedScrollingParent, NestedScrollingChild {
     private String TAG = HeadViewFrameLayout.class.getSimpleName();
     // configurable attribs
 
@@ -148,7 +149,6 @@ public class HeadViewFrameLayout extends FrameLayout implements NestedScrollingP
     }
 
 
-
     @Override
     public void onNestedScroll(View target, int dxConsumed, int dyConsumed,
                                int dxUnconsumed, int dyUnconsumed) {
@@ -170,6 +170,9 @@ public class HeadViewFrameLayout extends FrameLayout implements NestedScrollingP
         totalDrag -= dyUnconsumed;
         Log.i(TAG, "updateOffset: " + totalDrag);
         header.setTranslationY(totalDrag > 0 ? 0 : totalDrag);
+        if (totalDrag > 0) {
+            totalDrag = 0;
+        }
         if (header.getTranslationY() == 0 && !isStart) {
             isStart = true;
             header.start();
