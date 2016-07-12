@@ -93,7 +93,7 @@ public class LockListActivity extends AppCompatActivity implements ViewPager.OnP
 
     @Override
     public void onHeaderRefresh(HeaderView view) {
-        vp.setScrollble(false);
+        vp.setScrollable(false);
         headerView.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -106,7 +106,7 @@ public class LockListActivity extends AppCompatActivity implements ViewPager.OnP
 
     @Override
     public void onHeaderRefreshFinished() {
-        vp.setScrollble(true);
+        vp.setScrollable(true);
     }
 
     public HeaderView getHeaderView() {
