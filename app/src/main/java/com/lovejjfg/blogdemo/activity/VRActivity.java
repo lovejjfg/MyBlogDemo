@@ -1,24 +1,26 @@
 package com.lovejjfg.blogdemo.activity;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.lovejjfg.blogdemo.R;
-import com.lovejjfg.blogdemo.base.BaseSlideFinishActivity;
 
 /**
- * Created by 张俊 on 2016/1/17.
+ * An example full-screen activity that shows and hides the system UI (i.e.
+ * status bar and navigation/system bar) with user interaction.
  */
-public class BrowserActivity2 extends BaseSlideFinishActivity {
-    // TODO: 2016-05-25 如何优美的展示具体内容
+public class VRActivity extends AppCompatActivity {
+
+    private WebView mWeb;
+
     @Override
-    public View initView(Bundle savedInstanceState) {
-        View v = LayoutInflater.from(this).inflate(R.layout.activity_browser2, null);
-        final String host = getIntent().getStringExtra("HOST");
-        final WebView mWeb = (WebView) v.findViewById(R.id.web);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_vr);
+        mWeb = (WebView) findViewById(R.id.wb);
         mWeb.getSettings().setJavaScriptEnabled(true);
         mWeb.setWebViewClient(new WebViewClient() {
             @Override
@@ -35,13 +37,5 @@ public class BrowserActivity2 extends BaseSlideFinishActivity {
 
             }
         });
-
-        return v;
-    }
-
-
-    @Override
-    protected void performViewClick(View v) {
-
     }
 }

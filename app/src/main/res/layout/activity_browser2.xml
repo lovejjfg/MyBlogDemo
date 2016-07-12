@@ -9,7 +9,7 @@
         android:background="#ebf5f5"
         android:orientation="vertical">
 
-        <include layout="@layout/app_bar" />
+        <!--<include layout="@layout/app_bar" />-->
 
 
 

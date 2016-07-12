@@ -17,7 +17,7 @@
         <!--/>-->
 
 
-    <com.lovejjfg.blogdemo.activity.StickyNestedScrollView
+    <com.lovejjfg.blogdemo.ui.StickyNestedScrollView
         android:id="@+id/nest_scroll"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -71,5 +71,5 @@
         </LinearLayout>
 
 
-    </com.lovejjfg.blogdemo.activity.StickyNestedScrollView>
+    </com.lovejjfg.blogdemo.ui.StickyNestedScrollView>
 </FrameLayout>

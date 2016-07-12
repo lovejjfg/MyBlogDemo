@@ -9,6 +9,8 @@
     <dimen name="touch_raise">6dp</dimen>
     <dimen name="touched_app_bar">8dp</dimen>
     <dimen name="z_app_bar">6dp</dimen>
+    <dimen name="dp1">1dp</dimen>
+    <dimen name="dp4">4dp</dimen>
     <!-- grid -->
     <integer name="num_columns">3</integer>
 </resources>

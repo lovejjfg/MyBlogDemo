@@ -1,6 +1,7 @@
 package com.lovejjfg.blogdemo.activity;
 
 import android.animation.Animator;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
@@ -24,8 +25,6 @@ import com.lovejjfg.blogdemo.ui.AnimUtils;
 import com.lovejjfg.blogdemo.utils.BaseUtil;
 import com.lovejjfg.blogdemo.utils.JumpUtil;
 import com.lovejjfg.blogdemo.utils.glide.RoundTransform;
-
-import java.util.Set;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -79,6 +78,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 })
                 .transform(new RoundTransform(getApplicationContext(), 100))
                 .into(mIv);
+        mIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, VRActivity.class));
+            }
+        });
 
         scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             // TODO: 2016/5/25 滑动相关的逻辑
