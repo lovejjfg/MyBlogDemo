@@ -1,4 +1,4 @@
-package com.lovejjfg.blogdemo.activity;
+package com.lovejjfg.blogdemo.ui;
 
 import android.content.Context;
 import android.support.annotation.Nullable;

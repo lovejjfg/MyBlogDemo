@@ -1,0 +1,712 @@
+{
+    "code": 0,
+    "data": {
+        "all_cities": {
+            "scope_cities": [
+                {
+                    "code_id": 1,
+                    "latitude": "121.487899",
+                    "longitude": "31.249162",
+                    "name": "上海",
+                    "pinyin": "shanghai",
+                    "short_pinyin": "sh"
+                },
+                {
+                    "code_id": 239,
+                    "latitude": "113.30765",
+                    "longitude": "23.120049",
+                    "name": "广州",
+                    "pinyin": "guangzhou",
+                    "short_pinyin": "gz"
+                },
+                {
+                    "code_id": 478,
+                    "latitude": "116.395645",
+                    "longitude": "39.929986",
+                    "name": "北京",
+                    "pinyin": "beijing",
+                    "short_pinyin": "bj"
+                },
+                {
+                    "code_id": 365,
+                    "latitude": "114.025974",
+                    "longitude": "22.546054",
+                    "name": "深圳",
+                    "pinyin": "shenzhen",
+                    "short_pinyin": "sz"
+                },
+                {
+                    "code_id": 1506,
+                    "latitude": "120.619907",
+                    "longitude": "31.317987",
+                    "name": "苏州",
+                    "pinyin": "suzhou",
+                    "short_pinyin": "suzhou"
+                },
+                {
+                    "code_id": 1018,
+                    "latitude": "118.778074",
+                    "longitude": "32.057236",
+                    "name": "南京",
+                    "pinyin": "nanjing",
+                    "short_pinyin": "nj"
+                },
+                {
+                    "code_id": 1337,
+                    "latitude": "120.219375",
+                    "longitude": "30.259244",
+                    "name": "杭州",
+                    "pinyin": "hangzhou",
+                    "short_pinyin": "hz"
+                },
+                {
+                    "code_id": 1916,
+                    "latitude": "117.210813",
+                    "longitude": "39.14393",
+                    "name": "天津",
+                    "pinyin": "tianjin",
+                    "short_pinyin": "tj"
+                },
+                {
+                    "code_id": 1725,
+                    "latitude": "106.530635",
+                    "longitude": "29.544606",
+                    "name": "重庆",
+                    "pinyin": "zhongqing",
+                    "short_pinyin": "cq"
+                },
+                {
+                    "code_id": 3943,
+                    "latitude": "123.432791",
+                    "longitude": "41.808645",
+                    "name": "沈阳",
+                    "pinyin": "shenyang",
+                    "short_pinyin": "sy"
+                },
+                {
+                    "code_id": 4202,
+                    "latitude": "115.893528",
+                    "longitude": "28.689578",
+                    "name": "南昌",
+                    "pinyin": "nanchang",
+                    "short_pinyin": "nc"
+                },
+                {
+                    "code_id": 4419,
+                    "latitude": "118.103886",
+                    "longitude": "24.489231",
+                    "name": "厦门",
+                    "pinyin": "xiamen",
+                    "short_pinyin": "xm"
+                },
+                {
+                    "code_id": 2299,
+                    "latitude": "114.3162",
+                    "longitude": "30.581084",
+                    "name": "武汉",
+                    "pinyin": "wuhan",
+                    "short_pinyin": "wuhan"
+                },
+                {
+                    "code_id": 816,
+                    "latitude": "104.067923",
+                    "longitude": "30.679943",
+                    "name": "成都",
+                    "pinyin": "chengdu",
+                    "short_pinyin": "chengdu"
+                },
+                {
+                    "code_id": 3227,
+                    "latitude": "108.953098",
+                    "longitude": "34.2778",
+                    "name": "西安",
+                    "pinyin": "xian",
+                    "short_pinyin": "xian"
+                },
+                {
+                    "code_id": 2610,
+                    "latitude": "113.649644",
+                    "longitude": "34.75661",
+                    "name": "郑州",
+                    "pinyin": "zhengzhou",
+                    "short_pinyin": "zhengzhou"
+                },
+                {
+                    "code_id": 6694,
+                    "latitude": "120.690635",
+                    "longitude": "28.002838",
+                    "name": "温州",
+                    "pinyin": "wenzhou",
+                    "short_pinyin": "wenzhou"
+                },
+                {
+                    "code_id": 3418,
+                    "latitude": "117.282699",
+                    "longitude": "31.866942",
+                    "name": "合肥",
+                    "pinyin": "hefei",
+                    "short_pinyin": "hefei"
+                },
+                {
+                    "code_id": 4155,
+                    "latitude": "120.965808",
+                    "longitude": "31.328937",
+                    "name": "昆山",
+                    "pinyin": "kunshan",
+                    "short_pinyin": "kunshan"
+                },
+                {
+                    "code_id": 5109,
+                    "latitude": "119.604368",
+                    "longitude": "39.945462",
+                    "name": "秦皇岛",
+                    "pinyin": "qinhuangdao",
+                    "short_pinyin": "qinhuangdao"
+                },
+                {
+                    "code_id": 2877,
+                    "latitude": "114.522082",
+                    "longitude": "38.048958",
+                    "name": "石家庄",
+                    "pinyin": "shijiazhuang",
+                    "short_pinyin": "shijiazhuang"
+                },
+                {
+                    "code_id": 3866,
+                    "latitude": "112.550864",
+                    "longitude": "37.890277",
+                    "name": "太原",
+                    "pinyin": "taiyuan",
+                    "short_pinyin": "taiyuan"
+                },
+                {
+                    "code_id": 4400,
+                    "latitude": "120.760428",
+                    "longitude": "30.773992",
+                    "name": "嘉兴",
+                    "pinyin": "jiaxing",
+                    "short_pinyin": "jiaxing"
+                },
+                {
+                    "code_id": 3350,
+                    "latitude": "121.579006",
+                    "longitude": "29.885259",
+                    "name": "宁波",
+                    "pinyin": "ningbo",
+                    "short_pinyin": "ningbo"
+                },
+                {
+                    "code_id": 4311,
+                    "latitude": "119.981861",
+                    "longitude": "31.771397",
+                    "name": "常州",
+                    "pinyin": "changzhou",
+                    "short_pinyin": "changzhou"
+                },
+                {
+                    "code_id": 3643,
+                    "latitude": "119.330221",
+                    "longitude": "26.047125",
+                    "name": "福州",
+                    "pinyin": "fuzhou",
+                    "short_pinyin": "fuzhou"
+                },
+                {
+                    "code_id": 2546,
+                    "latitude": "120.305456",
+                    "longitude": "31.570037",
+                    "name": "无锡",
+                    "pinyin": "wuxi",
+                    "short_pinyin": "wuxi"
+                },
+                {
+                    "code_id": 5464,
+                    "latitude": "117.188107",
+                    "longitude": "34.271553",
+                    "name": "徐州",
+                    "pinyin": "xuzhou",
+                    "short_pinyin": "xuzhou"
+                },
+                {
+                    "code_id": 6372,
+                    "latitude": "123.007763",
+                    "longitude": "41.118744",
+                    "name": "鞍山",
+                    "pinyin": "anshan",
+                    "short_pinyin": "anshan"
+                },
+                {
+                    "code_id": 2121,
+                    "latitude": "121.593478",
+                    "longitude": "38.94871",
+                    "name": "大连",
+                    "pinyin": "dalian",
+                    "short_pinyin": "dalian"
+                },
+                {
+                    "code_id": 2480,
+                    "latitude": "113.134026",
+                    "longitude": "23.035095",
+                    "name": "佛山",
+                    "pinyin": "foshan",
+                    "short_pinyin": "foshan"
+                },
+                {
+                    "code_id": 3566,
+                    "latitude": "113.763434",
+                    "longitude": "23.043024",
+                    "name": "东莞",
+                    "pinyin": "dongguan",
+                    "short_pinyin": "dongguan"
+                },
+                {
+                    "code_id": 4659,
+                    "latitude": "114.410658",
+                    "longitude": "23.11354",
+                    "name": "惠州",
+                    "pinyin": "huizhou",
+                    "short_pinyin": "huizhou"
+                },
+                {
+                    "code_id": 5135,
+                    "latitude": "118.600362",
+                    "longitude": "24.901652",
+                    "name": "泉州",
+                    "pinyin": "quanzhou",
+                    "short_pinyin": "quanzhou"
+                },
+                {
+                    "code_id": 2737,
+                    "latitude": "112.979353",
+                    "longitude": "28.213478",
+                    "name": "长沙",
+                    "pinyin": "changsha",
+                    "short_pinyin": "changsha"
+                },
+                {
+                    "code_id": 5705,
+                    "latitude": "120.592467",
+                    "longitude": "30.002365",
+                    "name": "绍兴",
+                    "pinyin": "shaoxing",
+                    "short_pinyin": "shaoxing"
+                },
+                {
+                    "code_id": 3106,
+                    "latitude": "120.384428",
+                    "longitude": "36.105215",
+                    "name": "青岛",
+                    "pinyin": "qingdao",
+                    "short_pinyin": "qingdao"
+                },
+                {
+                    "code_id": 2361,
+                    "latitude": "117.024967",
+                    "longitude": "36.682785",
+                    "name": "济南",
+                    "pinyin": "jinan",
+                    "short_pinyin": "jinan"
+                },
+                {
+                    "code_id": 3743,
+                    "latitude": "102.714601",
+                    "longitude": "25.049153",
+                    "name": "昆明",
+                    "pinyin": "kunming",
+                    "short_pinyin": "kunming"
+                },
+                {
+                    "code_id": 5029,
+                    "latitude": "108.297234",
+                    "longitude": "22.806493",
+                    "name": "南宁",
+                    "pinyin": "nanning",
+                    "short_pinyin": "nanning"
+                },
+                {
+                    "code_id": 4614,
+                    "latitude": "125.313642",
+                    "longitude": "43.898338",
+                    "name": "长春",
+                    "pinyin": "changchun",
+                    "short_pinyin": "changchun"
+                },
+                {
+                    "code_id": 4961,
+                    "latitude": "116.703602",
+                    "longitude": "39.518611",
+                    "name": "廊坊",
+                    "pinyin": "langfang",
+                    "short_pinyin": "langfang"
+                },
+                {
+                    "code_id": 4519,
+                    "latitude": "126.657717",
+                    "longitude": "45.773225",
+                    "name": "哈尔滨",
+                    "pinyin": "haerbin",
+                    "short_pinyin": "haerbin"
+                },
+                {
+                    "code_id": 5081,
+                    "latitude": "120.873801",
+                    "longitude": "32.014665",
+                    "name": "南通",
+                    "pinyin": "nantong",
+                    "short_pinyin": "nantong"
+                },
+                {
+                    "code_id": 4473,
+                    "latitude": "121.309555",
+                    "longitude": "37.536562",
+                    "name": "烟台",
+                    "pinyin": "yantai",
+                    "short_pinyin": "yantai"
+                },
+                {
+                    "code_id": 4346,
+                    "latitude": "113.42206",
+                    "longitude": "22.545178",
+                    "name": "中山",
+                    "pinyin": "zhongshan",
+                    "short_pinyin": "zhongshan"
+                },
+                {
+                    "code_id": 4283,
+                    "latitude": "113.562447",
+                    "longitude": "22.256915",
+                    "name": "珠海",
+                    "pinyin": "zhuhai",
+                    "short_pinyin": "zhuhai"
+                },
+                {
+                    "code_id": 5528,
+                    "latitude": "119.427778",
+                    "longitude": "32.408505",
+                    "name": "扬州",
+                    "pinyin": "yangzhou",
+                    "short_pinyin": "yangzhou"
+                },
+                {
+                    "code_id": 5301,
+                    "latitude": "118.183451",
+                    "longitude": "39.650531",
+                    "name": "唐山",
+                    "pinyin": "tangshan",
+                    "short_pinyin": "tangshan"
+                },
+                {
+                    "code_id": 4583,
+                    "latitude": "110.330802",
+                    "longitude": "20.022071",
+                    "name": "海口",
+                    "pinyin": "haikou",
+                    "short_pinyin": "haikou"
+                },
+                {
+                    "code_id": 4741,
+                    "latitude": "109.522771",
+                    "longitude": "18.257776",
+                    "name": "三亚",
+                    "pinyin": "sanya",
+                    "short_pinyin": "sanya"
+                },
+                {
+                    "code_id": 6515,
+                    "latitude": "119.652576",
+                    "longitude": "29.102899",
+                    "name": "金华",
+                    "pinyin": "jinhua",
+                    "short_pinyin": "jinhua"
+                },
+                {
+                    "code_id": 6479,
+                    "latitude": "119.030186",
+                    "longitude": "33.606513",
+                    "name": "淮安",
+                    "pinyin": "huaian",
+                    "short_pinyin": "huaian"
+                },
+                {
+                    "code_id": 6465,
+                    "latitude": "114.935909",
+                    "longitude": "25.845296",
+                    "name": "赣州",
+                    "pinyin": "ganzhou",
+                    "short_pinyin": "ganzhou"
+                },
+                {
+                    "code_id": 6390,
+                    "latitude": "117.35708",
+                    "longitude": "32.929499",
+                    "name": "蚌埠",
+                    "pinyin": "bengbu",
+                    "short_pinyin": "bengbu"
+                },
+                {
+                    "code_id": 6550,
+                    "latitude": "119.173872",
+                    "longitude": "34.601549",
+                    "name": "连云港",
+                    "pinyin": "lianyungang",
+                    "short_pinyin": "lianyungang"
+                },
+                {
+                    "code_id": 4864,
+                    "latitude": "111.660351",
+                    "longitude": "40.828319",
+                    "name": "呼和浩特",
+                    "pinyin": "huhehaote",
+                    "short_pinyin": "huhehaote"
+                },
+                {
+                    "code_id": 6644,
+                    "latitude": "116.72865",
+                    "longitude": "23.383908",
+                    "name": "汕头",
+                    "pinyin": "shantou",
+                    "short_pinyin": "shantou"
+                },
+                {
+                    "code_id": 4842,
+                    "latitude": "110.26092",
+                    "longitude": "25.262901",
+                    "name": "桂林",
+                    "pinyin": "guilin",
+                    "short_pinyin": "guilin"
+                },
+                {
+                    "code_id": 6777,
+                    "latitude": "122.169872",
+                    "longitude": "30.03601",
+                    "name": "舟山",
+                    "pinyin": "zhoushan",
+                    "short_pinyin": "zhoushan"
+                },
+                {
+                    "code_id": 6537,
+                    "latitude": "121.147749",
+                    "longitude": "41.130879",
+                    "name": "锦州",
+                    "pinyin": "jinzhou",
+                    "short_pinyin": "jinzhou"
+                },
+                {
+                    "code_id": 6542,
+                    "latitude": "114.351642",
+                    "longitude": "34.801854",
+                    "name": "开封",
+                    "pinyin": "kaifeng",
+                    "short_pinyin": "kaifeng"
+                },
+                {
+                    "code_id": 6679,
+                    "latitude": "121.440613",
+                    "longitude": "28.668283",
+                    "name": "台州",
+                    "pinyin": "taizhou",
+                    "short_pinyin": "zjtaizhou"
+                },
+                {
+                    "code_id": 6460,
+                    "latitude": "123.92982",
+                    "longitude": "41.877304",
+                    "name": "抚顺",
+                    "pinyin": "fushun",
+                    "short_pinyin": "fushun"
+                },
+                {
+                    "code_id": 5417,
+                    "latitude": "119.142634",
+                    "longitude": "36.716115",
+                    "name": "潍坊",
+                    "pinyin": "weifang",
+                    "short_pinyin": "weifang"
+                },
+                {
+                    "code_id": 6738,
+                    "latitude": "120.148872",
+                    "longitude": "33.379862",
+                    "name": "盐城",
+                    "pinyin": "yancheng",
+                    "short_pinyin": "yancheng"
+                },
+                {
+                    "code_id": 6774,
+                    "latitude": "117.676205",
+                    "longitude": "24.517065",
+                    "name": "漳州",
+                    "pinyin": "zhangzhou",
+                    "short_pinyin": "zhangzhou"
+                },
+                {
+                    "code_id": 6482,
+                    "latitude": "120.137243",
+                    "longitude": "30.877925",
+                    "name": "湖州",
+                    "pinyin": "huzhou",
+                    "short_pinyin": "huzhou"
+                },
+                {
+                    "code_id": 6695,
+                    "latitude": "118.384108",
+                    "longitude": "31.36602",
+                    "name": "芜湖",
+                    "pinyin": "wuhu",
+                    "short_pinyin": "wuhu"
+                },
+                {
+                    "code_id": 6598,
+                    "latitude": "118.181883",
+                    "longitude": "26.643626",
+                    "name": "南平",
+                    "pinyin": "nanping",
+                    "short_pinyin": "nanping"
+                },
+                {
+                    "code_id": 6513,
+                    "latitude": "113.078125",
+                    "longitude": "22.575117",
+                    "name": "江门",
+                    "pinyin": "jiangmen",
+                    "short_pinyin": "jiangmen"
+                },
+                {
+                    "code_id": 6657,
+                    "latitude": "113.594461",
+                    "longitude": "24.80296",
+                    "name": "韶关",
+                    "pinyin": "shaoguan",
+                    "short_pinyin": "shaoguan"
+                },
+                {
+                    "code_id": 4814,
+                    "latitude": "115.49481",
+                    "longitude": "38.886565",
+                    "name": "保定",
+                    "pinyin": "baoding",
+                    "short_pinyin": "baoding"
+                },
+                {
+                    "code_id": 3808,
+                    "latitude": "106.709177",
+                    "longitude": "26.629907",
+                    "name": "贵阳",
+                    "pinyin": "guiyang",
+                    "short_pinyin": "guiyang"
+                },
+                {
+                    "code_id": 4931,
+                    "latitude": "103.823305",
+                    "longitude": "36.064226",
+                    "name": "兰州",
+                    "pinyin": "lanzhou",
+                    "short_pinyin": "lanzhou"
+                },
+                {
+                    "code_id": 4983,
+                    "latitude": "112.447525",
+                    "longitude": "34.657368",
+                    "name": "洛阳",
+                    "pinyin": "luoyang",
+                    "short_pinyin": "luoyang"
+                },
+                {
+                    "code_id": 5568,
+                    "latitude": "111.310981",
+                    "longitude": "30.732758",
+                    "name": "宜昌",
+                    "pinyin": "yichang",
+                    "short_pinyin": "yichang"
+                },
+                {
+                    "code_id": 6553,
+                    "latitude": "105.44397",
+                    "longitude": "28.89593",
+                    "name": "泸州",
+                    "pinyin": "luzhou",
+                    "short_pinyin": "luzhou"
+                },
+                {
+                    "code_id": 6478,
+                    "latitude": "112.583819",
+                    "longitude": "26.898164",
+                    "name": "衡阳",
+                    "pinyin": "hengyang",
+                    "short_pinyin": "hengyang"
+                }
+            ],
+            "scope_name": "全部城市"
+        },
+        "hot_cities": {
+            "scope_cities": [
+                {
+                    "code_id": "478",
+                    "latitude": 116.395645,
+                    "longitude": 39.929986,
+                    "name": "北京",
+                    "pinyin": "beijing",
+                    "short_pinyin": "bj"
+                },
+                {
+                    "code_id": "1",
+                    "latitude": 121.487899,
+                    "longitude": 31.249162,
+                    "name": "上海",
+                    "pinyin": "shanghai",
+                    "short_pinyin": "sh"
+                },
+                {
+                    "code_id": "239",
+                    "latitude": 113.30765,
+                    "longitude": 23.120049,
+                    "name": "广州",
+                    "pinyin": "guangzhou",
+                    "short_pinyin": "gz"
+                },
+                {
+                    "code_id": "365",
+                    "latitude": 114.025974,
+                    "longitude": 22.546054,
+                    "name": "深圳",
+                    "pinyin": "shenzhen",
+                    "short_pinyin": "sz"
+                },
+                {
+                    "code_id": "1725",
+                    "latitude": 106.530635,
+                    "longitude": 29.544606,
+                    "name": "重庆",
+                    "pinyin": "chongqing",
+                    "short_pinyin": "cq"
+                },
+                {
+                    "code_id": "1018",
+                    "latitude": 118.778074,
+                    "longitude": 32.057236,
+                    "name": "南京",
+                    "pinyin": "nanjing",
+                    "short_pinyin": "nj"
+                },
+                {
+                    "code_id": "1916",
+                    "latitude": 117.210813,
+                    "longitude": 39.14393,
+                    "name": "天津",
+                    "pinyin": "tianjin",
+                    "short_pinyin": "tj"
+                },
+                {
+                    "code_id": "1337",
+                    "latitude": 120.219375,
+                    "longitude": 30.259244,
+                    "name": "杭州",
+                    "pinyin": "hangzhou",
+                    "short_pinyin": "hz"
+                }
+            ],
+            "scope_name": "热门城市"
+        }
+    },
+    "message": "ok"
+}

@@ -26,5 +26,10 @@ ViewPager中使用的圆圈的导航。
 ![](https://raw.githubusercontent.com/lovejjfg/MyBlogDemo/master/screenshot/circle_2.gif)
 ![](https://raw.githubusercontent.com/lovejjfg/MyBlogDemo/master/screenshot/circle_anim.gif)
 
+# 嵌套滑动 `HeadViewFrameLayout`,显示头布局（正在进行）
+
+# 能固定某一块布局的`StickyNestedScrollView`(正在进行)
+
+
 
 
