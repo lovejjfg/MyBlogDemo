@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * Created by Joe on 2016-07-07
- * Email: zhangjun166@pingan.com.cn
+ * Email: lovejjfg@163.com
  */
 public class LockEntity {
 

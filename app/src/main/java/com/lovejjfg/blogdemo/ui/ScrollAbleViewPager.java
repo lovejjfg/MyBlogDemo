@@ -7,7 +7,7 @@ import android.view.MotionEvent;
 
 /**
  * Created by Joe on 2016-07-05
- * Email: zhangjun166@pingan.com.cn
+ * Email: lovejjfg@163.com
  */
 public class ScrollAbleViewPager extends ViewPager {
     private boolean scrollble;

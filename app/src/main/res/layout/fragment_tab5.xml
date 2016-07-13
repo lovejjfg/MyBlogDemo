@@ -24,6 +24,7 @@
             app:contentPadding="0dp">
 
             <CheckBox
+                android:id="@+id/cb1"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
