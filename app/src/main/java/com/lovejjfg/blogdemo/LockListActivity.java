@@ -1,10 +1,15 @@
 package com.lovejjfg.blogdemo;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.lovejjfg.blogdemo.ui.HeaderView;
@@ -28,11 +33,12 @@ public class LockListActivity extends AppCompatActivity implements ViewPager.OnP
     TextView mAddr;
     private ArrayList<Fragment6> fragments;
     private String name;
+    private DNADialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 //        savedInstanceState = null;
-        super.onCreate(savedInstanceState);
+        super.onCreate(null);
         setContentView(R.layout.activity_lock_list);
         ButterKnife.bind(this);
         fragments = new ArrayList<>();
@@ -40,6 +46,8 @@ public class LockListActivity extends AppCompatActivity implements ViewPager.OnP
             fragments.add(Fragment6.newInstance(String.format("第%d个", i)));
         }
         vp.setOffscreenPageLimit(fragments.size());
+        dialog = new DNADialog(this);
+
         headerView.setOnHeaderRefreshListener(this);
         headerView.enablePullDownRefresh();
         headerView.disablePullUpRefresh();
@@ -112,4 +120,43 @@ public class LockListActivity extends AppCompatActivity implements ViewPager.OnP
     public HeaderView getHeaderView() {
         return headerView;
     }
+
+    public void showTheDialog() {
+        dialog.show();
+    }
+
+    class DNADialog extends AlertDialog {
+
+        public DNADialog(Context context) {
+            this(context,R.style.Dialog_Fullscreen);
+            initDialog();
+        }
+
+
+        public DNADialog(Context context, int themeResId) {
+            super(context, themeResId);
+        }
+
+        protected DNADialog(Context context, boolean cancelable, OnCancelListener cancelListener) {
+            super(context, cancelable, cancelListener);
+        }
+
+        private void initDialog() {
+
+
+        }
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.layout_dna_guide, (ViewGroup) getWindow().getDecorView(), false);
+            setContentView(R.layout.layout_dna_guide);
+//            ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+//            layoutParams.setMargins(200, 0, 200, 0);
+//            setContentView(view, layoutParams);
+//            getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, 1400);
+
+        }
+    }
+
 }

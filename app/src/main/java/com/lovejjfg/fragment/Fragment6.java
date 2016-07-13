@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.lovejjfg.blogdemo.LockListActivity;
@@ -18,9 +20,9 @@ import butterknife.ButterKnife;
 
 /**
  * Created by Joe on 2016-06-09
- * Email: zhangjun166@pingan.com.cn
+ * Email: lovejjfg@163.com
  */
-public class Fragment6 extends Fragment {
+public class Fragment6 extends Fragment implements CompoundButton.OnCheckedChangeListener {
     /**
      * The fragment argument representing the section number for this
      * fragment.
@@ -36,6 +38,8 @@ public class Fragment6 extends Fragment {
     TextView mName;
     @Bind(R.id.scrollView)
     NestedScrollView mScrollView;
+    @Bind(R.id.cb1)
+    CheckBox mCb1;
 
     /**
      * Returns a new instance of this fragment for the given section
@@ -61,6 +65,7 @@ public class Fragment6 extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_tab5, container, false);
         ButterKnife.bind(this, rootView);
         mName.setText(getArguments().getString(NAME, "初始化！"));
+        mCb1.setOnCheckedChangeListener(this);
 //        mScrollView.setEnabled(false);
 
         ((LockListActivity) getActivity()).getHeaderView().setScrollView(mScrollView);
@@ -89,5 +94,12 @@ public class Fragment6 extends Fragment {
 
     public void setText(String name) {
         mName.setText(name);
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (isChecked) {
+            ((LockListActivity) getActivity()).showTheDialog();
+        }
     }
 }
