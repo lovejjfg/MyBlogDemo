@@ -6,5 +6,9 @@
     <color name="default_blue_color">#0000ff</color>
     <color name="whitesmoke">#ffffff</color>
     <color name="white">#cfcfcf</color>
+    <color name="trans_blue">#aa3F51B5</color>
     <color name="black">#cf000000</color>
+
+    <color name="black_overlay">#66000000</color>
+    <color name="transparent">#00000000</color>
 </resources>
