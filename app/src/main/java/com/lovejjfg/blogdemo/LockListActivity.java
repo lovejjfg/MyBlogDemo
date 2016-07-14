@@ -7,9 +7,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.lovejjfg.blogdemo.ui.HeaderView;
@@ -125,7 +122,7 @@ public class LockListActivity extends AppCompatActivity implements ViewPager.OnP
         dialog.show();
     }
 
-    class DNADialog extends AlertDialog {
+    static class DNADialog extends AlertDialog {
 
         public DNADialog(Context context) {
             this(context,R.style.Dialog_Fullscreen);
@@ -149,13 +146,39 @@ public class LockListActivity extends AppCompatActivity implements ViewPager.OnP
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.layout_dna_guide, (ViewGroup) getWindow().getDecorView(), false);
             setContentView(R.layout.layout_dna_guide);
+            setCanceledOnTouchOutside(true);
 //            ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 //            layoutParams.setMargins(200, 0, 200, 0);
 //            setContentView(view, layoutParams);
-//            getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, 1400);
+            int windowWidth = getWindowWidth(getContext());
+            getWindow().setLayout(windowWidth - dip2px(getContext(), 76), dip2px(getContext(), 400));
 
+        }
+
+        /**
+         * 获取屏幕高度
+         *
+         * @param context
+         * @return
+         */
+        public static int getWindowHeight(Context context) {
+            return context.getResources().getDisplayMetrics().heightPixels;
+        }
+
+        /**
+         * 获取屏幕宽度
+         *
+         * @param context
+         * @return
+         */
+        public static  int getWindowWidth(Context context) {
+            return context.getResources().getDisplayMetrics().widthPixels;
+        }
+
+        public static int dip2px(Context context, float dipValue) {
+            final float scale = context.getResources().getDisplayMetrics().density;
+            return (int) (dipValue * scale + 0.5f);
         }
     }
 

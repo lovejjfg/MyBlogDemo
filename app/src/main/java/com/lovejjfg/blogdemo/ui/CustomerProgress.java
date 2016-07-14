@@ -9,6 +9,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Cap;
+import android.graphics.Path;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.Property;
@@ -20,7 +21,7 @@ import android.view.animation.LinearInterpolator;
 import com.lovejjfg.blogdemo.R;
 
 
-public class CircularProgress extends View {
+public class CustomerProgress extends View implements View.OnClickListener {
 
     private static final Interpolator ANGLE_INTERPOLATOR = new LinearInterpolator();
     private static final Interpolator SWEEP_INTERPOLATOR = new AccelerateDecelerateInterpolator();
@@ -42,28 +43,43 @@ public class CircularProgress extends View {
     private int[] mColors;
     private int mCurrentColorIndex;
     private int mNextColorIndex;
+    private static final int STATE_LOADING = 1;
+    private static final int STATE_DONE = 2;
+    private int mCurrentState;
+    private Path mHook;
+    private Paint mHookPaint;
+    private ValueAnimator hookAnimator;
+    private Path mArrow;
+    private float mRingCenterRadius;
+    private static final int ARROW_WIDTH = 10 * 2;
+    private static final int ARROW_HEIGHT = 5 * 2;
+    private Paint mArrowPaint;
+    private float mArrowScale = 1f;
+    private float mStrokeInset = 2.5f;
+    private static final float ARROW_OFFSET_ANGLE = 5;
 
-    public CircularProgress(Context context) {
+
+    public CustomerProgress(Context context) {
         this(context, null);
     }
 
-    public CircularProgress(Context context, AttributeSet attrs) {
+    public CustomerProgress(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public CircularProgress(Context context, AttributeSet attrs, int defStyleAttr) {
+    public CustomerProgress(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
         float density = context.getResources().getDisplayMetrics().density;
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CircularProgress, defStyleAttr, 0);
-        mBorderWidth = a.getDimension(R.styleable.CircularProgress_progressdialogborderWidth,
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CustomerProgress, defStyleAttr, 0);
+        mBorderWidth = a.getDimension(R.styleable.CustomerProgress_progressdialogborderWidth,
                 DEFAULT_BORDER_WIDTH * density);
         a.recycle();
         mColors = new int[4];
-        mColors[0] = context.getResources().getColor(R.color.white);
-        mColors[1] = context.getResources().getColor(R.color.white);
-        mColors[2] = context.getResources().getColor(R.color.white);
-        mColors[3] = context.getResources().getColor(R.color.white);
+        mColors[0] = Color.RED;//context.getResources().getColor(R.color.white);
+        mColors[1] = Color.BLUE;//context.getResources().getColor(R.color.white);
+        mColors[2] = Color.GREEN;//context.getResources().getColor(R.color.white);
+        mColors[3] = Color.GRAY;//context.getResources().getColor(R.color.white);
         mCurrentColorIndex = 0;
         mNextColorIndex = 1;
 
@@ -74,6 +90,11 @@ public class CircularProgress extends View {
         mPaint.setStrokeWidth(mBorderWidth);
         mPaint.setColor(mColors[mCurrentColorIndex]);
 
+        mHookPaint = new Paint(mPaint);
+        mArrowPaint = new Paint(mPaint);
+
+        mHook = new Path();
+
         setupAnimations();
     }
 
@@ -82,9 +103,27 @@ public class CircularProgress extends View {
             return;
         }
         mRunning = true;
+        mCurrentState = STATE_LOADING;
         mObjectAnimatorAngle.start();
         mObjectAnimatorSweep.start();
+        postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                finish();
+            }
+        }, 5000);
+        setOnClickListener(this);
         invalidate();
+    }
+
+    public void finish() {
+        mRunning = false;
+        mObjectAnimatorAngle.cancel();
+        mObjectAnimatorSweep.cancel();
+        mCurrentState = STATE_DONE;
+        if (!hookAnimator.isRunning()) {
+            hookAnimator.start();
+        }
     }
 
     private void stop() {
@@ -122,6 +161,7 @@ public class CircularProgress extends View {
         stop();
         super.onDetachedFromWindow();
     }
+
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
@@ -129,11 +169,35 @@ public class CircularProgress extends View {
         fBounds.right = w - mBorderWidth / 2f - .5f;
         fBounds.top = mBorderWidth / 2f + .5f;
         fBounds.bottom = h - mBorderWidth / 2f - .5f;
+
+        mRingCenterRadius = Math.min(w, h)+mBorderWidth/2;
     }
 
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
+        switch (mCurrentState) {
+            case STATE_LOADING:
+                drawArc(canvas);
+                break;
+            case STATE_DONE:
+                drawHook(canvas);
+                break;
+        }
+
+    }
+
+    private void drawHook(Canvas canvas) {
+        mHook.reset();
+        mHook.moveTo(fBounds.centerX() - fBounds.width() * 0.25f, fBounds.centerY());
+        mHook.lineTo(fBounds.centerX() - fBounds.width() * 0.1f, fBounds.centerY() + fBounds.height() * 0.18f);
+        mHook.lineTo(fBounds.centerX() + fBounds.width() * 0.3f, fBounds.centerY() - fBounds.height() * 0.2f);
+        canvas.drawPath(mHook, mHookPaint);
+        canvas.drawArc(fBounds, 0, 360, false, mHookPaint);
+
+    }
+
+    private void drawArc(Canvas canvas) {
         float startAngle = mCurrentGlobalAngle - mCurrentGlobalAngleOffset;
         float sweepAngle = mCurrentSweepAngle;
         if (mModeAppearing) {
@@ -145,6 +209,39 @@ public class CircularProgress extends View {
             sweepAngle = 360 - sweepAngle - MIN_SWEEP_ANGLE;
         }
         canvas.drawArc(fBounds, startAngle, sweepAngle, false, mPaint);
+//        drawTriangle(canvas, startAngle, sweepAngle);
+    }
+
+    public void drawTriangle(Canvas c, float startAngle, float sweepAngle) {
+        if (mArrow == null) {
+            mArrow = new Path();
+            mArrow.setFillType(android.graphics.Path.FillType.EVEN_ODD);
+        } else {
+            mArrow.reset();
+        }
+
+        // Adjust the position of the triangle so that it is inset as
+        // much as the arc, but also centered on the arc.
+        float inset = (int) mStrokeInset / 2 * mArrowScale;
+        float x = (float) (mRingCenterRadius * Math.cos(0) + fBounds.centerX());
+        float y = (float) (mRingCenterRadius * Math.sin(0) + fBounds.centerY());
+
+        // Update the path each time. This works around an issue in SKIA
+        // where concatenating a rotation matrix to a scale matrix
+        // ignored a starting negative rotation. This appears to have
+        // been fixed as of API 21.
+        mArrow.moveTo(0, 0);
+        mArrow.lineTo(ARROW_WIDTH * mArrowScale, 0);
+        mArrow.lineTo((ARROW_WIDTH * mArrowScale / 2), (ARROW_HEIGHT
+                * mArrowScale));
+        mArrow.offset(x - inset, y);
+        mArrow.close();
+        // draw a triangle
+        mArrowPaint.setColor(Color.RED);
+//        mArrowPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        c.rotate(startAngle + sweepAngle - ARROW_OFFSET_ANGLE, fBounds.centerX(),
+                fBounds.centerY());
+        c.drawPath(mArrow, mArrowPaint);
     }
 
     private static int gradient(int color1, int color2, float p) {
@@ -171,26 +268,26 @@ public class CircularProgress extends View {
     // ////////////////////////////////////////////////////////////////////////////
     // ////////////// Animation
 
-    private Property<CircularProgress, Float> mAngleProperty = new Property<CircularProgress, Float>(Float.class, "angle") {
+    private Property<CustomerProgress, Float> mAngleProperty = new Property<CustomerProgress, Float>(Float.class, "angle") {
         @Override
-        public Float get(CircularProgress object) {
+        public Float get(CustomerProgress object) {
             return object.getCurrentGlobalAngle();
         }
 
         @Override
-        public void set(CircularProgress object, Float value) {
+        public void set(CustomerProgress object, Float value) {
             object.setCurrentGlobalAngle(value);
         }
     };
 
-    private Property<CircularProgress, Float> mSweepProperty = new Property<CircularProgress, Float>(Float.class, "arc") {
+    private Property<CustomerProgress, Float> mSweepProperty = new Property<CustomerProgress, Float>(Float.class, "arc") {
         @Override
-        public Float get(CircularProgress object) {
+        public Float get(CustomerProgress object) {
             return object.getCurrentSweepAngle();
         }
 
         @Override
-        public void set(CircularProgress object, Float value) {
+        public void set(CustomerProgress object, Float value) {
             object.setCurrentSweepAngle(value);
         }
     };
@@ -228,6 +325,17 @@ public class CircularProgress extends View {
                 toggleAppearingMode();
             }
         });
+
+        hookAnimator = ValueAnimator.ofInt(0, 255);
+        hookAnimator.setInterpolator(ANGLE_INTERPOLATOR);
+        hookAnimator.setDuration(500);
+        hookAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                mHookPaint.setAlpha((Integer) animation.getAnimatedValue());
+                invalidate();
+            }
+        });
     }
 
     public void setCurrentGlobalAngle(float currentGlobalAngle) {
@@ -246,5 +354,10 @@ public class CircularProgress extends View {
 
     public float getCurrentSweepAngle() {
         return mCurrentSweepAngle;
+    }
+
+    @Override
+    public void onClick(View v) {
+        start();
     }
 }

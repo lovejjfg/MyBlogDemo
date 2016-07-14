@@ -9,7 +9,7 @@
         <attr name="metaButtonBarButtonStyle" format="reference" />
     </declare-styleable>
 
-    <declare-styleable name="CircularProgress">
+    <declare-styleable name="CustomerProgress">
         <attr name="progressdialogborderWidth" format="dimension" />
     </declare-styleable>
 
