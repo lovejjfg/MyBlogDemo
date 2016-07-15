@@ -25,8 +25,9 @@ public class CustomerProgress extends View implements View.OnClickListener {
 
     private static final Interpolator ANGLE_INTERPOLATOR = new LinearInterpolator();
     private static final Interpolator SWEEP_INTERPOLATOR = new AccelerateDecelerateInterpolator();
-    private static final int ANGLE_ANIMATOR_DURATION = 1000;//转速
-    private static final int SWEEP_ANIMATOR_DURATION = 900;
+    private static final int ANGLE_ANIMATOR_DURATION = 3000;//转速
+    private static final int SWEEP_ANIMATOR_DURATION = 2000;
+    private static final int DELAY_TIME = 10000;
     private static final int MIN_SWEEP_ANGLE = 30;
     private static final int DEFAULT_BORDER_WIDTH = 3;
     private final RectF fBounds = new RectF();
@@ -46,14 +47,14 @@ public class CustomerProgress extends View implements View.OnClickListener {
     private int mNextColorIndex;
     private static final int STATE_LOADING = 1;
     private static final int STATE_FINISH = 2;
-    private static final int STATE_ERROR= 3;
+    private static final int STATE_ERROR = 3;
     private int mCurrentState;
     private Path mHook;
     private Paint mHookPaint;
     private Path mArrow;
     private float mRingCenterRadius;
-    private static final int ARROW_WIDTH = 10 * 2;
-    private static final int ARROW_HEIGHT = 5 * 2;
+    private static int ARROW_WIDTH = 10 * 2;
+    private static int ARROW_HEIGHT = 5 * 2;
     private Paint mArrowPaint;
     private float mArrowScale = 1f;
     private float mStrokeInset = 2.5f;
@@ -78,6 +79,8 @@ public class CustomerProgress extends View implements View.OnClickListener {
         mBorderWidth = a.getDimension(R.styleable.CustomerProgress_progressBorderWidth,
                 DEFAULT_BORDER_WIDTH * density);
         a.recycle();
+        ARROW_WIDTH = (int) (mBorderWidth * 2);
+        ARROW_HEIGHT = (int) mBorderWidth;
         mColors = new int[4];
         mColors[0] = Color.RED;//context.getResources().getColor(R.color.white);
         mColors[1] = Color.BLUE;//context.getResources().getColor(R.color.white);
@@ -114,13 +117,13 @@ public class CustomerProgress extends View implements View.OnClickListener {
             public void run() {
                 finish();
             }
-        }, 2000);
+        }, DELAY_TIME);
         setOnClickListener(this);
         invalidate();
     }
 
     public void finish() {
-       stop();
+        stop();
         mCurrentState = ((int) (Math.random() * 10)) % 2 == 1 ? STATE_ERROR : STATE_FINISH;
         if (!fractionAnimator.isRunning()) {
             fractionAnimator.start();
@@ -166,12 +169,15 @@ public class CustomerProgress extends View implements View.OnClickListener {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        fBounds.left = mBorderWidth / 2f + .5f;
-        fBounds.right = w - mBorderWidth / 2f - .5f;
-        fBounds.top = mBorderWidth / 2f + .5f;
-        fBounds.bottom = h - mBorderWidth / 2f - .5f;
+        fBounds.left = mBorderWidth * 2f + .5f;
+        fBounds.right = w - mBorderWidth * 2f - .5f;
+        fBounds.top = mBorderWidth * 2f + .5f;
+        fBounds.bottom = h - mBorderWidth * 2f - .5f;
 
-        mRingCenterRadius = Math.min(w, h)+mBorderWidth/2;
+
+//        mRingCenterRadius = Math.min(w, h)+mBorderWidth/2;
+        mRingCenterRadius = Math.min(fBounds.centerX() - fBounds.left, fBounds.centerY() - fBounds.top) - mBorderWidth;
+
     }
 
     @Override
@@ -193,10 +199,10 @@ public class CustomerProgress extends View implements View.OnClickListener {
 
     private void drawError(Canvas canvas) {
         mError.reset();
-        mError.moveTo(fBounds.centerX() + fBounds.width() * 0.2f*fraction, fBounds.centerY() - fBounds.height() * 0.2f*fraction);
-        mError.lineTo(fBounds.centerX() - fBounds.width() * 0.2f*fraction, fBounds.centerY() + fBounds.height() * 0.2f*fraction);
-        mError.moveTo(fBounds.centerX() - fBounds.width() * 0.2f*fraction, fBounds.centerY() - fBounds.height() * 0.2f*fraction);
-        mError.lineTo(fBounds.centerX() + fBounds.width() * 0.2f*fraction, fBounds.centerY() + fBounds.height() * 0.2f*fraction);
+        mError.moveTo(fBounds.centerX() + fBounds.width() * 0.2f * fraction, fBounds.centerY() - fBounds.height() * 0.2f * fraction);
+        mError.lineTo(fBounds.centerX() - fBounds.width() * 0.2f * fraction, fBounds.centerY() + fBounds.height() * 0.2f * fraction);
+        mError.moveTo(fBounds.centerX() - fBounds.width() * 0.2f * fraction, fBounds.centerY() - fBounds.height() * 0.2f * fraction);
+        mError.lineTo(fBounds.centerX() + fBounds.width() * 0.2f * fraction, fBounds.centerY() + fBounds.height() * 0.2f * fraction);
         mHookPaint.setColor(mColors[3]);
         canvas.drawPath(mError, mHookPaint);
         canvas.drawArc(fBounds, 0, 360, false, mHookPaint);
@@ -204,9 +210,9 @@ public class CustomerProgress extends View implements View.OnClickListener {
 
     private void drawHook(Canvas canvas) {
         mHook.reset();
-        mHook.moveTo(fBounds.centerX() - fBounds.width() * 0.25f*fraction, fBounds.centerY());
-        mHook.lineTo(fBounds.centerX() - fBounds.width() * 0.1f*fraction, fBounds.centerY() + fBounds.height() * 0.18f*fraction);
-        mHook.lineTo(fBounds.centerX() + fBounds.width() * 0.25f*fraction, fBounds.centerY() - fBounds.height() * 0.20f*fraction);
+        mHook.moveTo(fBounds.centerX() - fBounds.width() * 0.25f * fraction, fBounds.centerY());
+        mHook.lineTo(fBounds.centerX() - fBounds.width() * 0.1f * fraction, fBounds.centerY() + fBounds.height() * 0.18f * fraction);
+        mHook.lineTo(fBounds.centerX() + fBounds.width() * 0.25f * fraction, fBounds.centerY() - fBounds.height() * 0.20f * fraction);
         mHookPaint.setColor(mColors[0]);
         canvas.drawPath(mHook, mHookPaint);
         canvas.drawArc(fBounds, 0, 360, false, mHookPaint);
@@ -225,7 +231,7 @@ public class CustomerProgress extends View implements View.OnClickListener {
             sweepAngle = 360 - sweepAngle - MIN_SWEEP_ANGLE;
         }
         canvas.drawArc(fBounds, startAngle, sweepAngle, false, mPaint);
-//        drawTriangle(canvas, startAngle, sweepAngle);
+        drawTriangle(canvas, startAngle, sweepAngle);
     }
 
     public void drawTriangle(Canvas c, float startAngle, float sweepAngle) {
@@ -238,7 +244,7 @@ public class CustomerProgress extends View implements View.OnClickListener {
 
         // Adjust the position of the triangle so that it is inset as
         // much as the arc, but also centered on the arc.
-        float inset = (int) mStrokeInset / 2 * mArrowScale;
+//        float inset = (int) mStrokeInset / 2 * mArrowScale;
         float x = (float) (mRingCenterRadius * Math.cos(0) + fBounds.centerX());
         float y = (float) (mRingCenterRadius * Math.sin(0) + fBounds.centerY());
 
@@ -250,14 +256,14 @@ public class CustomerProgress extends View implements View.OnClickListener {
         mArrow.lineTo(ARROW_WIDTH * mArrowScale, 0);
         mArrow.lineTo((ARROW_WIDTH * mArrowScale / 2), (ARROW_HEIGHT
                 * mArrowScale));
-        mArrow.offset(x - inset, y);
+        mArrow.offset(x , y);
         mArrow.close();
         // draw a triangle
-        mArrowPaint.setColor(Color.RED);
+//        mArrowPaint.setColor(Color.RED);
 //        mArrowPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        c.rotate(startAngle + sweepAngle - ARROW_OFFSET_ANGLE, fBounds.centerX(),
+        c.rotate(startAngle + sweepAngle , fBounds.centerX(),
                 fBounds.centerY());
-        c.drawPath(mArrow, mArrowPaint);
+        c.drawPath(mArrow, mPaint);
     }
 
     private static int gradient(int color1, int color2, float p) {
