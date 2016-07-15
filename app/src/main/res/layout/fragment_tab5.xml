@@ -71,9 +71,10 @@
             android:orientation="vertical"
             android:gravity="center">
             <com.lovejjfg.blogdemo.ui.CustomerProgress
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
                 android:layout_gravity="center"
+                app:progressBorderWidth="4dp"
                 />
             <TextView
                 android:layout_width="wrap_content"

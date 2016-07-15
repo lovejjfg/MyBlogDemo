@@ -75,7 +75,7 @@ public class CustomerProgress extends View implements View.OnClickListener {
 
         float density = context.getResources().getDisplayMetrics().density;
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CustomerProgress, defStyleAttr, 0);
-        mBorderWidth = a.getDimension(R.styleable.CustomerProgress_progressdialogborderWidth,
+        mBorderWidth = a.getDimension(R.styleable.CustomerProgress_progressBorderWidth,
                 DEFAULT_BORDER_WIDTH * density);
         a.recycle();
         mColors = new int[4];

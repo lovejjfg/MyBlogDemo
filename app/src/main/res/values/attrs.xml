@@ -10,7 +10,7 @@
     </declare-styleable>
 
     <declare-styleable name="CustomerProgress">
-        <attr name="progressdialogborderWidth" format="dimension" />
+        <attr name="progressBorderWidth" format="dimension" />
     </declare-styleable>
 
 </resources>
