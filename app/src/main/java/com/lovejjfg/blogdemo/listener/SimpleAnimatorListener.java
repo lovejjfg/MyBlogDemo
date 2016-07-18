@@ -1,4 +1,4 @@
-package com.lovejjfg.blogdemo.ui;
+package com.lovejjfg.blogdemo.listener;
 
 import android.animation.Animator;
 

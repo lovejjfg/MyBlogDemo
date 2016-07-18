@@ -23,12 +23,16 @@
         <activity
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/BaseAppTheme"></activity>
+            android:theme="@style/BaseAppTheme">
+
+        </activity>
         <activity android:name=".activity.SlidToFinishActivity" />
         <activity android:name=".activity.BrowserActivity" />
         <activity
             android:name=".activity.BrowserActivity2"
-            android:theme="@style/AppTheme.VR"></activity>
+            android:theme="@style/AppTheme.VR">
+
+        </activity>
         <activity
             android:name=".activity.ScrollingActivity"
             android:label="@string/title_activity_scrolling"
@@ -41,7 +45,11 @@
         <activity
             android:name=".activity.Main2Activity"
             android:theme="@style/NormalTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".activity.VRActivity"
@@ -54,11 +62,7 @@
         <activity android:name=".LockListActivity"
             android:theme="@style/NormalTheme"
             >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 

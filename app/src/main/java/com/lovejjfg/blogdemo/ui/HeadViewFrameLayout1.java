@@ -27,38 +27,43 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 
-public class HeadViewFrameLayout extends FrameLayout implements NestedScrollingParent, NestedScrollingChild {
-    private String TAG = HeadViewFrameLayout.class.getSimpleName();
+public class HeadViewFrameLayout1 extends FrameLayout implements NestedScrollingParent, NestedScrollingChild, TouchCircleView.OnLoadingListener {
+    private String TAG = HeadViewFrameLayout1.class.getSimpleName();
     // configurable attribs
 
     // state
     private float totalDrag;
-    private PathTextView header;
+    private TouchCircleView header;
     private float defaulTranslationY;
-    private boolean isStart;
     FastOutLinearInInterpolator fastOutLinearInInterpolator = new FastOutLinearInInterpolator();
     private final NestedScrollingParentHelper mNestedScrollingParentHelper;
     private final NestedScrollingChildHelper mNestedScrollingChildHelper;
     private View targetView;
+    private boolean mRefresh;
 
 
-    public HeadViewFrameLayout(Context context) {
+    public HeadViewFrameLayout1(Context context) {
         this(context, null, 0);
     }
 
-    public HeadViewFrameLayout(Context context, AttributeSet attrs) {
+    public HeadViewFrameLayout1(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public HeadViewFrameLayout(Context context, AttributeSet attrs,
-                               int defStyleAttr) {
+    public HeadViewFrameLayout1(Context context, AttributeSet attrs,
+                                int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mNestedScrollingParentHelper = new NestedScrollingParentHelper(this);
         mNestedScrollingChildHelper = new NestedScrollingChildHelper(this);
         setNestedScrollingEnabled(true);
+        header = new TouchCircleView(getContext());
+        header.setListener(this);
+        float density = context.getResources().getDisplayMetrics().density;
+        addView(header, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) (density * 120)));
     }
 
     @Override
@@ -141,7 +146,7 @@ public class HeadViewFrameLayout extends FrameLayout implements NestedScrollingP
     public void onNestedPreScroll(View target, int dx, int dy, int[] consumed) {
         // if we're in a drag gesture and the user reverses up the we should take those events
         Log.e(TAG, "onNestedPreScroll: " + dy);
-        if (dy >= 0 && totalDrag >= defaulTranslationY) {
+        if (!header.ismRunning() && dy > 0 && totalDrag > defaulTranslationY) {
             updateOffset(dy);
             consumed[1] = dy;
         }
@@ -152,53 +157,53 @@ public class HeadViewFrameLayout extends FrameLayout implements NestedScrollingP
     public void onNestedScroll(View target, int dxConsumed, int dyConsumed,
                                int dxUnconsumed, int dyUnconsumed) {
         Log.e(TAG, "onNestedScroll: " + dyUnconsumed);
-        updateOffset(dyUnconsumed);
+        if (!header.ismRunning() && dyUnconsumed < 0) {
+            updateOffset(dyUnconsumed);
+        }
 
     }
 
     @Override
     public boolean onNestedFling(View target, float velocityX, float velocityY, boolean consumed) {
-        if (!consumed) {
+        if (!header.ismRunning() && !consumed) {
             updateOffset((int) velocityY);
             return true;
         }
         return false;
     }
 
+
     private void updateOffset(int dyUnconsumed) {
-        totalDrag -= dyUnconsumed;
+
+        totalDrag -= dyUnconsumed * 0.35;
         Log.i(TAG, "updateOffset: " + totalDrag);
-        header.setTranslationY(totalDrag > 0 ? 0 : totalDrag);
-        if (totalDrag > 0) {
+        if (totalDrag < 0) {
             totalDrag = 0;
         }
-        if (header.getTranslationY() == 0 && !isStart) {
-            isStart = true;
-            header.start();
+        targetView.setTranslationY(totalDrag);
+        if (!header.ismRunning()) {
+            header.handleOffset((int) (totalDrag * 1.2));
         }
+//        if (header.getTranslationY() == 0 && !isStart) {
+//            isStart = true;
+//            header.start();
+//        }
     }
 
     @Override
     public void onStopNestedScroll(View child) {
         mNestedScrollingParentHelper.onStopNestedScroll(child);
         Log.i(TAG, "onStopNestedScroll: ");
-        resetDrag();
+        header.resetTouch();
     }
 
-    private void resetDrag() {
+    private void resetDrag(int offset) {
         targetView.animate()
-                .translationY(0)
-                .setDuration(500)
-                .setInterpolator(fastOutLinearInInterpolator)
-                .start();
-        header.animate()
-                .translationY(defaulTranslationY)
-                .setDuration(500)
+                .translationY(offset)
+                .setDuration(200)
                 .setInterpolator(fastOutLinearInInterpolator)
                 .start();
         totalDrag = defaulTranslationY;
-        isStart = false;
-        header.end();
     }
 
     @Override
@@ -219,11 +224,38 @@ public class HeadViewFrameLayout extends FrameLayout implements NestedScrollingP
     protected void onFinishInflate() {
         super.onFinishInflate();
         // TODO: 2016-06-29 使用接口定义相关
-        if (getChildAt(1) instanceof PathTextView) {
-            header = (PathTextView) getChildAt(1);
-        }
-        targetView = getChildAt(0);
-        defaulTranslationY = header.getTranslationY();
+        targetView = getChildAt(1);
+        defaulTranslationY = targetView.getTranslationY();
         totalDrag = defaulTranslationY;
+    }
+
+    @Override
+    public void onProgressStateChange(int state, boolean isHide) {
+        if (isHide && !header.ismRunning()) {
+            resetDrag(0);
+        }
+    }
+
+    @Override
+    public void onProgressLoading() {
+        resetDrag(header.getHeight() / 2);
+        // TODO: 2016-07-18 开始加载一些东西。。。
+    }
+
+
+    public void setRefresh(boolean refresh) {
+        if (mRefresh == refresh) {
+            return;
+        }
+        mRefresh = refresh;
+        header.setRefresh(mRefresh);
+    }
+
+    public void setRefreshError() {
+        header.setCurrentState(TouchCircleView.STATE_DRAW_ERROR);
+    }
+
+    public void setRefreshSuccess() {
+        header.setCurrentState(TouchCircleView.STATE_DRAW_SUCCESS);
     }
 }

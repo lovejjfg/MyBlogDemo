@@ -3,7 +3,6 @@ package com.lovejjfg.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.NestedScrollView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +13,7 @@ import android.widget.TextView;
 
 import com.lovejjfg.blogdemo.LockListActivity;
 import com.lovejjfg.blogdemo.R;
+import com.lovejjfg.blogdemo.ui.StickyNestedScrollView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -37,7 +37,7 @@ public class Fragment6 extends Fragment implements CompoundButton.OnCheckedChang
     @Bind(R.id.tv_name)
     TextView mName;
     @Bind(R.id.scrollView)
-    NestedScrollView mScrollView;
+    StickyNestedScrollView mScrollView;
     @Bind(R.id.cb1)
     CheckBox mCb1;
 
