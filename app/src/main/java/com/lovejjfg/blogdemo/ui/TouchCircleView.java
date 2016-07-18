@@ -240,8 +240,8 @@ public class TouchCircleView extends View {
         }
         if (dy > 360 && dy < 460) {
             updateState(STATE_DRAW_ARROW, false);
-            mCurrentGlobalAngle++;
-            mCurrentSweepAngle++;
+            mCurrentGlobalAngle = dy-360;
+            mCurrentSweepAngle = dy-360;
             invalidate();
             return;
         }
