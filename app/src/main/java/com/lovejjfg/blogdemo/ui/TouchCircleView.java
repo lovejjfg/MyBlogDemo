@@ -5,12 +5,10 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.Rect;
 import android.graphics.RectF;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -57,23 +55,6 @@ public class TouchCircleView extends View {
     private float mCurrentSweepAngle;
     private static final int MIN_SWEEP_ANGLE = 30;
 
-    private float mStrokeInset = 5f;
-
-
-    private Paint secondPain;
-
-    private float innerResult;
-    private float mWidth;
-    private ObjectAnimator mWidthAnimator;
-    private ObjectAnimator mInnerWidthAnimator;
-    private Bitmap bitmap;
-    private Rect rect;
-    private int rotate = 30;
-    private int count;
-    private Integer angle1;
-    private ValueAnimator animator;
-    private int startX;
-    private int startY;
     public static final int STATE_DRAW_IDLE = 0;
     public static final int STATE_DRAW_ARC = 1;
     public static final int STATE_DRAW_PATH = 2;//大圆到小圆的渐变
@@ -98,8 +79,6 @@ public class TouchCircleView extends View {
             startLoading();
         }
     };
-    private Runnable loadResultActon;
-
 
     public int getCurrentState() {
         return currentState;
@@ -127,46 +106,15 @@ public class TouchCircleView extends View {
     private boolean mRunning;
     private boolean isDrawTriangle;
 
-
-    public int getMultipleRadius() {
-        return multipleRadius;
-    }
-
-    public void setMultipleRadius(int multipleRadius) {
-        this.multipleRadius = multipleRadius;
-        Log.i("最小半径改变：", multipleRadius + "");
-    }
-
-    public int getMaxMul() {
-        return maxMul;
-    }
-
-    public void setMaxMul(int maxMul) {
-        this.maxMul = maxMul;
-    }
-
-    public int getAcceleration() {
-        return acceleration;
-    }
-
-    public void setAcceleration(int acceleration) {
-        this.acceleration = acceleration;
-        if (null != mWidthAnimator) {
-            mWidthAnimator.setFloatValues(10, acceleration * 18);
-        }
-    }
-
-    private int multipleRadius = 7;
-    private int maxMul = 5;
-    private int acceleration = 2;
-
     //设置默认半径
+    @SuppressWarnings("unused")
     public void setOutCirRadius(int outCirRadius) {
         this.outCirRadius = outCirRadius;
         Log.i("默认半径：", outCirRadius + "");
 
     }
 
+    @SuppressWarnings("unused")
     public int getOutCirRadius() {
         return outCirRadius;
     }
@@ -336,7 +284,6 @@ public class TouchCircleView extends View {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        int min = Math.min(w, h);
         centerX = w / 2;
         centerY = outCirRadius;
         updateRectF();
@@ -451,7 +398,6 @@ public class TouchCircleView extends View {
     /**
      * 画勾
      *
-     * @param canvas
      */
     private void drawHook(Canvas canvas) {
         mHook.reset();
@@ -465,8 +411,6 @@ public class TouchCircleView extends View {
 
     /**
      * 画×
-     *
-     * @param canvas
      */
     private void drawError(Canvas canvas) {
         mError.reset();
@@ -479,6 +423,7 @@ public class TouchCircleView extends View {
     }
 
 
+    @SuppressWarnings("unused")
     private static int gradient(int color1, int color2, float p) {
         int r1 = (color1 & 0xff0000) >> 16;
         int g1 = (color1 & 0xff00) >> 8;
@@ -496,9 +441,11 @@ public class TouchCircleView extends View {
         if (mRunning) {
             return;
         }
-        listener.onProgressStateChange(STATE_DRAW_PROGRESS, false);
-        listener.onProgressLoading();
         mRunning = true;
+        if (listener != null) {
+            listener.onProgressStateChange(STATE_DRAW_PROGRESS, false);
+            listener.onProgressLoading();
+        }
         mObjectAnimatorAngle.setFloatValues(mCurrentGlobalAngle, 360f);
         mObjectAnimatorSweep.setFloatValues(mCurrentSweepAngle, 360f - MIN_SWEEP_ANGLE * 2);
 //        mCurrentState = STATE_LOADING;
