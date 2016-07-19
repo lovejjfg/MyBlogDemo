@@ -1,6 +1,5 @@
 package com.lovejjfg.blogdemo.activity;
 
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Rect;
@@ -15,14 +14,13 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowInsets;
 import android.widget.FrameLayout;
 
 import com.lovejjfg.blogdemo.R;
 import com.lovejjfg.blogdemo.recyclerview.adapter.MyAdapter;
+import com.lovejjfg.blogdemo.ui.HeadViewFrameLayout1;
 
+import butterknife.Bind;
 import butterknife.BindInt;
 import butterknife.ButterKnife;
 
@@ -37,6 +35,8 @@ public class Main2Activity extends AppCompatActivity {
 
     @BindInt(R.integer.num_columns)
     int columns;
+    @Bind(R.id.header)
+    HeadViewFrameLayout1 mHeader;
 
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -53,6 +53,7 @@ public class Main2Activity extends AppCompatActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        mHeader.setRefresh(true);
 
 //        parent.post(new Runnable() {
 //            @Override

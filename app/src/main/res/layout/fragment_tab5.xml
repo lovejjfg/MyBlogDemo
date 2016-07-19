@@ -75,7 +75,6 @@
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_gravity="center"
-                app:progressdialogborderWidth="5dp"
                 />
             <TextView
                 android:layout_width="wrap_content"

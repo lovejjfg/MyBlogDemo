@@ -72,7 +72,7 @@ public class CustomerProgress extends View implements View.OnClickListener {
 
         float density = context.getResources().getDisplayMetrics().density;
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CustomerProgress, defStyleAttr, 0);
-        mBorderWidth = a.getDimension(R.styleable.CustomerProgress_progressdialogborderWidth,
+        mBorderWidth = a.getDimension(R.styleable.CustomerProgress_progressBorderWidth,
                 DEFAULT_BORDER_WIDTH * density);
         ARROW_WIDTH = (int) (mBorderWidth);
         ARROW_HEIGHT = (int) ((int) mBorderWidth * 0.5f);
@@ -236,7 +236,7 @@ public class CustomerProgress extends View implements View.OnClickListener {
         mArrow.lineTo(ARROW_WIDTH * mArrowScale, 0);
         mArrow.lineTo((ARROW_WIDTH * mArrowScale / 2), (ARROW_HEIGHT
                 * mArrowScale));
-        mArrow.offset(x, y);
+        mArrow.offset(x+30, y);
         mArrow.close();
         // draw a triangle
         mArrowPaint.setColor(Color.RED);

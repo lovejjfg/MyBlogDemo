@@ -50,7 +50,7 @@ public class TouchCircleView extends View {
     private static final Interpolator SWEEP_INTERPOLATOR = new AccelerateDecelerateInterpolator();
     private static final int ANGLE_ANIMATOR_DURATION = 1000;//转速
     private static final int SWEEP_ANIMATOR_DURATION = 800;
-    private static final int DELAY_TIME = 10000;
+    private static final int DELAY_TIME = 2000;
 
     private float mCurrentGlobalAngleOffset;
     private float mCurrentGlobalAngle;
@@ -83,6 +83,8 @@ public class TouchCircleView extends View {
     public static final int STATE_DRAW_PROGRESS = 6;
     public static final int STATE_DRAW_ERROR = 7;
     public static final int STATE_DRAW_SUCCESS = 8;
+    private float currentOffset;
+    private float density;
 
     public int getCurrentState() {
         return currentState;
@@ -173,7 +175,7 @@ public class TouchCircleView extends View {
 
     public TouchCircleView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        float density = context.getResources().getDisplayMetrics().density;
+        density = context.getResources().getDisplayMetrics().density;
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.HeaderProgress, defStyleAttr, 0);
         mBorderWidth = a.getDimension(R.styleable.HeaderProgress_circleBorderWidth,
                 2 * density);
@@ -181,7 +183,6 @@ public class TouchCircleView extends View {
         innerCirRadius = (int) a.getDimension(R.styleable.HeaderProgress_innerRadius, 12 * density);
         a.recycle();
         initView();
-
     }
 
 
@@ -190,8 +191,8 @@ public class TouchCircleView extends View {
         innerRectf = new RectF();
         secondRectf = new RectF();
         outRectF = new RectF();
-        ARROW_WIDTH = (int) (mBorderWidth * 2);
-        ARROW_HEIGHT = (int) mBorderWidth;
+        ARROW_WIDTH = (int) (mBorderWidth * 1.5f);
+        ARROW_HEIGHT = (int) (mBorderWidth * 0.75f);
 //        setOnTouchListener(new OnTouchListener() {
 //            @Override
 //            public boolean onTouch(View v, MotionEvent ev) {
@@ -231,8 +232,8 @@ public class TouchCircleView extends View {
             paint.setAlpha((int) ((dy / 360f) * 255));
             updateState(STATE_DRAW_ARC, false);
             resetAngle();
-            outRectF.set(centerX - outCirRadius, 0, centerX + outCirRadius
-                    , centerY + outCirRadius);
+            currentOffset = dy / 360f * 16 * density;
+            updateRectF();
             angle = dy;
             Log.i("TAG", "onTouchEvent: " + angle);
             invalidate();
@@ -240,8 +241,8 @@ public class TouchCircleView extends View {
         }
         if (dy > 360 && dy < 460) {
             updateState(STATE_DRAW_ARROW, false);
-            mCurrentGlobalAngle = dy-360;
-            mCurrentSweepAngle = dy-360;
+            mCurrentGlobalAngle = dy - 360;
+            mCurrentSweepAngle = dy - 360;
             invalidate();
             return;
         }
@@ -252,8 +253,7 @@ public class TouchCircleView extends View {
             if (dy >= 460) {//360+半径？？
                 float precent = (dy - 460) * 1.0f / 100;
                 innerPaint.setAlpha((int) ((1 - precent) * 255));
-                outRectF.set(centerX - outCirRadius + precent * 20, 15 * precent, centerX + outCirRadius - precent * 20
-                        , centerY + outCirRadius - 10 * precent);
+                updateRectF();
             }
             invalidate();
             return;
@@ -278,10 +278,10 @@ public class TouchCircleView extends View {
             return;
         }
         if (STATE_DRAW_ARROW == currentState || STATE_DRAW_PATH == currentState) {
-            outRectF.set(centerX - outCirRadius, 0, centerX + outCirRadius
-                    , centerY + outCirRadius);
-            updateState(STATE_DRAW_PROGRESS, false);
+            outRectF.set(centerX - outCirRadius, currentOffset, centerX + outCirRadius
+                    , centerY + outCirRadius+currentOffset);
             innerPaint.setAlpha(255);
+            updateState(STATE_DRAW_PROGRESS, false);
             start();
             return;
         }
@@ -289,6 +289,11 @@ public class TouchCircleView extends View {
         updateState(STATE_DRAW_IDLE, true);
         invalidate();
 
+    }
+
+    private void startLoading() {
+        innerPaint.setAlpha(255);
+        start();
     }
 
     private void initPaintPath() {
@@ -331,9 +336,17 @@ public class TouchCircleView extends View {
         int min = Math.min(w, h);
         centerX = w / 2;
         centerY = outCirRadius;
-        innerRectf.set(centerX - innerCirRadius, centerY - innerCirRadius, centerX + innerCirRadius, centerY + innerCirRadius);
+        updateRectF();
         mRingCenterRadius = Math.min(innerRectf.centerX() - innerRectf.left, innerRectf.centerY() - innerRectf.top) - mBorderWidth;
 
+    }
+
+    private void updateRectF() {
+        outRectF.set(centerX - outCirRadius, currentOffset, centerX + outCirRadius
+                , centerY + outCirRadius + currentOffset);
+        innerRectf.set(centerX - innerCirRadius, centerY - innerCirRadius + currentOffset, centerX + innerCirRadius, centerY + innerCirRadius + currentOffset);
+        secondRectf.set(centerX - outCirRadius, currentOffset + outCirRadius * 2, centerX + outCirRadius
+                , centerY + outCirRadius + currentOffset + outCirRadius * 2);
     }
 
     //    注意：onDraw每次被调用时canvas画布都是一个干净的、空白的、透明的，他不会记录以前画上去的
@@ -345,9 +358,9 @@ public class TouchCircleView extends View {
                 break;
             case STATE_DRAW_ARC:
 //                paint.setColor(Color.RED);
-                canvas.drawArc(outRectF, 0, angle, true, paint);
+                canvas.drawArc(outRectF, 270, angle, true, paint);
 //                paint.setColor(Color.WHITE);
-                canvas.drawArc(outRectF, 0, angle, false, circlePaint);
+                canvas.drawArc(outRectF, 270, angle, false, circlePaint);
                 break;
             case STATE_DRAW_ARROW:
                 isDrawTriangle = true;
@@ -374,7 +387,7 @@ public class TouchCircleView extends View {
                 drawArc(canvas);
                 break;
             case STATE_DRAW_CIRCLE:
-                canvas.drawCircle(outRectF.centerX(), outRectF.centerY() + outRectF.bottom - outRectF.top, 80, paint);
+                canvas.drawArc(secondRectf,0,360,true, paint);
                 break;
         }
 
@@ -385,7 +398,7 @@ public class TouchCircleView extends View {
     }
 
     private void drawArc(Canvas canvas) {
-        float startAngle = mCurrentGlobalAngle - mCurrentGlobalAngleOffset;
+        float startAngle = mCurrentGlobalAngle - mCurrentGlobalAngleOffset + 270;
         float sweepAngle = mCurrentSweepAngle;
         if (mModeAppearing) {
 //            paint.setColor(gradient(mColors[mCurrentColorIndex], mColors[mNextColorIndex],
@@ -508,9 +521,11 @@ public class TouchCircleView extends View {
     }
 
     private void resetAngle() {
-        mCurrentSweepAngle = 0;
-        mCurrentGlobalAngle = 0;
-        mCurrentGlobalAngleOffset = 0;
+        if (mCurrentSweepAngle != 0 || mCurrentGlobalAngle != 0 || mCurrentGlobalAngleOffset != 0) {
+            mCurrentSweepAngle = 0;
+            mCurrentGlobalAngle = 0;
+            mCurrentGlobalAngleOffset = 0;
+        }
     }
 
     private void stop() {
@@ -592,6 +607,7 @@ public class TouchCircleView extends View {
             public void onAnimationUpdate(ValueAnimator animation) {
                 fraction = animation.getAnimatedFraction();
                 mHookPaint.setAlpha((Integer) animation.getAnimatedValue());
+
                 invalidate();
             }
         });
@@ -624,7 +640,22 @@ public class TouchCircleView extends View {
 
     public void setRefresh(boolean mRefresh) {
         currentState = mRefresh ? STATE_DRAW_PROGRESS : STATE_DRAW_IDLE;
-        invalidate();
+        updateState(currentState, !mRefresh);
+        if (mRefresh) {
+            currentOffset = density * 16;
+            post(new Runnable() {
+                @Override
+                public void run() {
+                    updateRectF();
+                    startLoading();
+                }
+            });
+        } else {
+            currentOffset = 0;
+            updateRectF();
+            invalidate();
+        }
+
     }
 
     public interface OnLoadingListener {

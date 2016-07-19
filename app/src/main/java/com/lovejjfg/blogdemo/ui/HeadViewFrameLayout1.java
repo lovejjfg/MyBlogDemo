@@ -238,7 +238,7 @@ public class HeadViewFrameLayout1 extends FrameLayout implements NestedScrolling
 
     @Override
     public void onProgressLoading() {
-        resetDrag(header.getHeight() / 2);
+        resetDrag((int) (header.getHeight() * 0.6f));
         // TODO: 2016-07-18 开始加载一些东西。。。
     }
 
