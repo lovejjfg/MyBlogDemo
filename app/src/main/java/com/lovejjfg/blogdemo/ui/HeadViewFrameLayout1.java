@@ -44,6 +44,7 @@ public class HeadViewFrameLayout1 extends FrameLayout implements NestedScrolling
     private final NestedScrollingChildHelper mNestedScrollingChildHelper;
     private View targetView;
     private boolean mRefresh;
+    private boolean scrollble = true;
 
 
     public HeadViewFrameLayout1(Context context) {
@@ -211,14 +212,6 @@ public class HeadViewFrameLayout1 extends FrameLayout implements NestedScrolling
         super.onSizeChanged(w, h, oldw, oldh);
     }
 
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        switch (ev.getAction()) {
-            case MotionEvent.ACTION_UP:
-                break;
-        }
-        return super.onInterceptTouchEvent(ev);
-    }
 
     @Override
     protected void onFinishInflate() {
@@ -257,5 +250,39 @@ public class HeadViewFrameLayout1 extends FrameLayout implements NestedScrolling
 
     public void setRefreshSuccess() {
         header.setCurrentState(TouchCircleView.STATE_DRAW_SUCCESS);
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        //scrollble false 直接返回。如果scrollble 为true 那么还要判断 super.onInterceptTouchEvent(ev)的返回。
+        Log.e("TAG", "onInterceptTouchEvent: ....");
+        if (!scrollble) {
+            return header.ismRunning() || super.onInterceptTouchEvent(ev);
+        } else {
+            return super.onInterceptTouchEvent(ev);
+        }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent ev) {
+        Log.e("TAG", "onTouchEvent: ScrollAbleViewPager有事件了！！！");
+        //如果子View不消费相关的事件，那么又会走到`onTouchEvent`,那么是不可滑动的话，直接就返回 true(!scrollble) ,其他情况那么直接就返回 super.onTouchEvent(ev).
+        if (!scrollble) {
+            return header.ismRunning() || super.onTouchEvent(ev);
+        } else {
+            return super.onTouchEvent(ev);
+        }
+    }
+
+
+    public boolean isScrollble() {
+        return scrollble;
+    }
+
+    /**
+     * @param scrollble
+     */
+    public void setLoadingScrollable(boolean scrollble) {
+        this.scrollble = scrollble;
     }
 }

@@ -30,7 +30,7 @@ public class ScrollAbleViewPager extends ViewPager {
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         //scrollble false 直接返回。如果scrollble 为true 那么还要判断 super.onInterceptTouchEvent(ev)的返回。
         Log.e("TAG", "onInterceptTouchEvent: ...." );
-        return true; //scrollble && super.onInterceptTouchEvent(ev);
+        return scrollble && super.onInterceptTouchEvent(ev);
     }
 
     @Override
