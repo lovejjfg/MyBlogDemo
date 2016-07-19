@@ -17,6 +17,8 @@
 package com.lovejjfg.blogdemo.ui;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.view.NestedScrollingChild;
 import android.support.v4.view.NestedScrollingChildHelper;
 import android.support.v4.view.NestedScrollingParent;
@@ -31,6 +33,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 
+@SuppressWarnings("unused")
 public class HeadViewFrameLayout1 extends FrameLayout implements NestedScrollingParent, NestedScrollingChild, TouchCircleView.OnLoadingListener {
     private String TAG = HeadViewFrameLayout1.class.getSimpleName();
     // configurable attribs
@@ -42,6 +45,7 @@ public class HeadViewFrameLayout1 extends FrameLayout implements NestedScrolling
     FastOutLinearInInterpolator fastOutLinearInInterpolator = new FastOutLinearInInterpolator();
     private final NestedScrollingParentHelper mNestedScrollingParentHelper;
     private final NestedScrollingChildHelper mNestedScrollingChildHelper;
+    @Nullable
     private View targetView;
     private boolean mRefresh;
     private boolean scrollble = true;
@@ -62,7 +66,7 @@ public class HeadViewFrameLayout1 extends FrameLayout implements NestedScrolling
         mNestedScrollingChildHelper = new NestedScrollingChildHelper(this);
         setNestedScrollingEnabled(true);
         header = new TouchCircleView(getContext());
-        header.setListener(this);
+        header.addLoadingListener(this);
         float density = context.getResources().getDisplayMetrics().density;
         addView(header, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) (density * 120)));
     }
@@ -181,7 +185,9 @@ public class HeadViewFrameLayout1 extends FrameLayout implements NestedScrolling
         if (totalDrag < 0) {
             totalDrag = 0;
         }
-        targetView.setTranslationY(totalDrag);
+        if (targetView != null) {
+            targetView.setTranslationY(totalDrag);
+        }
         if (!header.ismRunning()) {
             header.handleOffset((int) (totalDrag * 1.2));
         }
@@ -199,27 +205,39 @@ public class HeadViewFrameLayout1 extends FrameLayout implements NestedScrolling
     }
 
     private void resetDrag(int offset) {
-        targetView.animate()
-                .translationY(offset)
-                .setDuration(200)
-                .setInterpolator(fastOutLinearInInterpolator)
-                .start();
-        totalDrag = defaulTranslationY;
-    }
-
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
+        if (targetView != null) {
+            targetView.animate()
+                    .translationY(offset)
+                    .setDuration(200)
+                    .setInterpolator(fastOutLinearInInterpolator)
+                    .start();
+            totalDrag = defaulTranslationY;
+        }
     }
 
 
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        // TODO: 2016-06-29 使用接口定义相关
-        targetView = getChildAt(1);
-        defaulTranslationY = targetView.getTranslationY();
+        ensureTarget();
+        if (targetView != null) {
+            defaulTranslationY = targetView.getTranslationY();
+        }
         totalDrag = defaulTranslationY;
+    }
+
+    private void ensureTarget() {
+        // Don't bother getting the parent height if the parent hasn't been laid
+        // out yet.
+        if (targetView == null) {
+            for (int i = 0; i < getChildCount(); i++) {
+                View child = getChildAt(i);
+                if (!child.equals(header)) {
+                    targetView = child;
+                    break;
+                }
+            }
+        }
     }
 
     @Override
@@ -232,7 +250,12 @@ public class HeadViewFrameLayout1 extends FrameLayout implements NestedScrolling
     @Override
     public void onProgressLoading() {
         resetDrag((int) (header.getHeight() * 0.6f));
-        // TODO: 2016-07-18 开始加载一些东西。。。
+        postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                setRefreshError();
+            }
+        }, 2500);
     }
 
 
@@ -245,16 +268,15 @@ public class HeadViewFrameLayout1 extends FrameLayout implements NestedScrolling
     }
 
     public void setRefreshError() {
-        header.setCurrentState(TouchCircleView.STATE_DRAW_ERROR);
+        header.setRefreshError();
     }
 
     public void setRefreshSuccess() {
-        header.setCurrentState(TouchCircleView.STATE_DRAW_SUCCESS);
+        header.setRefreshSuccess();
     }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        //scrollble false 直接返回。如果scrollble 为true 那么还要判断 super.onInterceptTouchEvent(ev)的返回。
         Log.e("TAG", "onInterceptTouchEvent: ....");
         if (!scrollble) {
             return header.ismRunning() || super.onInterceptTouchEvent(ev);
@@ -265,8 +287,6 @@ public class HeadViewFrameLayout1 extends FrameLayout implements NestedScrolling
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        Log.e("TAG", "onTouchEvent: ScrollAbleViewPager有事件了！！！");
-        //如果子View不消费相关的事件，那么又会走到`onTouchEvent`,那么是不可滑动的话，直接就返回 true(!scrollble) ,其他情况那么直接就返回 super.onTouchEvent(ev).
         if (!scrollble) {
             return header.ismRunning() || super.onTouchEvent(ev);
         } else {
@@ -279,10 +299,16 @@ public class HeadViewFrameLayout1 extends FrameLayout implements NestedScrolling
         return scrollble;
     }
 
-    /**
-     * @param scrollble
-     */
     public void setLoadingScrollable(boolean scrollble) {
         this.scrollble = scrollble;
+    }
+
+    public void addLoadingListener(@NonNull TouchCircleView.OnLoadingListener listener) {
+        header.addLoadingListener(listener);
+
+    }
+
+    public boolean removeLoadingListener(@NonNull TouchCircleView.OnLoadingListener listener) {
+        return header.removeLoadingListener(listener);
     }
 }

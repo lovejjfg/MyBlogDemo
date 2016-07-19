@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -20,6 +21,8 @@ import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 
 import com.lovejjfg.blogdemo.R;
+
+import java.util.ArrayList;
 
 
 /**
@@ -51,7 +54,7 @@ public class TouchCircleView extends View {
     private static final int DELAY_TIME = 2000;
     private static final int START_ANGLE = 270;
     private static final int RESULT_TIME = 300;
-    private static final int ALPHA_FULL= 255;
+    private static final int ALPHA_FULL = 255;
     private static final int MIN_SWEEP_ANGLE = 30;
 
     private float mCurrentGlobalAngleOffset;
@@ -69,7 +72,7 @@ public class TouchCircleView extends View {
     public static final int STATE_DRAW_SUCCESS = 8;
     private float currentOffset;
     private float density;
-    private  int defaultOffset;
+    private int defaultOffset;
     private final Runnable finishAction = new Runnable() {
         @Override
         public void run() {
@@ -98,7 +101,7 @@ public class TouchCircleView extends View {
     private int centerX;
     private float mBorderWidth = 4;
     private float mRingCenterRadius;
-    private boolean mModeAppearing = true;
+    private boolean mModeAppearing ;
     private float mArrowScale = 1.0f;
     private float fraction;
     private Paint mHookPaint;
@@ -192,6 +195,7 @@ public class TouchCircleView extends View {
             paths = dy - 300;
             if (dy >= 460) {//360+半径？？
                 float precent = (dy - 460) * 1.0f / 100;
+                mArrowScale = precent;
                 innerPaint.setAlpha((int) ((1 - precent) * ALPHA_FULL));
                 outRectF.set(centerX - outCirRadius + precent * 20, 15 * precent + currentOffset, centerX + outCirRadius - precent * 20
                         , centerY + outCirRadius - 10 * precent + currentOffset);
@@ -213,20 +217,20 @@ public class TouchCircleView extends View {
 
     private void updateState(final int state, final boolean hide, boolean delay) {
         currentState = state;
-        if (listener != null) {
-            if (delay) {
-                postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        listener.onProgressStateChange(state, hide);
-                    }
-                }, RESULT_TIME);
-            } else {
-                listener.onProgressStateChange(state, hide);
+        if (listeners != null) {
+            for (final OnLoadingListener listener : listeners) {
+                if (delay) {
+                    postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            listener.onProgressStateChange(state, hide);
+                        }
+                    }, RESULT_TIME);
+                } else {
+                    listener.onProgressStateChange(state, hide);
+                }
             }
-
         }
-
     }
 
     public void resetTouch() {
@@ -400,7 +404,6 @@ public class TouchCircleView extends View {
 
     /**
      * 画勾
-     *
      */
     private void drawHook(Canvas canvas) {
         mHook.reset();
@@ -445,17 +448,24 @@ public class TouchCircleView extends View {
             return;
         }
         mRunning = true;
-        if (listener != null) {
-            listener.onProgressStateChange(STATE_DRAW_PROGRESS, false);
-            listener.onProgressLoading();
-        }
+        dispatchListener();
         mObjectAnimatorAngle.setFloatValues(mCurrentGlobalAngle, 360f);
         mObjectAnimatorSweep.setFloatValues(mCurrentSweepAngle, 360f - MIN_SWEEP_ANGLE * 2);
 //        mCurrentState = STATE_LOADING;
         mObjectAnimatorAngle.start();
         mObjectAnimatorSweep.start();
-        postDelayed(finishAction, DELAY_TIME);
+//        postDelayed(finishAction, DELAY_TIME);
         invalidate();
+    }
+
+    private void dispatchListener() {
+        if (listeners != null) {
+            for (OnLoadingListener listener : listeners) {
+                listener.onProgressStateChange(STATE_DRAW_PROGRESS, false);
+                listener.onProgressLoading();
+            }
+
+        }
     }
 
     public void finish() {
@@ -464,7 +474,7 @@ public class TouchCircleView extends View {
         if (!fractionAnimator.isRunning()) {
             fractionAnimator.start();
         }
-        updateState(((int) (Math.random() * 10)) % 2 == 1 ? STATE_DRAW_ERROR : STATE_DRAW_SUCCESS, true, true);
+        updateState(currentState, true, true);
         invalidate();
     }
 
@@ -576,12 +586,21 @@ public class TouchCircleView extends View {
         return mCurrentSweepAngle;
     }
 
-    public void setListener(@Nullable OnLoadingListener listener) {
-        this.listener = listener;
+    ArrayList<OnLoadingListener> listeners = new ArrayList<>();
+
+    public void addLoadingListener(@Nullable OnLoadingListener listener) {
+        if (listener != null) {
+            listeners.add(listener);
+        }
     }
 
-    @Nullable
-    OnLoadingListener listener;
+    public boolean removeLoadingListener(@NonNull OnLoadingListener listener) {
+        return listeners != null && listeners.remove(listener);
+    }
+
+
+//    @Nullable
+//    OnLoadingListener listener;
 
     public void setRefresh(boolean mRefresh) {
         currentState = mRefresh ? STATE_DRAW_PROGRESS : STATE_DRAW_IDLE;
@@ -595,6 +614,16 @@ public class TouchCircleView extends View {
             invalidate();
         }
 
+    }
+
+    public void setRefreshError() {
+        currentState = STATE_DRAW_ERROR;
+        finish();
+    }
+
+    public void setRefreshSuccess() {
+        currentState = STATE_DRAW_SUCCESS;
+        finish();
     }
 
     public interface OnLoadingListener {
