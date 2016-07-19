@@ -49,11 +49,14 @@ public class TouchCircleView extends View {
     private static final int ANGLE_ANIMATOR_DURATION = 1000;//转速
     private static final int SWEEP_ANIMATOR_DURATION = 800;
     private static final int DELAY_TIME = 2000;
+    private static final int START_ANGLE = 270;
+    private static final int RESULT_TIME = 300;
+    private static final int ALPHA_FULL= 255;
+    private static final int MIN_SWEEP_ANGLE = 30;
 
     private float mCurrentGlobalAngleOffset;
     private float mCurrentGlobalAngle;
     private float mCurrentSweepAngle;
-    private static final int MIN_SWEEP_ANGLE = 30;
 
     public static final int STATE_DRAW_IDLE = 0;
     public static final int STATE_DRAW_ARC = 1;
@@ -66,6 +69,7 @@ public class TouchCircleView extends View {
     public static final int STATE_DRAW_SUCCESS = 8;
     private float currentOffset;
     private float density;
+    private  int defaultOffset;
     private final Runnable finishAction = new Runnable() {
         @Override
         public void run() {
@@ -139,6 +143,7 @@ public class TouchCircleView extends View {
     public TouchCircleView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         density = context.getResources().getDisplayMetrics().density;
+        defaultOffset = (int) (16 * density);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.HeaderProgress, defStyleAttr, 0);
         mBorderWidth = a.getDimension(R.styleable.HeaderProgress_circleBorderWidth,
                 2 * density);
@@ -164,10 +169,10 @@ public class TouchCircleView extends View {
             dy = 0;
         }
         if (dy != angle && dy >= 0 && dy <= 360) {
-            paint.setAlpha((int) ((dy / 360f) * 255));
+            paint.setAlpha((int) ((dy / 360f) * ALPHA_FULL));
             updateState(STATE_DRAW_ARC, false);
             resetAngle();
-            currentOffset = dy / 360f * 16 * density;
+            currentOffset = dy / 360f * defaultOffset;
             updateRectF();
             angle = dy;
             Log.i("TAG", "onTouchEvent: " + angle);
@@ -187,7 +192,7 @@ public class TouchCircleView extends View {
             paths = dy - 300;
             if (dy >= 460) {//360+半径？？
                 float precent = (dy - 460) * 1.0f / 100;
-                innerPaint.setAlpha((int) ((1 - precent) * 255));
+                innerPaint.setAlpha((int) ((1 - precent) * ALPHA_FULL));
                 outRectF.set(centerX - outCirRadius + precent * 20, 15 * precent + currentOffset, centerX + outCirRadius - precent * 20
                         , centerY + outCirRadius - 10 * precent + currentOffset);
             }
@@ -215,7 +220,7 @@ public class TouchCircleView extends View {
                     public void run() {
                         listener.onProgressStateChange(state, hide);
                     }
-                }, 300);
+                }, RESULT_TIME);
             } else {
                 listener.onProgressStateChange(state, hide);
             }
@@ -231,7 +236,7 @@ public class TouchCircleView extends View {
         if (STATE_DRAW_ARROW == currentState || STATE_DRAW_PATH == currentState) {
             outRectF.set(centerX - outCirRadius, currentOffset, centerX + outCirRadius
                     , centerY + outCirRadius + currentOffset);
-            innerPaint.setAlpha(255);
+            innerPaint.setAlpha(ALPHA_FULL);
             updateState(STATE_DRAW_PROGRESS, false);
             start();
             return;
@@ -243,7 +248,7 @@ public class TouchCircleView extends View {
     }
 
     private void startLoading() {
-        innerPaint.setAlpha(255);
+        innerPaint.setAlpha(ALPHA_FULL);
         start();
     }
 
@@ -307,10 +312,8 @@ public class TouchCircleView extends View {
             case STATE_DRAW_IDLE:
                 break;
             case STATE_DRAW_ARC:
-//                paint.setColor(Color.RED);
-                canvas.drawArc(outRectF, 270, angle, true, paint);
-//                paint.setColor(Color.WHITE);
-                canvas.drawArc(outRectF, 270, angle, false, circlePaint);
+                canvas.drawArc(outRectF, START_ANGLE, angle, true, paint);
+                canvas.drawArc(outRectF, START_ANGLE, angle, false, circlePaint);
                 break;
             case STATE_DRAW_ARROW:
                 isDrawTriangle = true;
@@ -348,7 +351,7 @@ public class TouchCircleView extends View {
     }
 
     private void drawArc(Canvas canvas) {
-        float startAngle = mCurrentGlobalAngle - mCurrentGlobalAngleOffset + 270;
+        float startAngle = mCurrentGlobalAngle - mCurrentGlobalAngleOffset + START_ANGLE;
         float sweepAngle = mCurrentSweepAngle;
         if (mModeAppearing) {
 //            paint.setColor(gradient(mColors[mCurrentColorIndex], mColors[mNextColorIndex],
@@ -434,7 +437,7 @@ public class TouchCircleView extends View {
         int newr = (int) (r2 * p + r1 * (1 - p));
         int newg = (int) (g2 * p + g1 * (1 - p));
         int newb = (int) (b2 * p + b1 * (1 - p));
-        return Color.argb(255, newr, newg, newb);
+        return Color.argb(ALPHA_FULL, newr, newg, newb);
     }
 
     private void start() {
@@ -490,8 +493,6 @@ public class TouchCircleView extends View {
             mCurrentGlobalAngleOffset = (mCurrentGlobalAngleOffset + MIN_SWEEP_ANGLE * 2) % 360;
         }
     }
-    // ////////////////////////////////////////////////////////////////////////////
-    // ////////////// Animation
 
     private Property<TouchCircleView, Float> mAngleProperty = new Property<TouchCircleView, Float>(Float.class, "angle") {
         @Override
@@ -543,7 +544,7 @@ public class TouchCircleView extends View {
             }
         });
 
-        fractionAnimator = ValueAnimator.ofInt(0, 255);
+        fractionAnimator = ValueAnimator.ofInt(0, ALPHA_FULL);
         fractionAnimator.setInterpolator(ANGLE_INTERPOLATOR);
         fractionAnimator.setDuration(100);
         fractionAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -586,7 +587,7 @@ public class TouchCircleView extends View {
         currentState = mRefresh ? STATE_DRAW_PROGRESS : STATE_DRAW_IDLE;
         updateState(currentState, !mRefresh);
         if (mRefresh) {
-            currentOffset = density * 16;
+            currentOffset = defaultOffset;
             post(startLoadingAction);
         } else {
             currentOffset = 0;
