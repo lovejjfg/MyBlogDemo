@@ -86,6 +86,7 @@ public class TouchCircleView extends View {
             startLoading();
         }
     };
+//    private boolean isBack;
 
     public int getCurrentState() {
         return currentState;
@@ -101,7 +102,7 @@ public class TouchCircleView extends View {
     private int centerX;
     private float mBorderWidth = 4;
     private float mRingCenterRadius;
-    private boolean mModeAppearing ;
+    private boolean mModeAppearing;
     private float mArrowScale = 1.0f;
     private float fraction;
     private Paint mHookPaint;
@@ -134,6 +135,7 @@ public class TouchCircleView extends View {
 
     private long angle;
     private long paths;
+    private long backpaths;
 
     public TouchCircleView(Context context) {
         this(context, null);
@@ -171,6 +173,7 @@ public class TouchCircleView extends View {
         if (dy < 0) {
             dy = 0;
         }
+        mModeAppearing = true;
         if (dy != angle && dy >= 0 && dy <= 360) {
             paint.setAlpha((int) ((dy / 360f) * ALPHA_FULL));
             updateState(STATE_DRAW_ARC, false);
@@ -183,6 +186,9 @@ public class TouchCircleView extends View {
             return;
         }
         if (dy > 360 && dy < 460) {
+            innerPaint.setAlpha(ALPHA_FULL);
+            outRectF.set(centerX - outCirRadius, currentOffset, centerX + outCirRadius
+                    , centerY + outCirRadius + currentOffset);
             updateState(STATE_DRAW_ARROW, false);
             mCurrentGlobalAngle = dy - 360;
             mCurrentSweepAngle = dy - 360;
@@ -190,22 +196,38 @@ public class TouchCircleView extends View {
             return;
         }
         //正常顺序到达这里
-        if (dy >= 460 && dy <= 560) {
+        if ((currentState == STATE_DRAW_ARROW || currentState == STATE_DRAW_PATH) && dy >= 460 && dy <= 560) {
+            Log.e("TAG", "handleOffset: 画正常的PATH了" + dy);
             updateState(STATE_DRAW_PATH, false);
             paths = dy - 300;
-            if (dy >= 460) {//360+半径？？
-                float precent = (dy - 460) * 1.0f / 100;
-                mArrowScale = precent;
-                innerPaint.setAlpha((int) ((1 - precent) * ALPHA_FULL));
-                outRectF.set(centerX - outCirRadius + precent * 20, 15 * precent + currentOffset, centerX + outCirRadius - precent * 20
-                        , centerY + outCirRadius - 10 * precent + currentOffset);
-            }
+            float precent = (dy - 460) * 1.0f / 100;
+            innerPaint.setAlpha((int) ((1 - precent) * ALPHA_FULL));
+//                mArrowScale = precent;
+            outRectF.set(centerX - outCirRadius + precent * 20, 15 * precent + currentOffset, centerX + outCirRadius - precent * 20
+                    , centerY + outCirRadius - 10 * precent + currentOffset);
             invalidate();
             return;
         }
 
-        if (dy >= 600) {
+        if ((currentState == STATE_DRAW_CIRCLE || currentState == STATE_DRAW_OUT_PATH) && dy >= 460 && dy <= 560) {
+            Log.e("TAG", "handleOffset: 画PATH了" + dy);
+            updateState(STATE_DRAW_OUT_PATH, false);
+            backpaths = 560 - dy + 180;
+            float precent = (560 - dy) * 1.0f / 100;
+//            secondRectf.set(centerX - outCirRadius, currentOffset + outCirRadius * 2, centerX + outCirRadius
+//                    , centerY + outCirRadius + currentOffset + outCirRadius * 2);
+            secondRectf.set(centerX - outCirRadius + precent * 20, currentOffset + outCirRadius * 2 + precent * 15, centerX + outCirRadius - precent * 20
+                    , centerY + outCirRadius + currentOffset + outCirRadius * 2 - precent * 20);
+            invalidate();
+            return;
+        }
+
+
+        if (dy > 560) {
+            Log.e("TAG", "handleOffset: 画第二个圆形了" + dy);
             updateState(STATE_DRAW_CIRCLE, false);
+            secondRectf.set(centerX - outCirRadius, currentOffset + outCirRadius * 2, centerX + outCirRadius
+                    , centerY + outCirRadius + currentOffset + outCirRadius * 2);
             invalidate();
         }
     }
@@ -342,6 +364,14 @@ public class TouchCircleView extends View {
                 canvas.drawPath(path, paint);
                 canvas.drawArc(outRectF, 0, 360, true, paint);
                 drawArc(canvas);
+                break;
+            case STATE_DRAW_OUT_PATH:
+                path.reset();
+                path.moveTo((float) (secondRectf.centerX() + Math.cos(180 / Math.PI * 30) * (secondRectf.centerX() - secondRectf.left)), (float) (secondRectf.centerY() + Math.sin(180 / Math.PI * 30) * (secondRectf.centerY() - secondRectf.top)));
+                path.quadTo(secondRectf.centerX(), secondRectf.centerY() - backpaths, (float) (secondRectf.centerX() - Math.cos(180 / Math.PI * 30) * (secondRectf.centerX() - secondRectf.left)), (float) (secondRectf.centerY() + Math.sin(180 / Math.PI * 30) * (secondRectf.centerY() - secondRectf.top)));
+                canvas.drawPath(path, paint);
+                canvas.drawArc(secondRectf, 0, 360, true, paint);
+//                drawArc(canvas);
                 break;
             case STATE_DRAW_CIRCLE:
                 canvas.drawArc(secondRectf, 0, 360, true, paint);

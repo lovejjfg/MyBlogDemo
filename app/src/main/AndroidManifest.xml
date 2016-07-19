@@ -50,6 +50,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity
             android:name=".activity.VRActivity"
@@ -57,6 +58,11 @@
             android:label="@string/title_activity_vr"
             android:screenOrientation="fullSensor"
             android:theme="@style/AppTheme.VR">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
         <activity android:name=".LockListActivity"
