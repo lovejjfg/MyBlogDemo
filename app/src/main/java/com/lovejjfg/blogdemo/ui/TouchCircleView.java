@@ -128,6 +128,7 @@ public class TouchCircleView extends View {
     }
 
     private int outCirRadius = 100;
+    private int secondRadius = (int) (outCirRadius*1f);
     private int innerCirRadius = outCirRadius - 30;
     private static int ARROW_WIDTH = 20 * 2;
     private static int ARROW_HEIGHT = 10 * 2;
@@ -154,6 +155,7 @@ public class TouchCircleView extends View {
                 2 * density);
         outCirRadius = (int) a.getDimension(R.styleable.HeaderProgress_outRadius, 20 * density);
         innerCirRadius = (int) a.getDimension(R.styleable.HeaderProgress_innerRadius, 12 * density);
+        secondRadius = (int) (outCirRadius * 1.2f);
         a.recycle();
         initView();
     }
@@ -199,12 +201,12 @@ public class TouchCircleView extends View {
         if ((currentState == STATE_DRAW_ARROW || currentState == STATE_DRAW_PATH) && dy >= 460 && dy <= 560) {
             Log.e("TAG", "handleOffset: 画正常的PATH了" + dy);
             updateState(STATE_DRAW_PATH, false);
-            paths = dy - 300;
+            paths = dy - 380;
             float precent = (dy - 460) * 1.0f / 100;
             innerPaint.setAlpha((int) ((1 - precent) * ALPHA_FULL));
 //                mArrowScale = precent;
-            outRectF.set(centerX - outCirRadius + precent * 20, 15 * precent + currentOffset, centerX + outCirRadius - precent * 20
-                    , centerY + outCirRadius - 10 * precent + currentOffset);
+            outRectF.set(centerX - outCirRadius + precent * 30, 30 * precent + currentOffset, centerX + outCirRadius - precent * 30
+                    , centerY + outCirRadius - 18 * precent + currentOffset);
             invalidate();
             return;
         }
@@ -216,8 +218,8 @@ public class TouchCircleView extends View {
             float precent = (560 - dy) * 1.0f / 100;
 //            secondRectf.set(centerX - outCirRadius, currentOffset + outCirRadius * 2, centerX + outCirRadius
 //                    , centerY + outCirRadius + currentOffset + outCirRadius * 2);
-            secondRectf.set(centerX - outCirRadius + precent * 20, currentOffset + outCirRadius * 2 + precent * 15, centerX + outCirRadius - precent * 20
-                    , centerY + outCirRadius + currentOffset + outCirRadius * 2 - precent * 20);
+            secondRectf.set(centerX - secondRadius + precent * 25, currentOffset + secondRadius * 2 + precent * 15, centerX + secondRadius - precent * 25
+                    , centerY + secondRadius + currentOffset + secondRadius * 2 - precent * 20);
             invalidate();
             return;
         }
@@ -226,8 +228,8 @@ public class TouchCircleView extends View {
         if (dy > 560) {
             Log.e("TAG", "handleOffset: 画第二个圆形了" + dy);
             updateState(STATE_DRAW_CIRCLE, false);
-            secondRectf.set(centerX - outCirRadius, currentOffset + outCirRadius * 2, centerX + outCirRadius
-                    , centerY + outCirRadius + currentOffset + outCirRadius * 2);
+            secondRectf.set(centerX - secondRadius, centerY-secondRadius+currentOffset + secondRadius * 2, centerX + secondRadius
+                    , centerY + secondRadius + currentOffset + secondRadius * 2);
             invalidate();
         }
     }
@@ -326,8 +328,8 @@ public class TouchCircleView extends View {
         outRectF.set(centerX - outCirRadius, currentOffset, centerX + outCirRadius
                 , centerY + outCirRadius + currentOffset);
         innerRectf.set(centerX - innerCirRadius, centerY - innerCirRadius + currentOffset, centerX + innerCirRadius, centerY + innerCirRadius + currentOffset);
-        secondRectf.set(centerX - outCirRadius, currentOffset + outCirRadius * 2, centerX + outCirRadius
-                , centerY + outCirRadius + currentOffset + outCirRadius * 2);
+        secondRectf.set(centerX - secondRadius, currentOffset + secondRadius * 2, centerX + secondRadius
+                , centerY + secondRadius + currentOffset + secondRadius * 2);
     }
 
     //    注意：onDraw每次被调用时canvas画布都是一个干净的、空白的、透明的，他不会记录以前画上去的
@@ -360,7 +362,8 @@ public class TouchCircleView extends View {
             case STATE_DRAW_PATH:
                 path.reset();
                 path.moveTo((float) (outRectF.centerX() - Math.cos(180 / Math.PI * 30) * (outRectF.centerX() - outRectF.left)), (float) (outRectF.centerY() - Math.sin(180 / Math.PI * 30) * (outRectF.centerY() - outRectF.top)));
-                path.quadTo(outRectF.centerX(), outRectF.centerY() + paths, (float) (outRectF.centerX() + Math.cos(180 / Math.PI * 30) * (outRectF.centerX() - outRectF.left)), (float) (outRectF.centerY() - Math.sin(180 / Math.PI * 30) * (outRectF.centerY() - outRectF.top)));
+//                path.quadTo(outRectF.centerX(), outRectF.centerY() + paths, (float) (outRectF.centerX() + Math.cos(180 / Math.PI * 30) * (outRectF.centerX() - outRectF.left)), (float) (outRectF.centerY() - Math.sin(180 / Math.PI * 30) * (outRectF.centerY() - outRectF.top)));
+                path.cubicTo(outRectF.centerX()+30, outRectF.centerY() + paths,outRectF.centerX()-30, outRectF.centerY() + paths, (float) (outRectF.centerX() + Math.cos(180 / Math.PI * 30) * (outRectF.centerX() - outRectF.left)), (float) (outRectF.centerY() - Math.sin(180 / Math.PI * 30) * (outRectF.centerY() - outRectF.top)));
                 canvas.drawPath(path, paint);
                 canvas.drawArc(outRectF, 0, 360, true, paint);
                 drawArc(canvas);
@@ -368,7 +371,8 @@ public class TouchCircleView extends View {
             case STATE_DRAW_OUT_PATH:
                 path.reset();
                 path.moveTo((float) (secondRectf.centerX() + Math.cos(180 / Math.PI * 30) * (secondRectf.centerX() - secondRectf.left)), (float) (secondRectf.centerY() + Math.sin(180 / Math.PI * 30) * (secondRectf.centerY() - secondRectf.top)));
-                path.quadTo(secondRectf.centerX(), secondRectf.centerY() - backpaths, (float) (secondRectf.centerX() - Math.cos(180 / Math.PI * 30) * (secondRectf.centerX() - secondRectf.left)), (float) (secondRectf.centerY() + Math.sin(180 / Math.PI * 30) * (secondRectf.centerY() - secondRectf.top)));
+                path.cubicTo(secondRectf.centerX()-30f, secondRectf.centerY() - backpaths,secondRectf.centerX()+30f, secondRectf.centerY() - backpaths,(float) (secondRectf.centerX() - Math.cos(180 / Math.PI * 30) * (secondRectf.centerX() - secondRectf.left)), (float) (secondRectf.centerY() + Math.sin(180 / Math.PI * 30) * (secondRectf.centerY() - secondRectf.top)));
+//                path.quadTo(secondRectf.centerX(), secondRectf.centerY() - backpaths, (float) (secondRectf.centerX() - Math.cos(180 / Math.PI * 30) * (secondRectf.centerX() - secondRectf.left)), (float) (secondRectf.centerY() + Math.sin(180 / Math.PI * 30) * (secondRectf.centerY() - secondRectf.top)));
                 canvas.drawPath(path, paint);
                 canvas.drawArc(secondRectf, 0, 360, true, paint);
 //                drawArc(canvas);
