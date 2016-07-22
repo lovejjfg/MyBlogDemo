@@ -13,4 +13,6 @@
     <dimen name="dp4">4dp</dimen>
     <!-- grid -->
     <integer name="num_columns">3</integer>
+    <!--crop-->
+    <dimen name="crop__bar_height">48dp</dimen>
 </resources>

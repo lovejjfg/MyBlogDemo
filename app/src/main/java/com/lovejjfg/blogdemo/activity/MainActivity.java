@@ -2,7 +2,7 @@ package com.lovejjfg.blogdemo.activity;
 
 import android.animation.Animator;
 import android.content.Intent;
-import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.NestedScrollView;
@@ -17,14 +17,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.lovejjfg.blogdemo.R;
 import com.lovejjfg.blogdemo.ui.AnimUtils;
 import com.lovejjfg.blogdemo.utils.BaseUtil;
 import com.lovejjfg.blogdemo.utils.JumpUtil;
+import com.lovejjfg.blogdemo.utils.PhotoUtils;
+import com.lovejjfg.blogdemo.utils.crop.Crop;
 import com.lovejjfg.blogdemo.utils.glide.RoundTransform;
+
+import java.io.File;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -52,30 +53,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int offset;
     private Interpolator interpolator;
     private int btHeight;
+    private static int CAMERA_CODE = 2222;
     private boolean isShown = false;
     private int currentDy;
+    private PhotoUtils photoUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        photoUtils = new PhotoUtils(this);
         ButterKnife.bind(this);
 //        mTv2.bringToFront();
         mBt.setOnClickListener(this);
+        File file = new File(getCacheDir() + "/测试.jpg");
         Glide.with(this)
-                .load(R.mipmap.girl2)
-                .listener(new RequestListener<Integer, GlideDrawable>() {
-                    @Override
-                    public boolean onException(Exception e, Integer model, Target<GlideDrawable> target, boolean isFirstResource) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onResourceReady(GlideDrawable resource, Integer model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                        return false;
-                    }
-                })
+                .load(file)
                 .transform(new RoundTransform(getApplicationContext(), 100))
                 .into(mIv);
         mIv.setOnClickListener(new View.OnClickListener() {
@@ -267,16 +261,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == CAMERA_CODE) {
+                File picTureFile = photoUtils.getPicTureFile();
+                photoUtils.crop(picTureFile);
+            } else {
+                Uri output = Crop.getOutput(data);
+                Glide.with(this)
+                        .load(output)
+                        .into(mIv);
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_slide:
-                Blurry.with(this)
-                        .color(Color.argb(66, 255, 255, 0))
-                        .radius(25)
-                        .sampling(2)
-                        .async()
-                        .onto((ViewGroup) getWindow().getDecorView());
+//                Blurry.with(this)
+//                        .color(Color.argb(66, 255, 255, 0))
+//                        .radius(25)
+//                        .sampling(2)
+//                        .async()
+//                        .onto((ViewGroup) getWindow().getDecorView());
 //                BaseUtil.startActivityOnspecifiedAnimation(this, SlidToFinishActivity.class);
+                photoUtils.takePhoto(2222);
 
                 break;
             case R.id.tv_browser:
@@ -301,4 +313,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
+
+
+//    private File compressImageToDefalutSize(String filePath) {
+//        String parentPath = PhotoUtils.getImageCheDir(this);
+//        String path = parentPath + System.nanoTime() + ".jpg";
+//        File file = new File(path);
+//        Bitmap bitmap = null ;
+//        try {
+//            ByteArrayOutputStream stream = new ByteArrayOutputStream()
+//            if (baos.toByteArray().length > 0) {
+//                File pf = file.getParentFile();
+//                if (pf != null) {
+//                    pf.mkdirs();
+//                }
+//                if (!file.exists()) {
+//                    file.createNewFile();
+//                }
+//                DevUtil.v("DaleLiu", "----" + path);
+//
+//                try {
+//                    FileOutputStream out = new FileOutputStream(file);
+//                    out.write(baos.toByteArray());
+//                    out.flush();
+//                    out.close();
+//                } catch (IOException e) {
+//                    // TODO Auto-generated catch block
+//                    e.printStackTrace();
+//                }
+//
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            DevUtil.w("DaleLiu", "--"+e.toString());
+//        }finally {
+//            if(bitmap != null){
+//                bitmap.recycle();
+//            }
+//        }
+//        return file;
+//    }
+
+
 }

@@ -8,6 +8,9 @@
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <meta-data
         android:name="UMENG_CHANNEL"
@@ -52,17 +55,13 @@
             </intent-filter>
 
         </activity>
+        <!--VR相关-->
         <activity
             android:name=".activity.VRActivity"
             android:configChanges="orientation|screenSize|screenLayout"
             android:label="@string/title_activity_vr"
             android:screenOrientation="fullSensor"
             android:theme="@style/AppTheme.VR">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
         </activity>
         <activity android:name=".LockListActivity"
@@ -70,6 +69,7 @@
             >
 
         </activity>
+        <activity android:name=".utils.crop.CropImageActivity" />
     </application>
 
 </manifest>

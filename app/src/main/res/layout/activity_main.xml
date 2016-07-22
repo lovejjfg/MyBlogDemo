@@ -75,8 +75,8 @@
                 android:id="@+id/iv"
                 android:layout_gravity="center"
                 android:layout_marginBottom="100dp"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
                 android:stateListAnimator="@animator/raise" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

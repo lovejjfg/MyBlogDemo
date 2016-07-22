@@ -107,4 +107,11 @@
     <string name="pull_to_refresh_footer_release_label">松开后加载</string>
     <string name="pull_to_refresh_footer_refreshing_label">加载中\u2026</string>
     <string name="pull_to_refresh_load_error">网络异常，请检查网络</string>
+
+    <!--crop-->
+    <string name="crop__saving">保存图片中…</string>
+    <string name="crop__wait">请稍等…</string>
+    <string name="crop__pick_error">无图片资源可用</string>
+    <string name="crop_done">完成</string>
+    <string name="crop_cancel">取消</string>
 </resources>
