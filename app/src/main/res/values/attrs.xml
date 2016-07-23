@@ -11,6 +11,8 @@
 
     <declare-styleable name="CustomerProgress">
         <attr name="progressBorderWidth" format="dimension" />
+        <attr name="progressErrorColor" format="color|integer"/>
+        <attr name="progressSuccessColor" format="color|integer"/>
     </declare-styleable>
 
 </resources>

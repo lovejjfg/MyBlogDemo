@@ -25,14 +25,16 @@ public class CustomerProgress extends View implements View.OnClickListener {
 
     private static final Interpolator ANGLE_INTERPOLATOR = new LinearInterpolator();
     private static final Interpolator SWEEP_INTERPOLATOR = new AccelerateDecelerateInterpolator();
-    private static final int ANGLE_ANIMATOR_DURATION = 1500;//转速
-    private static final int SWEEP_ANIMATOR_DURATION = 1300;
+    private static final int ANGLE_ANIMATOR_DURATION = 3000;//转速
+    private static final int SWEEP_ANIMATOR_DURATION = 2000;
+    private static final int DELAY_TIME = 10000;
     private static final int MIN_SWEEP_ANGLE = 30;
     private static final int DEFAULT_BORDER_WIDTH = 3;
     private final RectF fBounds = new RectF();
 
     private ObjectAnimator mObjectAnimatorSweep;
     private ObjectAnimator mObjectAnimatorAngle;
+    private ValueAnimator fractionAnimator;
     private boolean mModeAppearing = true;
     private Paint mPaint;
     private float mCurrentGlobalAngleOffset;
@@ -44,19 +46,21 @@ public class CustomerProgress extends View implements View.OnClickListener {
     private int mCurrentColorIndex;
     private int mNextColorIndex;
     private static final int STATE_LOADING = 1;
-    private static final int STATE_DONE = 2;
+    private static final int STATE_FINISH = 2;
+    private static final int STATE_ERROR = 3;
     private int mCurrentState;
     private Path mHook;
     private Paint mHookPaint;
-    private ValueAnimator hookAnimator;
     private Path mArrow;
     private float mRingCenterRadius;
-    private static int ARROW_WIDTH = 10;
-    private static int ARROW_HEIGHT = 5;
+    private static int ARROW_WIDTH = 10 * 2;
+    private static int ARROW_HEIGHT = 5 * 2;
     private Paint mArrowPaint;
     private float mArrowScale = 1f;
     private float mStrokeInset = 2.5f;
     private static final float ARROW_OFFSET_ANGLE = 5;
+    private float fraction;
+    private Path mError;
 
 
     public CustomerProgress(Context context) {
@@ -74,9 +78,9 @@ public class CustomerProgress extends View implements View.OnClickListener {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CustomerProgress, defStyleAttr, 0);
         mBorderWidth = a.getDimension(R.styleable.CustomerProgress_progressBorderWidth,
                 DEFAULT_BORDER_WIDTH * density);
-        ARROW_WIDTH = (int) (mBorderWidth);
-        ARROW_HEIGHT = (int) ((int) mBorderWidth * 0.5f);
         a.recycle();
+        ARROW_WIDTH = (int) (mBorderWidth * 2);
+        ARROW_HEIGHT = (int) mBorderWidth;
         mColors = new int[4];
         mColors[0] = Color.RED;//context.getResources().getColor(R.color.white);
         mColors[1] = Color.BLUE;//context.getResources().getColor(R.color.white);
@@ -85,8 +89,7 @@ public class CustomerProgress extends View implements View.OnClickListener {
         mCurrentColorIndex = 0;
         mNextColorIndex = 1;
 
-        mPaint = new Paint();
-        mPaint.setAntiAlias(true);
+        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setStrokeCap(Cap.ROUND);
         mPaint.setStrokeWidth(mBorderWidth);
@@ -96,6 +99,7 @@ public class CustomerProgress extends View implements View.OnClickListener {
         mArrowPaint = new Paint(mPaint);
 
         mHook = new Path();
+        mError = new Path();
 
         setupAnimations();
     }
@@ -111,9 +115,9 @@ public class CustomerProgress extends View implements View.OnClickListener {
         postDelayed(new Runnable() {
             @Override
             public void run() {
-//                finish();
+                finish();
             }
-        }, 5000);
+        }, DELAY_TIME);
         setOnClickListener(this);
         invalidate();
     }
@@ -167,12 +171,15 @@ public class CustomerProgress extends View implements View.OnClickListener {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        fBounds.left = mBorderWidth * 2 ;
-        fBounds.right = w - mBorderWidth * 2 ;
-        fBounds.top = mBorderWidth * 2 ;
-        fBounds.bottom = h - mBorderWidth * 2 ;
+        fBounds.left = mBorderWidth * 2f + .5f;
+        fBounds.right = w - mBorderWidth * 2f - .5f;
+        fBounds.top = mBorderWidth * 2f + .5f;
+        fBounds.bottom = h - mBorderWidth * 2f - .5f;
 
-        mRingCenterRadius = (Math.min(fBounds.right - fBounds.centerX(), fBounds.centerY() - fBounds.top))-mBorderWidth*0.5f;
+
+//        mRingCenterRadius = Math.min(w, h)+mBorderWidth/2;
+        mRingCenterRadius = Math.min(fBounds.centerX() - fBounds.left, fBounds.centerY() - fBounds.top) - mBorderWidth;
+
     }
 
     @Override
@@ -182,18 +189,30 @@ public class CustomerProgress extends View implements View.OnClickListener {
             case STATE_LOADING:
                 drawArc(canvas);
                 break;
-            case STATE_DONE:
+            case STATE_SUCCESS:
                 drawHook(canvas);
                 break;
         }
 
     }
 
+    private void drawError(Canvas canvas) {
+        mError.reset();
+        mError.moveTo(fBounds.centerX() + fBounds.width() * 0.2f * fraction, fBounds.centerY() - fBounds.height() * 0.2f * fraction);
+        mError.lineTo(fBounds.centerX() - fBounds.width() * 0.2f * fraction, fBounds.centerY() + fBounds.height() * 0.2f * fraction);
+        mError.moveTo(fBounds.centerX() - fBounds.width() * 0.2f * fraction, fBounds.centerY() - fBounds.height() * 0.2f * fraction);
+        mError.lineTo(fBounds.centerX() + fBounds.width() * 0.2f * fraction, fBounds.centerY() + fBounds.height() * 0.2f * fraction);
+        mHookPaint.setColor(mColors[3]);
+        canvas.drawPath(mError, mHookPaint);
+        canvas.drawArc(fBounds, 0, 360, false, mHookPaint);
+    }
+
     private void drawHook(Canvas canvas) {
         mHook.reset();
-        mHook.moveTo(fBounds.centerX() - fBounds.width() * 0.25f, fBounds.centerY());
-        mHook.lineTo(fBounds.centerX() - fBounds.width() * 0.1f, fBounds.centerY() + fBounds.height() * 0.18f);
-        mHook.lineTo(fBounds.centerX() + fBounds.width() * 0.3f, fBounds.centerY() - fBounds.height() * 0.2f);
+        mHook.moveTo(fBounds.centerX() - fBounds.width() * 0.25f * fraction, fBounds.centerY());
+        mHook.lineTo(fBounds.centerX() - fBounds.width() * 0.1f * fraction, fBounds.centerY() + fBounds.height() * 0.18f * fraction);
+        mHook.lineTo(fBounds.centerX() + fBounds.width() * 0.25f * fraction, fBounds.centerY() - fBounds.height() * 0.20f * fraction);
+        mHookPaint.setColor(mColors[0]);
         canvas.drawPath(mHook, mHookPaint);
         canvas.drawArc(fBounds, 0, 360, false, mHookPaint);
 
@@ -224,7 +243,7 @@ public class CustomerProgress extends View implements View.OnClickListener {
 
         // Adjust the position of the triangle so that it is inset as
         // much as the arc, but also centered on the arc.
-        float inset = (int) mStrokeInset / 2 * mArrowScale;
+//        float inset = (int) mStrokeInset / 2 * mArrowScale;
         float x = (float) (mRingCenterRadius * Math.cos(0) + fBounds.centerX());
         float y = (float) (mRingCenterRadius * Math.sin(0) + fBounds.centerY());
 
@@ -236,15 +255,14 @@ public class CustomerProgress extends View implements View.OnClickListener {
         mArrow.lineTo(ARROW_WIDTH * mArrowScale, 0);
         mArrow.lineTo((ARROW_WIDTH * mArrowScale / 2), (ARROW_HEIGHT
                 * mArrowScale));
-        mArrow.offset(x+30, y);
+        mArrow.offset(x , y);
         mArrow.close();
         // draw a triangle
-        mArrowPaint.setColor(Color.RED);
-        mArrowPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        c.rotate(startAngle + sweepAngle, fBounds.centerX(),
+//        mArrowPaint.setColor(Color.RED);
+//        mArrowPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        c.rotate(startAngle + sweepAngle , fBounds.centerX(),
                 fBounds.centerY());
         c.drawPath(mArrow, mPaint);
-//        c.drawPoint(x,y,mPaint);
     }
 
     private static int gradient(int color1, int color2, float p) {
@@ -329,12 +347,13 @@ public class CustomerProgress extends View implements View.OnClickListener {
             }
         });
 
-        hookAnimator = ValueAnimator.ofInt(0, 255);
-        hookAnimator.setInterpolator(ANGLE_INTERPOLATOR);
-        hookAnimator.setDuration(500);
-        hookAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+        fractionAnimator = ValueAnimator.ofInt(0, 255);
+        fractionAnimator.setInterpolator(ANGLE_INTERPOLATOR);
+        fractionAnimator.setDuration(100);
+        fractionAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
+                fraction = animation.getAnimatedFraction();
                 mHookPaint.setAlpha((Integer) animation.getAnimatedValue());
                 invalidate();
             }
