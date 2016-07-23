@@ -126,9 +126,9 @@ public class CustomerProgress extends View implements View.OnClickListener {
         mRunning = false;
         mObjectAnimatorAngle.cancel();
         mObjectAnimatorSweep.cancel();
-        mCurrentState = STATE_DONE;
-        if (!hookAnimator.isRunning()) {
-            hookAnimator.start();
+        mCurrentState = STATE_FINISH;
+        if (!fractionAnimator.isRunning()) {
+            fractionAnimator.start();
         }
     }
 
@@ -189,7 +189,7 @@ public class CustomerProgress extends View implements View.OnClickListener {
             case STATE_LOADING:
                 drawArc(canvas);
                 break;
-            case STATE_SUCCESS:
+            case STATE_FINISH:
                 drawHook(canvas);
                 break;
         }

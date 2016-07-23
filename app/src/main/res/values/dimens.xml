@@ -15,4 +15,14 @@
     <integer name="num_columns">3</integer>
     <!--crop-->
     <dimen name="crop__bar_height">48dp</dimen>
+
+    <!--header-->
+    <dimen name="reduce_width">6dp</dimen>
+    <dimen name="reduce_height">10dp</dimen>
+
+    <dimen name="first_range">120dp</dimen>
+    <dimen name="sec_range">154dp</dimen>
+    <dimen name="third_range">188dp</dimen>
+
+
 </resources>

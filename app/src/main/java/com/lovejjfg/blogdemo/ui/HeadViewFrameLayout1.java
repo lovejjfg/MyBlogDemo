@@ -180,19 +180,19 @@ public class HeadViewFrameLayout1 extends FrameLayout implements NestedScrolling
 
     private void updateOffset(int dyUnconsumed) {
 
-        totalDrag -= dyUnconsumed * 0.3f;
+        totalDrag -= dyUnconsumed;
         Log.i(TAG, "updateOffset: " + totalDrag);
         if (totalDrag < 0) {
             totalDrag = 0;
         }
-        if (totalDrag > getHeight() * 0.25f) {
-            totalDrag = getHeight() * 0.25f;
+        if (totalDrag > header.getHeight()*1.5 ) {
+            totalDrag = header.getHeight()*1.5f;
         }
         if (targetView != null) {
             targetView.setTranslationY(totalDrag);
         }
         if (!header.ismRunning()) {
-            header.handleOffset((int) (totalDrag * 1.2));
+            header.handleOffset((int) (totalDrag));
         }
 //        if (header.getTranslationY() == 0 && !isStart) {
 //            isStart = true;
