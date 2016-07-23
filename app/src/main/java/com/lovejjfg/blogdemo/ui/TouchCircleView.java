@@ -163,14 +163,15 @@ public class TouchCircleView extends View {
         secRange = (int) (114f * density);
         thirdRange = (int) (158f * density);
 
-        outPahtMax = 60 * density;
+        outPahtMax = 30 * density;
         pahtMax = 50 * density;
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.HeaderProgress, defStyleAttr, 0);
         mBorderWidth = a.getDimension(R.styleable.HeaderProgress_circleBorderWidth,
                 2 * density);
         outCirRadius = (int) a.getDimension(R.styleable.HeaderProgress_outRadius, 20 * density);
         innerCirRadius = (int) a.getDimension(R.styleable.HeaderProgress_innerRadius, 12 * density);
-        secondRadius = (int) (outCirRadius * 1.2f);
+        secondRadius = (int) (outCirRadius * 1.3f);
+        innerCirRadius = (int) (outCirRadius * 0.6f);
         a.recycle();
         initView();
     }
@@ -223,8 +224,8 @@ public class TouchCircleView extends View {
             paths = (long) (percent * pahtMax>20*density?percent * pahtMax:20*density);
             innerPaint.setAlpha((int) ((1 - percent) * ALPHA_FULL));
 //                mArrowScale = precent;
-            outRectF.set(centerX - outCirRadius + percent * 5 * density, 3 * density * percent + currentOffset, centerX + outCirRadius - percent * 5 * density
-                    , centerY + outCirRadius + 4 * density * percent + currentOffset);
+            outRectF.set(centerX - outCirRadius + percent * .2f*outCirRadius, .1f*outCirRadius * percent + currentOffset, centerX + outCirRadius - percent * .2f*outCirRadius
+                    , centerY + outCirRadius + 0.18f*outCirRadius * percent + currentOffset);
             invalidate();
             return;
         }
@@ -236,9 +237,9 @@ public class TouchCircleView extends View {
             Log.e("percent", "handleOffset: " + percent);
 //            secondRectf.set(centerX - outCirRadius, currentOffset + outCirRadius * 2, centerX + outCirRadius
 //                    , centerY + outCirRadius + currentOffset + outCirRadius * 2);
-            secondRectf.set(centerX - secondRadius + percent * 5 * density, currentOffset + secondRadius * 2 + percent * 10 * density, centerX + secondRadius - percent * 5 * density
-                    , centerY + secondRadius + currentOffset + secondRadius * 2 + percent * 2 * density);
-            backpaths = (long) (outPahtMax * percent>30*density?outPahtMax * percent:30*density);
+            secondRectf.set(centerX - secondRadius + percent * secondRadius*.25f , currentOffset + secondRadius * 2 + percent * secondRadius*.5f , centerX + secondRadius - percent * .25f*secondRadius
+                    , centerY + secondRadius + currentOffset + secondRadius * 2 + percent *.1f*secondRadius);
+            backpaths = (long) (30 * density + outPahtMax * percent);
             invalidate();
             return;
         }
@@ -353,7 +354,6 @@ public class TouchCircleView extends View {
                 , centerY + secondRadius + currentOffset + secondRadius * 2);
     }
 
-    //    注意：onDraw每次被调用时canvas画布都是一个干净的、空白的、透明的，他不会记录以前画上去的
     @Override
     protected void onDraw(Canvas canvas) {
         //动画的
@@ -362,7 +362,7 @@ public class TouchCircleView extends View {
                 break;
             case STATE_DRAW_ARC:
                 canvas.drawArc(outRectF, START_ANGLE, angle, true, paint);
-                canvas.drawArc(outRectF, START_ANGLE, angle, false, circlePaint);
+//                canvas.drawArc(outRectF, START_ANGLE, angle, false, circlePaint);
                 break;
             case STATE_DRAW_ARROW:
                 isDrawTriangle = true;
