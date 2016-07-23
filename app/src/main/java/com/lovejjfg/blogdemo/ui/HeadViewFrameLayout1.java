@@ -180,7 +180,7 @@ public class HeadViewFrameLayout1 extends FrameLayout implements NestedScrolling
 
     private void updateOffset(int dyUnconsumed) {
 
-        totalDrag -= dyUnconsumed;
+        totalDrag -= dyUnconsumed*0.5;
         Log.i(TAG, "updateOffset: " + totalDrag);
         if (totalDrag < 0) {
             totalDrag = 0;

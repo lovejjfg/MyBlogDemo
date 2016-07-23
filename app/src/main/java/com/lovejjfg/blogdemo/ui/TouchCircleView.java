@@ -34,17 +34,9 @@ import butterknife.BindInt;
  * Email lovejjfg@gmail.com
  */
 public class TouchCircleView extends View {
-    @BindDimen(R.dimen.reduce_height)
-    int reduceHeight;
-    @BindDimen(R.dimen.reduce_width)
-    int reducewidth;
-    @BindDimen(R.dimen.first_range)
     float firstRange;
-    @BindDimen(R.dimen.sec_range)
     float secRange;
-    @BindDimen(R.dimen.third_range)
     float thirdRange;
-
     private RectF outRectF;
     private RectF innerRectf;
     private RectF secondRectf;
@@ -102,6 +94,7 @@ public class TouchCircleView extends View {
     };
     private float outPahtMax;
     private float pahtMax;
+    private Paint secPaint;
     //    private boolean isBack;
 
     public int getCurrentState() {
@@ -170,8 +163,8 @@ public class TouchCircleView extends View {
         secRange = (int) (114f * density);
         thirdRange = (int) (158f * density);
 
-        outPahtMax = 80 * density;
-        pahtMax = 60 * density;
+        outPahtMax = 60 * density;
+        pahtMax = 50 * density;
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.HeaderProgress, defStyleAttr, 0);
         mBorderWidth = a.getDimension(R.styleable.HeaderProgress_circleBorderWidth,
                 2 * density);
@@ -245,7 +238,7 @@ public class TouchCircleView extends View {
 //                    , centerY + outCirRadius + currentOffset + outCirRadius * 2);
             secondRectf.set(centerX - secondRadius + percent * 5 * density, currentOffset + secondRadius * 2 + percent * 10 * density, centerX + secondRadius - percent * 5 * density
                     , centerY + secondRadius + currentOffset + secondRadius * 2 + percent * 2 * density);
-            backpaths = (long) (outPahtMax * percent>30f?outPahtMax * percent:30*density);
+            backpaths = (long) (outPahtMax * percent>30*density?outPahtMax * percent:30*density);
             invalidate();
             return;
         }
@@ -287,7 +280,7 @@ public class TouchCircleView extends View {
         if (mRunning) {
             return;
         }
-        if (STATE_DRAW_ARROW == currentState || STATE_DRAW_PATH == currentState) {
+        if (STATE_DRAW_ARROW == currentState || STATE_DRAW_PATH == currentState || STATE_DRAW_OUT_PATH == currentState) {
             outRectF.set(centerX - outCirRadius, currentOffset, centerX + outCirRadius
                     , centerY + outCirRadius + currentOffset);
             innerPaint.setAlpha(ALPHA_FULL);
@@ -321,6 +314,8 @@ public class TouchCircleView extends View {
         paint.setColor(Color.RED);
         paint.setStrokeCap(Paint.Cap.SQUARE);
 
+        secPaint = new Paint(paint);
+        secPaint.setColor(Color.GREEN);
         innerPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         innerPaint.setStyle(Paint.Style.STROKE);
         innerPaint.setAntiAlias(true);
@@ -399,12 +394,12 @@ public class TouchCircleView extends View {
                 path.moveTo((float) (secondRectf.centerX() + Math.cos(180 / Math.PI * 30) * (secondRectf.centerX() - secondRectf.left)), (float) (secondRectf.centerY() + Math.sin(180 / Math.PI * 30) * (secondRectf.centerY() - secondRectf.top)));
                 path.cubicTo(secondRectf.centerX() - 10*density, secondRectf.centerY() - backpaths, secondRectf.centerX() + 10*density, secondRectf.centerY() - backpaths, (float) (secondRectf.centerX() - Math.cos(180 / Math.PI * 30) * (secondRectf.centerX() - secondRectf.left)), (float) (secondRectf.centerY() + Math.sin(180 / Math.PI * 30) * (secondRectf.centerY() - secondRectf.top)));
 //                path.quadTo(secondRectf.centerX(), secondRectf.centerY() - backpaths, (float) (secondRectf.centerX() - Math.cos(180 / Math.PI * 30) * (secondRectf.centerX() - secondRectf.left)), (float) (secondRectf.centerY() + Math.sin(180 / Math.PI * 30) * (secondRectf.centerY() - secondRectf.top)));
-                canvas.drawArc(secondRectf, 0, 360, true, paint);
-                canvas.drawPath(path, paint);
+                canvas.drawArc(secondRectf, 0, 360, true, secPaint);
+                canvas.drawPath(path, secPaint);
 //                drawArc(canvas);
                 break;
             case STATE_DRAW_CIRCLE:
-                canvas.drawArc(secondRectf, 0, 360, true, paint);
+                canvas.drawArc(secondRectf, 0, 360, true, secPaint);
                 break;
         }
 
