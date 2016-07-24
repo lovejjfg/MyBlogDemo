@@ -3,6 +3,10 @@
 
 ## 目前已经完成的内容：
 
+# 嵌套滑动 `HeadViewFrameLayout`,显示头布局（正在进行）
+![HeaderRefreshLayout](https://raw.githubusercontent.com/lovejjfg/screenshort/master/pull_refresh2.gif)
+
+[相关博客地址](http://www.jianshu.com/p/98bb533afa9c)
 
 # ViewDragerHelper实现Activity的右划finish；
 
@@ -26,7 +30,6 @@ ViewPager中使用的圆圈的导航。
 ![](https://raw.githubusercontent.com/lovejjfg/MyBlogDemo/master/screenshot/circle_2.gif)
 ![](https://raw.githubusercontent.com/lovejjfg/MyBlogDemo/master/screenshot/circle_anim.gif)
 
-# 嵌套滑动 `HeadViewFrameLayout`,显示头布局（正在进行）
 
 # 能固定某一块布局的`StickyNestedScrollView`(正在进行)
 
