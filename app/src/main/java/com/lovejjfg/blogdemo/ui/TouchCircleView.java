@@ -381,22 +381,10 @@ public class TouchCircleView extends View {
                 drawError(canvas);
                 break;
             case STATE_DRAW_PATH:
-                path.reset();
-                path.moveTo((float) (outRectF.centerX() - Math.cos(180 / Math.PI * 30) * (outRectF.centerX() - outRectF.left)), (float) (outRectF.centerY() - Math.sin(180 / Math.PI * 30) * (outRectF.centerY() - outRectF.top)));
-//                path.quadTo(outRectF.centerX(), outRectF.centerY() + paths, (float) (outRectF.centerX() + Math.cos(180 / Math.PI * 30) * (outRectF.centerX() - outRectF.left)), (float) (outRectF.centerY() - Math.sin(180 / Math.PI * 30) * (outRectF.centerY() - outRectF.top)));
-                path.cubicTo(outRectF.centerX() + 10 * density, outRectF.centerY() + paths, outRectF.centerX() - 10 * density, outRectF.centerY() + paths, (float) (outRectF.centerX() + Math.cos(180 / Math.PI * 30) * (outRectF.centerX() - outRectF.left)), (float) (outRectF.centerY() - Math.sin(180 / Math.PI * 30) * (outRectF.centerY() - outRectF.top)));
-                canvas.drawArc(outRectF, 0, 360, true, paint);
-                canvas.drawPath(path, paint);
-                drawArc(canvas);
+                drawFirstPath(canvas);
                 break;
             case STATE_DRAW_OUT_PATH:
-                path.reset();
-                path.moveTo((float) (secondRectf.centerX() + Math.cos(180 / Math.PI * 30) * (secondRectf.centerX() - secondRectf.left)), (float) (secondRectf.centerY() + Math.sin(180 / Math.PI * 30) * (secondRectf.centerY() - secondRectf.top)));
-                path.cubicTo(secondRectf.centerX() - 10*density, secondRectf.centerY() - backpaths, secondRectf.centerX() + 10*density, secondRectf.centerY() - backpaths, (float) (secondRectf.centerX() - Math.cos(180 / Math.PI * 30) * (secondRectf.centerX() - secondRectf.left)), (float) (secondRectf.centerY() + Math.sin(180 / Math.PI * 30) * (secondRectf.centerY() - secondRectf.top)));
-//                path.quadTo(secondRectf.centerX(), secondRectf.centerY() - backpaths, (float) (secondRectf.centerX() - Math.cos(180 / Math.PI * 30) * (secondRectf.centerX() - secondRectf.left)), (float) (secondRectf.centerY() + Math.sin(180 / Math.PI * 30) * (secondRectf.centerY() - secondRectf.top)));
-                canvas.drawArc(secondRectf, 0, 360, true, secPaint);
-                canvas.drawPath(path, secPaint);
-//                drawArc(canvas);
+                drawSecPath(canvas);
                 break;
             case STATE_DRAW_CIRCLE:
                 canvas.drawArc(secondRectf, 0, 360, true, secPaint);
@@ -407,6 +395,26 @@ public class TouchCircleView extends View {
 //        // 最小圆形
 //        canvas.drawCircle(width / 2, height / 2, minRadius, circlePaint);
 //        circlePaint.setAlpha(120);
+    }
+
+    private void drawSecPath(Canvas canvas) {
+        path.reset();
+        path.moveTo((float) (secondRectf.centerX() + Math.cos(180 / Math.PI * 30) * (secondRectf.centerX() - secondRectf.left)), (float) (secondRectf.centerY() + Math.sin(180 / Math.PI * 30) * (secondRectf.centerY() - secondRectf.top)));
+        path.cubicTo(secondRectf.centerX() - 10*density, secondRectf.centerY() - backpaths, secondRectf.centerX() + 10*density, secondRectf.centerY() - backpaths, (float) (secondRectf.centerX() - Math.cos(180 / Math.PI * 30) * (secondRectf.centerX() - secondRectf.left)), (float) (secondRectf.centerY() + Math.sin(180 / Math.PI * 30) * (secondRectf.centerY() - secondRectf.top)));
+//                path.quadTo(secondRectf.centerX(), secondRectf.centerY() - backpaths, (float) (secondRectf.centerX() - Math.cos(180 / Math.PI * 30) * (secondRectf.centerX() - secondRectf.left)), (float) (secondRectf.centerY() + Math.sin(180 / Math.PI * 30) * (secondRectf.centerY() - secondRectf.top)));
+        canvas.drawArc(secondRectf, 0, 360, true, secPaint);
+        canvas.drawPath(path, secPaint);
+//                drawArc(canvas);
+    }
+
+    private void drawFirstPath(Canvas canvas) {
+        path.reset();
+        path.moveTo((float) (outRectF.centerX() - Math.cos(180 / Math.PI * 30) * (outRectF.centerX() - outRectF.left)), (float) (outRectF.centerY() - Math.sin(180 / Math.PI * 30) * (outRectF.centerY() - outRectF.top)));
+//                path.quadTo(outRectF.centerX(), outRectF.centerY() + paths, (float) (outRectF.centerX() + Math.cos(180 / Math.PI * 30) * (outRectF.centerX() - outRectF.left)), (float) (outRectF.centerY() - Math.sin(180 / Math.PI * 30) * (outRectF.centerY() - outRectF.top)));
+        path.cubicTo(outRectF.centerX() + 10 * density, outRectF.centerY() + paths, outRectF.centerX() - 10 * density, outRectF.centerY() + paths, (float) (outRectF.centerX() + Math.cos(180 / Math.PI * 30) * (outRectF.centerX() - outRectF.left)), (float) (outRectF.centerY() - Math.sin(180 / Math.PI * 30) * (outRectF.centerY() - outRectF.top)));
+        canvas.drawArc(outRectF, 0, 360, true, paint);
+        canvas.drawPath(path, paint);
+        drawArc(canvas);
     }
 
     private void drawArc(Canvas canvas) {

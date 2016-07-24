@@ -18,13 +18,14 @@ import android.widget.FrameLayout;
 
 import com.lovejjfg.blogdemo.R;
 import com.lovejjfg.blogdemo.recyclerview.adapter.MyAdapter;
-import com.lovejjfg.blogdemo.ui.HeadViewFrameLayout1;
+import com.lovejjfg.blogdemo.ui.HeaderRefreshLayout;
+import com.lovejjfg.blogdemo.ui.TouchCircleView;
 
 import butterknife.Bind;
 import butterknife.BindInt;
 import butterknife.ButterKnife;
 
-public class Main2Activity extends AppCompatActivity {
+public class Main2Activity extends AppCompatActivity implements TouchCircleView.OnLoadingListener {
 
     private static int actionBarSize = -1;
 
@@ -36,7 +37,7 @@ public class Main2Activity extends AppCompatActivity {
     @BindInt(R.integer.num_columns)
     int columns;
     @Bind(R.id.header)
-    HeadViewFrameLayout1 mHeader;
+    HeaderRefreshLayout mHeader;
 
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -54,6 +55,17 @@ public class Main2Activity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mHeader.setRefresh(true);
+        mHeader.addLoadingListener(new TouchCircleView.OnLoadingListener() {
+            @Override
+            public void onProgressStateChange(int state, boolean hide) {
+
+            }
+
+            @Override
+            public void onProgressLoading() {
+
+            }
+        });
 
 //        parent.post(new Runnable() {
 //            @Override
@@ -208,5 +220,15 @@ public class Main2Activity extends AppCompatActivity {
         }
         Log.e("actionBarSize:", actionBarSize + "");
         return actionBarSize;
+    }
+
+    @Override
+    public void onProgressStateChange(int state, boolean hide) {
+
+    }
+
+    @Override
+    public void onProgressLoading() {
+
     }
 }

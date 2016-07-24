@@ -34,8 +34,8 @@ import android.widget.FrameLayout;
 
 
 @SuppressWarnings("unused")
-public class HeadViewFrameLayout1 extends FrameLayout implements NestedScrollingParent, NestedScrollingChild, TouchCircleView.OnLoadingListener {
-    private String TAG = HeadViewFrameLayout1.class.getSimpleName();
+public class HeaderRefreshLayout extends FrameLayout implements NestedScrollingParent, NestedScrollingChild, TouchCircleView.OnLoadingListener {
+    private String TAG = HeaderRefreshLayout.class.getSimpleName();
     // configurable attribs
 
     // state
@@ -51,16 +51,16 @@ public class HeadViewFrameLayout1 extends FrameLayout implements NestedScrolling
     private boolean scrollble = true;
 
 
-    public HeadViewFrameLayout1(Context context) {
+    public HeaderRefreshLayout(Context context) {
         this(context, null, 0);
     }
 
-    public HeadViewFrameLayout1(Context context, AttributeSet attrs) {
+    public HeaderRefreshLayout(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public HeadViewFrameLayout1(Context context, AttributeSet attrs,
-                                int defStyleAttr) {
+    public HeaderRefreshLayout(Context context, AttributeSet attrs,
+                               int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mNestedScrollingParentHelper = new NestedScrollingParentHelper(this);
         mNestedScrollingChildHelper = new NestedScrollingChildHelper(this);
@@ -150,8 +150,8 @@ public class HeadViewFrameLayout1 extends FrameLayout implements NestedScrolling
     @Override
     public void onNestedPreScroll(View target, int dx, int dy, int[] consumed) {
         // if we're in a drag gesture and the user reverses up the we should take those events
-        Log.e(TAG, "onNestedPreScroll: " + dy);
         if (!header.ismRunning() && dy > 0 && totalDrag > defaulTranslationY) {
+            Log.e(TAG, "onNestedPreScroll:消费 " + dy);
             updateOffset(dy);
             consumed[1] = dy;
         }
@@ -161,8 +161,8 @@ public class HeadViewFrameLayout1 extends FrameLayout implements NestedScrolling
     @Override
     public void onNestedScroll(View target, int dxConsumed, int dyConsumed,
                                int dxUnconsumed, int dyUnconsumed) {
-        Log.e(TAG, "onNestedScroll: " + dyUnconsumed);
         if (!header.ismRunning() && dyUnconsumed < 0) {
+            Log.e(TAG, "onNestedScroll:未消费：： " + dyUnconsumed);
             updateOffset(dyUnconsumed);
         }
 
@@ -180,13 +180,13 @@ public class HeadViewFrameLayout1 extends FrameLayout implements NestedScrolling
 
     private void updateOffset(int dyUnconsumed) {
 
-        totalDrag -= dyUnconsumed*0.5;
+        totalDrag -= dyUnconsumed * 0.5;
         Log.i(TAG, "updateOffset: " + totalDrag);
         if (totalDrag < 0) {
             totalDrag = 0;
         }
-        if (totalDrag > header.getHeight()*1.5 ) {
-            totalDrag = header.getHeight()*1.5f;
+        if (totalDrag > header.getHeight() * 1.5) {
+            totalDrag = header.getHeight() * 1.5f;
         }
         if (targetView != null) {
             targetView.setTranslationY(totalDrag);
@@ -250,13 +250,21 @@ public class HeadViewFrameLayout1 extends FrameLayout implements NestedScrolling
         }
     }
 
+    int i = 1;
+
     @Override
     public void onProgressLoading() {
         resetDrag((int) (header.getHeight() * 0.6f));
         postDelayed(new Runnable() {
             @Override
             public void run() {
-                setRefreshError();
+                i++;
+                if (i % 2 == 1) {
+                    setRefreshSuccess();
+                } else {
+                    setRefreshError();
+                }
+
             }
         }, 2500);
     }
