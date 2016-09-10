@@ -6,6 +6,8 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.media.ThumbnailUtils;
 
 
@@ -16,15 +18,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
- * 
  * 基础图片工具类
- * 
- * 
  */
 public class ImageUtil {
     private Context mContext;
-    private static ImageUtil _instance        = null;
-    public static int          COMPRESS_QUALITY = 70;  // 图片质量
+    private static ImageUtil _instance = null;
+    public static int COMPRESS_QUALITY = 70;  // 图片质量
+    public static int DEFAUL = 1280;  // 默认最宽或者最高
 
     public synchronized static ImageUtil getInstance(Context context) {
 
@@ -130,14 +130,14 @@ public class ImageUtil {
 //        return loadImage(filePathOrUrl, width, height, false);
 //    }
 
-    final static int Nomal          = 0;
-    final static int InSample       = 1;
+    final static int Nomal = 0;
+    final static int InSample = 1;
     final static int InSampleAndCut = 2;
 
 
     /**
      * 重要：本方法中使用了sdk level8的特性。使用本方法，需要保证你的app中android:minSdkVersion大于等于8，否则在低版本中会异常 获得按比例的略缩图，图片为指定大小（先缩放再裁剪）
-     * 
+     *
      * @param filePathOrUrl
      * @param cutWidth
      * @param cutHeight
@@ -165,17 +165,17 @@ public class ImageUtil {
 //            }
 //        } else {// 本地图片
 
-            if (cutWidth == 0 && cutHeight == 0) {// 都不限制？
-                ret = BitmapFactory.decodeFile(filePathOrUrl);
-            } else {
-                Bitmap bitmap = BitmapFactory.decodeFile(filePathOrUrl);
-                ret = ThumbnailUtils.extractThumbnail(bitmap, cutWidth, cutHeight);
+        if (cutWidth == 0 && cutHeight == 0) {// 都不限制？
+            ret = BitmapFactory.decodeFile(filePathOrUrl);
+        } else {
+            Bitmap bitmap = BitmapFactory.decodeFile(filePathOrUrl);
+            ret = ThumbnailUtils.extractThumbnail(bitmap, cutWidth, cutHeight);
 
-                if (bitmap != null && !bitmap.isRecycled()) {
-                    bitmap.recycle();
-                    bitmap = null;
-                }
+            if (bitmap != null && !bitmap.isRecycled()) {
+                bitmap.recycle();
+                bitmap = null;
             }
+        }
 //        }
 
         return ret;
@@ -207,18 +207,17 @@ public class ImageUtil {
 //    }
 
     // http://stackoverflow.com/questions/2641726/decoding-bitmaps-in-android-with-the-right-size
+
     /**
      * 取得图片的略缩图<br>
      * <br>
      * 缓存算法：<br>
      * 以字符串maxWidth + maxHeight + filePatch拼接字符串Md5为缓存文件名<br>
      * 缓存在mContext.getCacheDir()目录中,下次取直接可取得缓存图片。<br>
-     * 
+     *
      * @param filePath
-     * @param maxWidth
-     *            0表示不限
-     * @param maxHeight
-     *            0表示不限
+     * @param maxWidth  0表示不限
+     * @param maxHeight 0表示不限
      * @return
      * @throws FileNotFoundException
      */
@@ -337,7 +336,7 @@ public class ImageUtil {
 
     /**
      * 判断图片是否已经磁盘缓存
-     * 
+     *
      * @param url
      *            图片的url
      * @return
@@ -358,7 +357,7 @@ public class ImageUtil {
 
     /**
      * 将图片写入文件
-     * 
+     *
      * @param bitmap
      * @param imageType
      * @param file
@@ -371,11 +370,10 @@ public class ImageUtil {
 
     /**
      * 将图片写入文件
-     * 
+     *
      * @param bitmap
      * @param imageType
-     * @param compressquality
-     *            压缩质量
+     * @param compressquality 压缩质量
      * @param file
      * @return
      * @throws FileNotFoundException
@@ -422,7 +420,7 @@ public class ImageUtil {
 
     /**
      * 判断图片类型
-     * 
+     *
      * @param b
      * @return
      */
@@ -438,7 +436,7 @@ public class ImageUtil {
 
     /**
      * 通过url或文件名来判断图片类型
-     * 
+     *
      * @param url
      * @return
      */
@@ -455,7 +453,7 @@ public class ImageUtil {
 
     /**
      * 生成disk缓存的key 算法：key = 参数md5后字符串.filePathOrUrl的后缀名
-     * 
+     *
      * @param filePathOrUrl
      * @param width
      * @param height
@@ -484,12 +482,11 @@ public class ImageUtil {
 
     /**
      * 压缩Bitmap至指定大小
-     * 
+     *
      * @param bmp
      * @param destWidth
      * @param destHeight
-     * @param isSameScaleRate
-     *            是否保持一致的压缩比, true:缩放后将大于指定width和height的裁剪掉 false:仅按比例缩放保证图片宽和高不大于width和height
+     * @param isSameScaleRate 是否保持一致的压缩比, true:缩放后将大于指定width和height的裁剪掉 false:仅按比例缩放保证图片宽和高不大于width和height
      * @param isRecyle
      * @return
      */
@@ -528,15 +525,79 @@ public class ImageUtil {
         return b;
     }
 
+    public static Bitmap getInSampleBitmap(String path) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(path, options);
+        final int width = options.outWidth;
+        final int height = options.outHeight;
+//        Bitmap bmp = BitmapFactory.decodeFile(path);
+//        if (bmp == null) {
+//            return null;
+//        }
+//        final int width = bmp.getWidth();
+//        final int height = bmp.getHeight();
+        // 压缩后的图片比原图大, 则返回原图
+        int max = width > height ? width : height;
+        if (max < DEFAUL) {
+            return BitmapFactory.decodeFile(path);
+        }
+        float scale;
+        int newWidth;
+        int newHeight;
+        if (width >= height) {
+            scale = width * 1.0f / DEFAUL;
+            newWidth = DEFAUL;
+            newHeight = (int) (height / scale);
+        } else {
+            scale = height * 1.0f / DEFAUL;
+            newHeight = DEFAUL;
+            newWidth = (int) (width / scale);
+        }
+        int inSampleSize = calculateInSampleSize(options, newWidth, newHeight);
+        options.inJustDecodeBounds = false;
+        options.inSampleSize = inSampleSize;
+        options.outWidth = newWidth;
+        options.outHeight = newHeight;
+
+
+
+        return Bitmap.createScaledBitmap(BitmapFactory.decodeFile(path, options), newWidth, newHeight, true);
+    }
+
+    public static Bitmap resizeBitmapByScale(
+            Bitmap bitmap, float scale, boolean recycle) {
+        int width = Math.round(bitmap.getWidth() * scale);
+        int height = Math.round(bitmap.getHeight() * scale);
+        if (width == bitmap.getWidth()
+                && height == bitmap.getHeight()) return bitmap;
+        Bitmap target = Bitmap.createBitmap(width, height, getConfig(bitmap));
+        Canvas canvas = new Canvas(target);
+        canvas.scale(scale, scale);
+        Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG | Paint.DITHER_FLAG);
+        canvas.drawBitmap(bitmap, 0, 0, paint);
+        if (recycle) bitmap.recycle();
+        return target;
+    }
+
+    private static Bitmap.Config getConfig(Bitmap bitmap) {
+        Bitmap.Config config = bitmap.getConfig();
+        if (config == null) {
+            config = Bitmap.Config.ARGB_8888;
+        }
+        return config;
+    }
+
     /**
      * 计算压缩比例大小
+     *
      * @param options
      * @param reqWidth
      * @param reqHeight
      * @return
      */
-    public int calculateInSampleSize(BitmapFactory.Options options,
-                                            int reqWidth, int reqHeight) {
+    public static int calculateInSampleSize(BitmapFactory.Options options,
+                                     int reqWidth, int reqHeight) {
         // 源图片的高度和宽度
         final int height = options.outHeight;
         final int width = options.outWidth;
@@ -554,6 +615,7 @@ public class ImageUtil {
 
     /**
      * 通过资源得到压缩到指定宽高的图片
+     *
      * @param res
      * @param resId
      * @param reqWidth
@@ -575,6 +637,7 @@ public class ImageUtil {
 
     /**
      * 通过文件路径得到压缩到指定宽高的图片
+     *
      * @param path
      * @param reqWidth
      * @param reqHeight
@@ -592,6 +655,7 @@ public class ImageUtil {
 
     /**
      * 将图片压缩到指定大小
+     *
      * @param image
      * @param imageSize 指定的图片大小，单位kb
      * @return
@@ -607,7 +671,7 @@ public class ImageUtil {
             options = 50;
         }
         int length = baos.toByteArray().length / 1024;
-        while ( length > imageSize) {  //循环判断如果压缩后图片是否大于传入的参数,大于继续压缩
+        while (length > imageSize) {  //循环判断如果压缩后图片是否大于传入的参数,大于继续压缩
             baos.reset();//重置baos即清空baos
             options -= 10;//每次都减少10
             image.compress(Bitmap.CompressFormat.JPEG, options, baos);//这里压缩options%，把压缩后的数据存放到baos中
@@ -615,6 +679,11 @@ public class ImageUtil {
         }
         image.recycle();
         image = null;
+        try {
+            baos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return baos;
 //        ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());//把压缩后的数据baos存放到ByteArrayInputStream中
 //        Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);//把ByteArrayInputStream数据生成图片

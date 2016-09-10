@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+
     package="com.lovejjfg.blogdemo">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -48,12 +49,6 @@
         <activity
             android:name=".activity.Main2Activity"
             android:theme="@style/NormalTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
         </activity>
         <!--VR相关-->
         <activity
@@ -67,9 +62,18 @@
         <activity android:name=".LockListActivity"
             android:theme="@style/NormalTheme"
             >
-
         </activity>
         <activity android:name=".utils.crop.CropImageActivity" />
+        <!--activity-alias可以用来轻松改变对应的启动Activity-->
+        <activity-alias
+            android:name="target"
+            android:targetActivity=".activity.Main2Activity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
     </application>
 
 </manifest>

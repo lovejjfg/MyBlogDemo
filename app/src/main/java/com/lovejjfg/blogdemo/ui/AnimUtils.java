@@ -18,7 +18,9 @@ package com.lovejjfg.blogdemo.ui;
 
 import android.animation.Animator;
 import android.animation.TimeInterpolator;
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
 import android.transition.Transition;
 import android.util.ArrayMap;
 import android.util.Property;
@@ -46,6 +48,7 @@ public class AnimUtils {
         return fastOutSlowIn;
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public static Interpolator getFastOutLinearInInterpolator(Context context) {
         if (fastOutLinearIn == null) {
             fastOutLinearIn = AnimationUtils.loadInterpolator(context,
@@ -54,6 +57,7 @@ public class AnimUtils {
         return fastOutLinearIn;
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public static Interpolator getLinearOutSlowInInterpolator(Context context) {
         if (linearOutSlowIn == null) {
             linearOutSlowIn = AnimationUtils.loadInterpolator(context,

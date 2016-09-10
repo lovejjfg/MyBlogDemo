@@ -2,6 +2,7 @@ package com.lovejjfg.blogdemo.activity;
 
 import android.animation.Animator;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
@@ -20,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.lovejjfg.blogdemo.R;
 import com.lovejjfg.blogdemo.ui.AnimUtils;
 import com.lovejjfg.blogdemo.utils.BaseUtil;
+import com.lovejjfg.blogdemo.utils.ImageUtil;
 import com.lovejjfg.blogdemo.utils.JumpUtil;
 import com.lovejjfg.blogdemo.utils.PhotoUtils;
 import com.lovejjfg.blogdemo.utils.crop.Crop;
@@ -265,11 +267,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (resultCode == RESULT_OK) {
             if (requestCode == CAMERA_CODE) {
                 File picTureFile = photoUtils.getPicTureFile();
+                Bitmap inSampleBitmap = ImageUtil.getInSampleBitmap(picTureFile.getPath());
+//                Glide.with(this)
+//                        .load(picTureFile)
+//                        .transform(new RoundTransform(getApplicationContext(), 50))
+//                        .into(mIv);
+                inSampleBitmap.recycle();
                 photoUtils.crop(picTureFile);
             } else {
                 Uri output = Crop.getOutput(data);
                 Glide.with(this)
                         .load(output)
+                        .transform(new RoundTransform(getApplicationContext(), 50))
                         .into(mIv);
             }
         }

@@ -3,8 +3,9 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="distributionType" value="LOCAL" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleHome" value="D:\Android\Android Studio\gradle\gradle-2.14.1" />
         <option name="gradleJvm" value="1.7" />
         <option name="modules">
           <set>
@@ -12,6 +13,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/blurry" />
             <option value="$PROJECT_DIR$/circlepointdemo" />
+            <option value="$PROJECT_DIR$/swiperefreshrecycleview" />
           </set>
         </option>
         <option name="myModules">
@@ -20,6 +22,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/blurry" />
             <option value="$PROJECT_DIR$/circlepointdemo" />
+            <option value="$PROJECT_DIR$/swiperefreshrecycleview" />
           </set>
         </option>
       </GradleProjectSettings>

@@ -83,11 +83,11 @@ public class FangshiActivity extends AppCompatActivity implements OnShowMoreClic
             for (int k = 0; k <= j; k++) {
                 if (k <= 2) {
                     Item normal = new Item(Type.FANGSHI);
-                    normal.tittle = "房事" + k;
+                    normal.tittle = "房室" + k;
                     items.add(normal);
                 } else {
                     Item i1 = new Item(Type.MORE_FANGSHI);
-                    i1.tittle = "更多房事" + k;
+                    i1.tittle = "更多房室" + k;
                     moreFangshi.add(i1);
                 }
             }

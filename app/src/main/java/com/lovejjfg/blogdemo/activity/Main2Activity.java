@@ -14,6 +14,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
 
 import com.lovejjfg.blogdemo.R;
@@ -52,6 +53,10 @@ public class Main2Activity extends AppCompatActivity implements TouchCircleView.
 //                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
 //                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler);
+//        SpacesItemDecoration decoration = new SpacesItemDecoration(20);
+        GridSpacingItemDecoration decoration = new GridSpacingItemDecoration(columns, 20, false, 0);
+        mRecyclerView.addItemDecoration(decoration);
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mHeader.setRefresh(true);
@@ -231,4 +236,77 @@ public class Main2Activity extends AppCompatActivity implements TouchCircleView.
     public void onProgressLoading() {
 
     }
+
+    public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
+        private int space;
+
+        public SpacesItemDecoration(int space) {
+            this.space = space;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view,
+                                   RecyclerView parent, RecyclerView.State state) {
+            outRect.left = space;
+            outRect.right = space;
+            outRect.bottom = space;
+
+            // Add top margin only for the first item to avoid double space between items
+            if (parent.getChildLayoutPosition(view) == 0) {
+                outRect.top = space;
+            } else {
+                outRect.top = 0;
+            }
+        }
+    }
+
+    public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
+
+        private int spanCount;
+        private int spacing;
+        private boolean includeEdge;
+        private int headerNum;
+
+        public GridSpacingItemDecoration(int spanCount, int spacing, boolean includeEdge, int headerNum) {
+            this.spanCount = spanCount;
+            this.spacing = spacing;
+            this.includeEdge = includeEdge;
+            this.headerNum = headerNum;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            int position = parent.getChildAdapterPosition(view) - headerNum; // item position
+
+            if (position >= 0) {
+                int column = position % spanCount; // item column
+
+                if (includeEdge) {
+                    if (column == 0) {
+                        outRect.left = spacing - column * spacing / spanCount; // spacing - column * ((1f / spanCount) * spacing)
+                    }
+                    if (column == spanCount - 1) {
+                        outRect.right = (column + 1) * spacing / spanCount; // (column + 1) * ((1f / spanCount) * spacing)
+                    }
+
+                    if (position < spanCount) { // top edge
+                        outRect.top = spacing;
+                    }
+                    outRect.bottom = spacing; // item bottom
+                } else {
+                    outRect.left = column * spacing / spanCount; // column * ((1f / spanCount) * spacing)
+                    outRect.right = spacing - (column + 1) * spacing / spanCount; // spacing - (column + 1) * ((1f /    spanCount) * spacing)
+                    if (position >= spanCount) {
+                        outRect.top = spacing; // item top
+                    }
+                }
+            } else {
+                outRect.left = 0;
+                outRect.right = 0;
+                outRect.top = 0;
+                outRect.bottom = 0;
+            }
+        }
+    }
 }
+

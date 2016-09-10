@@ -1,1 +1,1 @@
-include ':app', ':circlepointdemo','blurry'
+include ':app', ':circlepointdemo', ':swiperefreshrecycleview', 'blurry'
