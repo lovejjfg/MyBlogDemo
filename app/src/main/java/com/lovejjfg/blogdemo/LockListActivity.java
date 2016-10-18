@@ -7,11 +7,13 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.lovejjfg.blogdemo.ui.HeaderView;
 import com.lovejjfg.blogdemo.ui.ScrollAbleViewPager;
 import com.lovejjfg.blogdemo.ui.indicator.RectPageIndicator;
+import com.lovejjfg.blogdemo.utils.BaseUtil;
 import com.lovejjfg.fragment.Fragment6;
 
 import java.util.ArrayList;
@@ -48,7 +50,6 @@ public class LockListActivity extends AppCompatActivity implements ViewPager.OnP
         }
         vp.setOffscreenPageLimit(fragments.size());
         dialog = new DNADialog(this);
-
         headerView.setOnHeaderRefreshListener(this);
         headerView.enablePullDownRefresh();
         headerView.disablePullUpRefresh();
