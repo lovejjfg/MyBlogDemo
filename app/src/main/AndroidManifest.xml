@@ -67,7 +67,7 @@
         <!--activity-alias可以用来轻松改变对应的启动Activity-->
         <activity-alias
             android:name="target"
-            android:targetActivity=".activity.Main2Activity">
+            android:targetActivity=".LockListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

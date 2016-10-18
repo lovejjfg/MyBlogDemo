@@ -1,53 +1,46 @@
-package com.lovejjfg.blogdemo;
+package com.lovejjfg.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.lovejjfg.blogdemo.LockListActivity;
+import com.lovejjfg.blogdemo.R;
+import com.lovejjfg.blogdemo.base.BaseFragment;
 import com.lovejjfg.blogdemo.ui.HeaderView;
 import com.lovejjfg.blogdemo.ui.ScrollAbleViewPager;
 import com.lovejjfg.blogdemo.ui.indicator.RectPageIndicator;
-import com.lovejjfg.fragment.Fragment6;
 
 import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class LockListActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener, HeaderView.OnHeaderRefreshListener {
-    @Bind(R.id.header)
-    public HeaderView headerView;
-    @Bind(R.id.indicator)
-    RectPageIndicator indicator;
-    @Bind(R.id.vp)
-    ScrollAbleViewPager vp;
-    @Bind(R.id.tv_addr)
-    TextView mAddr;
-    private ArrayList<Fragment> fragments;
-    private String name;
-    private DNADialog dialog;
+/**
+ * Created by Joe on 2016/10/18.
+ * Email lovejjfg@gmail.com
+ */
 
+public class HomeFragment extends BaseFragment implements ViewPager.OnPageChangeListener, HeaderView.OnHeaderRefreshListener {
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-//        savedInstanceState = null;
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lock_list);
-        ButterKnife.bind(this);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View inflate = inflater.inflate(R.layout.fragment_lock_list, container, false);
+        ButterKnife.bind(this,inflate);
         fragments = new ArrayList<>();
-        if (savedInstanceState != null) {
-            fragments.addAll(getSupportFragmentManager().getFragments());
-        } else {
-            for (int i = 0; i < 4; i++) {
-                fragments.add(Fragment6.newInstance(String.format("第%d个", i)));
-            }
+        for (int i = 0; i < 4; i++) {
+            fragments.add(Fragment6.newInstance(String.format("第%d个", i)));
         }
         vp.setOffscreenPageLimit(fragments.size());
-        dialog = new DNADialog(this);
+        dialog = new LockListActivity.DNADialog(getContext());
 
         headerView.setOnHeaderRefreshListener(this);
         headerView.enablePullDownRefresh();
@@ -56,11 +49,31 @@ public class LockListActivity extends AppCompatActivity implements ViewPager.OnP
 //        mAddr.setText(R.string.large_text);
         init();
 //        headerView.setRefresh();
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Bind(R.id.header)
+    public HeaderView headerView;
+    @Bind(R.id.indicator)
+    RectPageIndicator indicator;
+    @Bind(R.id.vp)
+    ScrollAbleViewPager vp;
+    @Bind(R.id.tv_addr)
+    TextView mAddr;
+    private ArrayList<Fragment6> fragments;
+    private String name;
+    private LockListActivity.DNADialog dialog;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+//        savedInstanceState = null;
+        super.onCreate(savedInstanceState);
+
     }
 
     private void init() {
         vp.setHorizontalFadingEdgeEnabled(true);
-        vp.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
+        vp.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
 
@@ -107,9 +120,7 @@ public class LockListActivity extends AppCompatActivity implements ViewPager.OnP
             public void run() {
 //                headerView.onHeaderRefreshComplete();
                 headerView.onHeaderRefreshError(getString(R.string.pull_to_refresh_load_error));
-                if (fragments.get(vp.getCurrentItem()) instanceof Fragment6) {
-                    ((Fragment6) fragments.get(vp.getCurrentItem())).setText(name);
-                }
+                fragments.get(vp.getCurrentItem()).setText(name);
             }
         }, 3000);
     }
@@ -127,10 +138,10 @@ public class LockListActivity extends AppCompatActivity implements ViewPager.OnP
         dialog.show();
     }
 
-    public static class DNADialog extends AlertDialog {
+    static class DNADialog extends AlertDialog {
 
         public DNADialog(Context context) {
-            this(context, R.style.Dialog_Fullscreen);
+            this(context,R.style.Dialog_Fullscreen);
             initDialog();
         }
 
@@ -157,7 +168,7 @@ public class LockListActivity extends AppCompatActivity implements ViewPager.OnP
 //            layoutParams.setMargins(200, 0, 200, 0);
 //            setContentView(view, layoutParams);
             int windowWidth = getWindowWidth(getContext());
-            getWindow().setLayout((int) (windowWidth *0.8f), dip2px(getContext(), 400));
+            getWindow().setLayout(windowWidth - dip2px(getContext(), 76), dip2px(getContext(), 400));
 
         }
 
@@ -177,7 +188,7 @@ public class LockListActivity extends AppCompatActivity implements ViewPager.OnP
          * @param context
          * @return
          */
-        public static int getWindowWidth(Context context) {
+        public static  int getWindowWidth(Context context) {
             return context.getResources().getDisplayMetrics().widthPixels;
         }
 
@@ -186,5 +197,4 @@ public class LockListActivity extends AppCompatActivity implements ViewPager.OnP
             return (int) (dipValue * scale + 0.5f);
         }
     }
-
 }

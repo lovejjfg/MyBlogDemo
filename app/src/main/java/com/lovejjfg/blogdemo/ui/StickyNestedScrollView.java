@@ -56,13 +56,13 @@ public class StickyNestedScrollView extends NestedScrollView {
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         Log.e(TAG, "dispatchTouchEvent: ScrollView有事件了！！！");
-        getParent().requestDisallowInterceptTouchEvent(true);
+//        getParent().requestDisallowInterceptTouchEvent(true);
         return super.dispatchTouchEvent(ev);
     }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        getParent().requestDisallowInterceptTouchEvent(true);
+//        getParent().requestDisallowInterceptTouchEvent(true);
         return super.onInterceptTouchEvent(ev);
     }
 
