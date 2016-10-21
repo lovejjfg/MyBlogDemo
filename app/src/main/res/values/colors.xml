@@ -18,4 +18,6 @@
     <color name="crop__selector_pressed">#1a000000</color>
     <color name="crop__selector_focused">#77000000</color>
 
+    <color name="uc_blue">#FF51ABE2</color>
+
 </resources>

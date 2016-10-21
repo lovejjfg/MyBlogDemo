@@ -53,9 +53,9 @@ public class Main2Activity extends AppCompatActivity implements TouchCircleView.
 //                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
 //                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler);
-//        SpacesItemDecoration decoration = new SpacesItemDecoration(20);
-        GridSpacingItemDecoration decoration = new GridSpacingItemDecoration(columns, 20, false, 0);
-        mRecyclerView.addItemDecoration(decoration);
+        SpacesItemDecoration decoration1 = new SpacesItemDecoration(20,3);
+        GridSpacingItemDecoration decoration = new GridSpacingItemDecoration(columns, 30, false, 0);
+        mRecyclerView.addItemDecoration(decoration1);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -237,26 +237,32 @@ public class Main2Activity extends AppCompatActivity implements TouchCircleView.
 
     }
 
+    /**
+     * 用于在使用GridLayoutManager均分每一个Item的
+     */
     public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
-        private int space;
+        private int spacing;
+        private int spanCount;
+        private final float pre;
 
-        public SpacesItemDecoration(int space) {
-            this.space = space;
+        public SpacesItemDecoration(int space,int count) {
+            this.spacing = space;
+            this.spanCount = count;
+            pre = spacing *1.0f / spanCount;
         }
 
         @Override
         public void getItemOffsets(Rect outRect, View view,
                                    RecyclerView parent, RecyclerView.State state) {
-            outRect.left = space;
-            outRect.right = space;
-            outRect.bottom = space;
 
-            // Add top margin only for the first item to avoid double space between items
-            if (parent.getChildLayoutPosition(view) == 0) {
-                outRect.top = space;
-            } else {
-                outRect.top = 0;
+            int position = parent.getChildLayoutPosition(view);
+            int column = position % 3;
+            outRect.left = (int) (spacing - column * pre);//left
+            outRect.right = (int) ((column + 1) * pre);//right
+            if (position < spanCount) { // top
+                outRect.top = spacing;
             }
+            outRect.bottom = spacing; // bottom
         }
     }
 

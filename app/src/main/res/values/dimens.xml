@@ -25,4 +25,7 @@
     <dimen name="third_range">188dp</dimen>
 
 
+    <dimen name="max_drag">100dp</dimen>
+
+
 </resources>
