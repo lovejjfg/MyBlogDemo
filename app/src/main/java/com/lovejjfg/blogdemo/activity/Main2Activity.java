@@ -53,7 +53,7 @@ public class Main2Activity extends AppCompatActivity implements TouchCircleView.
 //                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
 //                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler);
-        SpacesItemDecoration decoration1 = new SpacesItemDecoration(20,3);
+        SpacesItemDecoration decoration1 = new SpacesItemDecoration(20, 3, true);
         GridSpacingItemDecoration decoration = new GridSpacingItemDecoration(columns, 30, false, 0);
         mRecyclerView.addItemDecoration(decoration1);
 
@@ -243,12 +243,14 @@ public class Main2Activity extends AppCompatActivity implements TouchCircleView.
     public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
         private int spacing;
         private int spanCount;
+        private boolean showEdge;
         private final float pre;
 
-        public SpacesItemDecoration(int space,int count) {
+        public SpacesItemDecoration(int space, int count, boolean showEdge) {
             this.spacing = space;
             this.spanCount = count;
-            pre = spacing *1.0f / spanCount;
+            this.showEdge = showEdge;
+            pre = spacing * 1.0f / spanCount;
         }
 
         @Override
@@ -257,8 +259,14 @@ public class Main2Activity extends AppCompatActivity implements TouchCircleView.
 
             int position = parent.getChildLayoutPosition(view);
             int column = position % 3;
-            outRect.left = (int) (spacing - column * pre);//left
-            outRect.right = (int) ((column + 1) * pre);//right
+            if (showEdge) {
+                outRect.left = (int) (spacing - column * pre);//left
+                outRect.right = (int) ((column + 1) * pre);//right
+            } else {
+                outRect.left = (int) (column * pre);
+                outRect.right = (int) (spacing - (column + 1) * pre);
+            }
+
             if (position < spanCount) { // top
                 outRect.top = spacing;
             }
