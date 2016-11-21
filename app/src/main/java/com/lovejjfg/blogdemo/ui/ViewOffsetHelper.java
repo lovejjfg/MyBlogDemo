@@ -18,18 +18,21 @@ package com.lovejjfg.blogdemo.ui;
 
 import android.os.Build;
 import android.support.v4.view.ViewCompat;
+import android.util.Log;
 import android.util.Property;
 import android.view.View;
 import android.view.ViewParent;
+
+import static android.support.v7.widget.StaggeredGridLayoutManager.TAG;
 
 /**
  * Utility helper for moving a {@link View} around using
  * {@link View#offsetLeftAndRight(int)} and
  * {@link View#offsetTopAndBottom(int)}.
- *
+ * <p>
  * <p>Allows the setting of absolute offsets (similar to translationX/Y), in addition to relative
  * offsets. Reapplies offsets after a layout pass (as long as you call {@link #onViewLayout()}).
- *
+ * <p>
  * <p>Adapted from the mDesign support library.
  */
 public class ViewOffsetHelper {
@@ -40,6 +43,9 @@ public class ViewOffsetHelper {
     private int mLayoutLeft;
     private int mOffsetTop;
     private int mOffsetLeft;
+    private boolean isDismiss;
+    private int mLayoutRight;
+    private int mLayoutBottom;
 
     public ViewOffsetHelper(View view) {
         mView = view;
@@ -49,6 +55,8 @@ public class ViewOffsetHelper {
         // Now grab the intended top
         mLayoutTop = mView.getTop();
         mLayoutLeft = mView.getLeft();
+        mLayoutRight = mView.getRight();
+        mLayoutBottom = mView.getBottom();
 
         // And offset it as needed
         updateOffsets();
@@ -133,6 +141,7 @@ public class ViewOffsetHelper {
         @Override
         public void setValue(ViewOffsetHelper viewOffsetHelper, int offset) {
             viewOffsetHelper.setTopAndBottomOffset(offset);
+//            viewOffsetHelper.updateValue(offset);
         }
 
         @Override
@@ -140,6 +149,35 @@ public class ViewOffsetHelper {
             return viewOffsetHelper.getTopAndBottomOffset();
         }
     };
+    /**
+     * Animatable property
+     */
+    public static final Property<ViewOffsetHelper, Integer> OFFSET_X = new AnimUtils
+            .IntProperty<ViewOffsetHelper>("offsetLeftRight") {
+
+        @Override
+        public void setValue(ViewOffsetHelper viewOffsetHelper, int offset) {
+            viewOffsetHelper.updateValue(offset);
+        }
+
+        @Override
+        public Integer get(ViewOffsetHelper viewOffsetHelper) {
+            // TODO: 2016/10/27
+            return viewOffsetHelper.getTopAndBottomOffset();
+        }
+    };
+
+    private void updateValue(int offset) {
+        int miniOffset = (int) (offset * 0.5f);
+        Log.e("TAG", "updateValue: " + miniOffset + "...." + isDismiss);
+        if (isDismiss) {
+            mView.setLeft(mLayoutLeft +miniOffset);
+            mView.setRight(mLayoutRight - miniOffset);
+        } else {
+            mView.setLeft(mLayoutLeft - miniOffset);
+            mView.setRight(mLayoutRight + miniOffset);
+        }
+    }
 
     private void updateOffsets() {
         ViewCompat.offsetTopAndBottom(mView, mOffsetTop - (mView.getTop() - mLayoutTop));
@@ -159,5 +197,9 @@ public class ViewOffsetHelper {
         final float x = ViewCompat.getTranslationX(view);
         ViewCompat.setTranslationY(view, x + 1);
         ViewCompat.setTranslationY(view, x);
+    }
+
+    public void setIsDismiss(boolean isDismiss) {
+        this.isDismiss = isDismiss;
     }
 }

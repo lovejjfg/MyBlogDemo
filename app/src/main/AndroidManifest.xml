@@ -23,7 +23,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/BaseAppTheme">
         <activity
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait"
@@ -67,7 +67,8 @@
         <!--activity-alias可以用来轻松改变对应的启动Activity-->
         <activity-alias
             android:name="target"
-            android:targetActivity=".activity.Main2Activity">
+            android:theme="@style/BaseAppTheme"
+            android:targetActivity=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
