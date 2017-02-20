@@ -1,41 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
+    android:clipToPadding="false"
     >
-    <ImageView
-        android:id="@+id/iv"
-        android:layout_width="match_parent"
-        android:layout_height="220dp"
-        android:background="@mipmap/girl2"
-        />
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="vertical">-->
+
+        <!--<View-->
+            <!--android:id="@+id/status_bar_background"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="22dp"-->
+            <!--android:background="@color/uc_blue"/>-->
+
+        <!--<ImageView-->
+            <!--android:id="@+id/iv"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="220dp"-->
+            <!--android:background="@mipmap/girl2"-->
+            <!--android:clipToPadding="false"-->
+            <!--android:visibility="gone"-->
+            <!--/>-->
+    <!--</LinearLayout>-->
+
 
     <!--<ImageView-->
-        <!--android:id="@+id/iv"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="220dp"-->
-        <!--android:fitsSystemWindows="true"-->
-        <!--android:scaleType="fitXY"-->
-        <!--android:src="@mipmap/girl2"-->
-        <!--android:focusable="true"-->
-        <!--android:clickable="true"-->
-        <!--android:stateListAnimator="@animator/app_bar_pin"-->
-        <!--/>-->
+    <!--android:id="@+id/iv"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="220dp"-->
+    <!--android:fitsSystemWindows="true"-->
+    <!--android:scaleType="fitXY"-->
+    <!--android:src="@mipmap/girl2"-->
+    <!--android:focusable="true"-->
+    <!--android:clickable="true"-->
+    <!--android:stateListAnimator="@animator/app_bar_pin"-->
+    <!--/>-->
 
 
     <android.support.v4.widget.NestedScrollView
+        android:id="@+id/scrollView"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/scrollView"
-
-        android:fitsSystemWindows="true"
+        android:clipToPadding="false"
         tools:context="com.lovejjfg.blogdemo.activity.ScrollingActivity">
 
 
@@ -44,11 +57,14 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <View
-                android:id="@+id/view"
-                android:background="@android:color/transparent"
+            <ImageView
+                android:id="@+id/iv"
                 android:layout_width="match_parent"
-                android:layout_height="220dp"/>
+                android:layout_height="220dp"
+                android:background="@mipmap/girl2"
+                android:clipToPadding="false"
+                android:visibility="visible"
+                />
 
             <TextView
                 android:id="@+id/tv2"
@@ -57,6 +73,7 @@
                 android:gravity="center"
                 android:text="Test2"
                 android:textSize="18sp"
+                android:background="@color/trans_blue"
                 />
 
 

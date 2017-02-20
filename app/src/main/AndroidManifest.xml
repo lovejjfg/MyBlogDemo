@@ -40,7 +40,7 @@
         <activity
             android:name=".activity.ScrollingActivity"
             android:label="@string/title_activity_scrolling"
-            android:theme="@style/NormalTheme" />
+            android:theme="@style/NormalTheme.Translate" />
         <activity android:name=".activity.FlowActivity" />
         <activity android:name=".activity.FangshiActivity" />
         <activity
@@ -68,7 +68,7 @@
         <activity-alias
             android:name="target"
             android:theme="@style/BaseAppTheme"
-            android:targetActivity=".activity.MainActivity">
+            android:targetActivity=".activity.ScrollingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

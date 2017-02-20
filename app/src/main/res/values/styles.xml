@@ -26,11 +26,11 @@
     <style name="NormalTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/trans_blue</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
-        <item name="android:statusBarColor">#cc46f96d</item>
+        <item name="android:statusBarColor">@color/transparent</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:windowActionBarOverlay">true</item>
         <item name="android:windowActionModeOverlay">true</item>
@@ -40,6 +40,11 @@
         <!--<item name="android:statusBarColor">#cc555555</item>-->
         <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
         <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
+    </style>
+
+    <style name="NormalTheme.Translate">
+        <!--<item name="android:statusBarColor">@color/transparent</item>-->
+        <!--<item name="android:statusBarColor">@color/background_super_dark</item>-->
     </style>
 
     <style name="BaseAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
