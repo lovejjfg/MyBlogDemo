@@ -30,8 +30,6 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
-        <item name="android:statusBarColor">@color/transparent</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:windowActionBarOverlay">true</item>
         <item name="android:windowActionModeOverlay">true</item>
         <item name="android:windowContentOverlay">@null</item>
@@ -42,10 +40,6 @@
         <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
     </style>
 
-    <style name="NormalTheme.Translate">
-        <!--<item name="android:statusBarColor">@color/transparent</item>-->
-        <!--<item name="android:statusBarColor">@color/background_super_dark</item>-->
-    </style>
 
     <style name="BaseAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
@@ -185,6 +179,12 @@
         <item name="android:drawableLeft">@mipmap/crop_ic_cancel</item>
         <item name="android:text">@string/crop_cancel</item>
     </style>
+
+    <style name="AppTheme.AppCompat.Dialog.Alert" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowMinWidthMinor">90%</item>
+        <item name="android:windowMinWidthMajor">50%</item>
+    </style>
+
 
     <attr name="cropImageStyle" format="reference"/>
 
