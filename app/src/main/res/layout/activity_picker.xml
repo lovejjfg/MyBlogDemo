@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<FrameLayout-->
+<!--android:id="@+id/picker_container"-->
+<!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="match_parent"-->
+<!--android:orientation="vertical">-->
+
+<!--<FrameLayout-->
+<!--android:layout_marginTop="56dp"-->
+<!--android:visibility="gone"-->
+<!--android:id="@+id/picker_detail"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="200dp"-->
+<!--android:background="@color/uc_blue">-->
+
+<!--</FrameLayout>-->
+
+<com.lovejjfg.blogdemo.ui.HorizontalPicker
+    android:id="@+id/hor_picker"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+</com.lovejjfg.blogdemo.ui.HorizontalPicker>
+
+    <!--</FrameLayout>-->
+

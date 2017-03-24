@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
-import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,17 +20,20 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.lovejjfg.blogdemo.R;
 import com.lovejjfg.blogdemo.ui.AnimUtils;
+import com.lovejjfg.blogdemo.ui.HorizontalPicker;
 import com.lovejjfg.blogdemo.utils.BaseUtil;
 import com.lovejjfg.blogdemo.utils.ImageUtil;
 import com.lovejjfg.blogdemo.utils.JumpUtil;
 import com.lovejjfg.blogdemo.utils.PhotoUtils;
 import com.lovejjfg.blogdemo.utils.crop.Crop;
 import com.lovejjfg.blogdemo.utils.glide.RoundTransform;
+import com.transitionseverywhere.Rotate;
 
 import java.io.File;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import jp.wasabeef.blurry.Blurry;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -363,6 +365,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        }
 //        return file;
 //    }
+
 
 
 }

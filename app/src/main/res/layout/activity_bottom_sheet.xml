@@ -14,7 +14,7 @@
 
             android:background="@color/black"
             android:padding="10dp"
-            android:id="@+id/tv_tittle"
+            android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/whitesmoke"

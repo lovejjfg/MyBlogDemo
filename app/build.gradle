@@ -52,7 +52,9 @@ android {
         }
     }
     productFlavors {
-        dev {}
+        dev {
+            buildConfigField "boolean", "IS_DEBUG", "false"
+        }
     }
 }
 
@@ -78,6 +80,10 @@ dependencies {
     compile 'io.reactivex:rxjava:1.1.1'
     compile 'io.reactivex:rxandroid:1.1.0'
     compile 'com.android.support:support-v4:23.2.1'
+    //translation everyWhere
+    compile "com.andkulikov:transitionseverywhere:1.7.0"
+    compile 'com.android.support:recyclerview-v7:23.2.1'
+
 
     //  test
     testCompile 'junit:junit:4.12'

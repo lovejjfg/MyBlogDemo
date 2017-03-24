@@ -59,20 +59,56 @@ public class ApiTest extends BaseTest {
 
             String email = element.select("a.email").text();
             System.out.println("email: " + email);
-            String urls = element.select("a.url").text();
-            System.out.println("urls: " + urls);
+            String urls = element.select("dt:contains(Site) + dd").text();
+            System.out.println("site: " + urls);
 
             String location = element.select("dt:contains(Location) + dd").first().text();
-            System.out.println("call: " + location);
+            System.out.println("location:" + location);
+            String language = element.select("dt:contains(Language) + dd").first().text();
+            System.out.println("language:" + language);
+            String Homepage = element.select("dt:contains(Homepage) + dd").first().text();
+            System.out.println("Homepage:" + Homepage);
+            Elements select2 = element.select("dt:contains(Followers) + dd");
+            String Followers = select2.first().text();
+            String Followers_url = select2.first().select("a").first().attr("href");
+            System.out.println("attr1:" + Followers_url);
+            System.out.println("Followers:" + Followers);
+            Elements select1 = element.select("dt:contains(Following) + dd");
+            String Following = select1.first().text();
+            String FollowingUrl = select1.first().select("a").first().attr("href");
+            System.out.println("Following:" + Following);
+            System.out.println("FollowingUrl:" + FollowingUrl);
+//            String PublicRepo = element.select("dt:contains(Public.repo(s)) + dd").first().text();
+//            System.out.println("PublicRepo: " + PublicRepo);
             element.select("div.moduletable_events > ul");
             Elements h2Tags = element.select("h2");
             for (Element e : h2Tags) {
                 System.out.println("call: " + e.toString());
-//                            Elements ul = e.select("div.moduletable_events > ul");
-                Elements li = e.select("li");
-                for (Element l : li) {
-                    System.out.println("call: " + l.toString());
+                if (e.text().contains("Own projects")) {
+                    Element element1 = e.nextElementSibling();
+//                    System.out.println("这是下一个：" + element1.toString());
+                    Elements select3 = element1.select("dl > ul >li");
+                    if (!select3.isEmpty()) {
+                        for (Element element2 : select3) {
+                            System.out.println("name:" + element2.text() + ";;href:" + element2.select("a").first().attr("href"));
+                        }
+                    }
                 }
+                if (e.text().contains("Contributions")) {
+                    Element element1 = e.nextElementSibling();
+//                    System.out.println("这是下一个：" + element1.toString());
+                    Elements select3 = element1.select("dl > ul >li");
+                    if (!select3.isEmpty()) {
+                        for (Element element2 : select3) {
+                            System.out.println("name:" + element2.text() + ";;href:" + element2.select("a").first().attr("href"));
+                        }
+                    }
+                }
+//                            Elements ul = e.select("div.moduletable_events > ul");
+//                Elements li = e.select("li");
+//                for (Element l : li) {
+//                    System.out.println("call: " + l.toString());
+//                }
 
             }
         }
@@ -87,6 +123,22 @@ public class ApiTest extends BaseTest {
 
         for (Element element : select) {
             System.out.println(element.toString());
+        }
+    }
+
+    @Test
+    public void testJsoup3() throws IOException {
+        Document document = Jsoup.connect("https://android-arsenal.com/search?q=Circle").get();
+//        Elements select = document.select("div.container.content");
+        Elements select = document.select("div.pc");
+        int i = 0;
+        for (Element element : select) {
+            System.out.println(element.toString());
+            i++;
+            System.out.println("---------------------------------------");
+            if (i == 3) {
+                return;
+            }
         }
     }
 

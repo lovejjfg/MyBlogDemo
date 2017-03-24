@@ -45,7 +45,7 @@ public class BottomSheetActivity extends AppCompatActivity {
     RecyclerView mSheet;
     @Bind(R.id.container)
     BottomSheet mContainer;
-    @Bind(R.id.tv_tittle)
+    @Bind(R.id.tv_title)
     TextView tittle;
     private static final String TAG = "RXJAVA";
 
